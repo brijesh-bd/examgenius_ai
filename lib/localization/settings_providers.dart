@@ -10,7 +10,9 @@ const supportedLocales = [Locale('en'), Locale('hi')];
 class LocaleController extends Notifier<Locale> {
   @override
   Locale build() {
-    final code = ref.read(sharedPreferencesProvider).getString(PrefKeys.localeCode);
+    final code = ref
+        .read(sharedPreferencesProvider)
+        .getString(PrefKeys.localeCode);
     return Locale(code ?? 'en');
   }
 
@@ -22,13 +24,16 @@ class LocaleController extends Notifier<Locale> {
   }
 }
 
-final localeProvider =
-    NotifierProvider<LocaleController, Locale>(LocaleController.new);
+final localeProvider = NotifierProvider<LocaleController, Locale>(
+  LocaleController.new,
+);
 
 class ThemeModeController extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
-    final name = ref.read(sharedPreferencesProvider).getString(PrefKeys.themeMode);
+    final name = ref
+        .read(sharedPreferencesProvider)
+        .getString(PrefKeys.themeMode);
     return ThemeMode.values.firstWhere(
       (m) => m.name == name,
       orElse: () => ThemeMode.system,
@@ -37,9 +42,12 @@ class ThemeModeController extends Notifier<ThemeMode> {
 
   Future<void> setThemeMode(ThemeMode mode) async {
     state = mode;
-    await ref.read(sharedPreferencesProvider).setString(PrefKeys.themeMode, mode.name);
+    await ref
+        .read(sharedPreferencesProvider)
+        .setString(PrefKeys.themeMode, mode.name);
   }
 }
 
-final themeModeProvider =
-    NotifierProvider<ThemeModeController, ThemeMode>(ThemeModeController.new);
+final themeModeProvider = NotifierProvider<ThemeModeController, ThemeMode>(
+  ThemeModeController.new,
+);

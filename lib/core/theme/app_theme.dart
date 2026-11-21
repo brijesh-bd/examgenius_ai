@@ -31,14 +31,13 @@ abstract final class AppTheme {
       colorScheme: scheme,
       brightness: brightness,
       fontFamily: AppTextStyles.fontFamily,
-      scaffoldBackgroundColor:
-          isDark ? AppColors.darkScaffold : AppColors.lightScaffold,
+      scaffoldBackgroundColor: isDark
+          ? AppColors.darkScaffold
+          : AppColors.lightScaffold,
     );
 
-    final text = AppTextStyles.textTheme(base.textTheme).apply(
-      bodyColor: scheme.onSurface,
-      displayColor: scheme.onSurface,
-    );
+    final text = AppTextStyles.textTheme(base.textTheme)
+        .apply(bodyColor: scheme.onSurface, displayColor: scheme.onSurface);
 
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
@@ -47,17 +46,22 @@ abstract final class AppTheme {
       borderRadius: BorderRadius.circular(controlRadius),
     );
     OutlineInputBorder border(Color c, [double w = 1]) => OutlineInputBorder(
-          borderRadius: BorderRadius.circular(controlRadius),
-          borderSide: BorderSide(color: c, width: w),
-        );
+      borderRadius: BorderRadius.circular(controlRadius),
+      borderSide: BorderSide(color: c, width: w),
+    );
 
-    Color navColor(Set<WidgetState> s) =>
-        s.contains(WidgetState.selected) ? scheme.primary : scheme.onSurfaceVariant;
+    Color navColor(Set<WidgetState> s) => s.contains(WidgetState.selected)
+        ? scheme.primary
+        : scheme.onSurfaceVariant;
 
     return base.copyWith(
       textTheme: text.copyWith(
-        headlineMedium: text.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
-        headlineSmall: text.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+        headlineMedium: text.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w700,
+        ),
+        headlineSmall: text.headlineSmall?.copyWith(
+          fontWeight: FontWeight.w700,
+        ),
         titleLarge: text.titleLarge?.copyWith(fontWeight: FontWeight.w700),
         titleMedium: text.titleMedium?.copyWith(fontWeight: FontWeight.w600),
       ),
@@ -97,7 +101,10 @@ abstract final class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: isDark ? AppColors.darkInputFill : AppColors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: border(scheme.outlineVariant),
         enabledBorder: border(scheme.outlineVariant),
         focusedBorder: border(scheme.primary, 1.5),
@@ -114,7 +121,10 @@ abstract final class AppTheme {
           (s) => IconThemeData(color: navColor(s)),
         ),
         labelTextStyle: WidgetStateProperty.resolveWith(
-          (s) => text.labelSmall?.copyWith(fontWeight: FontWeight.w600, color: navColor(s)),
+          (s) => text.labelSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: navColor(s),
+          ),
         ),
       ),
       chipTheme: base.chipTheme.copyWith(

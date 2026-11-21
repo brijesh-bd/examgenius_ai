@@ -14,7 +14,9 @@ class TokenStore {
   bool get hasToken => _token != null && _token!.isNotEmpty;
 
   /// Reads a remembered token at app start (call before runApp).
-  static Future<TokenStore> load([FlutterSecureStorage storage = const FlutterSecureStorage()]) async {
+  static Future<TokenStore> load([
+    FlutterSecureStorage storage = const FlutterSecureStorage(),
+  ]) async {
     String? saved;
     try {
       saved = await storage.read(key: _key);

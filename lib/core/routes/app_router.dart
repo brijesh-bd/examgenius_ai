@@ -16,8 +16,7 @@ import '../../features/practice_test/presentation/screens/answer_review_screen.d
 import '../../features/practice_test/presentation/screens/practice_result_screen.dart';
 import '../../features/practice_test/presentation/screens/practice_test_screen.dart';
 import '../../features/practice_test/presentation/screens/saved_practice_screen.dart';
-import '../../features/question_generator/presentation/screens/syllabus_screen.dart';
-import '../../features/question_generator/presentation/screens/subject_topics_screen.dart';
+import '../../features/question_generator/presentation/screens/create_practice_screen.dart';
 import '../../features/shell/coming_soon_screen.dart';
 import '../../features/shell/main_shell.dart';
 import '../../features/shell/profile_screen.dart';
@@ -86,15 +85,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.syllabus,
         parentNavigatorKey: _rootKey,
         builder: (_, s) =>
-            SyllabusScreen(examId: s.pathParameters['examId'] ?? ''),
-      ),
-      GoRoute(
-        path: AppRoutes.subjectTopics,
-        parentNavigatorKey: _rootKey,
-        builder: (_, s) => SubjectTopicsScreen(
-          examId: s.pathParameters['examId'] ?? '',
-          subjectId: s.pathParameters['subjectId'] ?? '',
-        ),
+            CreatePracticeScreen(examId: s.pathParameters['examId'] ?? ''),
       ),
       GoRoute(
         path: AppRoutes.generatedQuestions,

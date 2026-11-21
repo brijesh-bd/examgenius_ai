@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../theme/app_typography.dart';
 
 import '../constants/app_constants.dart';
@@ -142,7 +143,11 @@ class _LogoPainter extends CustomPainter {
         ..lineTo(80, 46),
       stroke,
     );
-    canvas.drawCircle(const Offset(80, 48), 3, Paint()..color = AppColors.secondary);
+    canvas.drawCircle(
+      const Offset(80, 48),
+      3,
+      Paint()..color = AppColors.secondary,
+    );
 
     // Four-point sparkle.
     const c = Offset(90, 12);
@@ -191,14 +196,16 @@ class BrandWordmark extends StatelessWidget {
       l10n.appTagline,
       textAlign: TextAlign.center,
       style: AppTextStyles.tagline(
-          taglineSize, isDark ? Colors.white70 : AppColors.navy.withValues(alpha: 0.85)),
+        taglineSize,
+        isDark ? Colors.white70 : AppColors.navy.withValues(alpha: 0.85),
+      ),
     );
     Widget rule() => Container(
-          width: fontSize * 0.6,
-          height: 2,
-          margin: const EdgeInsets.symmetric(horizontal: 6),
-          color: AppColors.secondary,
-        );
+      width: fontSize * 0.6,
+      height: 2,
+      margin: const EdgeInsets.symmetric(horizontal: 6),
+      color: AppColors.secondary,
+    );
 
     return Semantics(
       label: l10n.appName,
@@ -216,21 +223,31 @@ class BrandWordmark extends StatelessWidget {
                 children: [
                   Text(
                     'ExamGenius',
-                    style: AppTextStyles.wordmark(fontSize, wordColor)
-                        .copyWith(fontWeight: AppFontWeights.extraBold, letterSpacing: -0.5),
+                    style: AppTextStyles.wordmark(fontSize, wordColor).copyWith(
+                      fontWeight: AppFontWeights.extraBold,
+                      letterSpacing: -0.5,
+                    ),
                   ),
                   SizedBox(width: fontSize * 0.2),
                   Container(
                     padding: EdgeInsets.symmetric(
-                        horizontal: fontSize * 0.22, vertical: fontSize * 0.02),
+                      horizontal: fontSize * 0.22,
+                      vertical: fontSize * 0.02,
+                    ),
                     decoration: BoxDecoration(
                       gradient: AppColors.aiBadgeGradient,
                       borderRadius: BorderRadius.circular(fontSize * 0.22),
                     ),
                     child: Text(
                       'AI',
-                      style: AppTextStyles.wordmark(fontSize * 0.85, Colors.white)
-                          .copyWith(fontWeight: AppFontWeights.extraBold, letterSpacing: 0),
+                      style:
+                          AppTextStyles.wordmark(
+                            fontSize * 0.85,
+                            Colors.white,
+                          ).copyWith(
+                            fontWeight: AppFontWeights.extraBold,
+                            letterSpacing: 0,
+                          ),
                     ),
                   ),
                 ],
@@ -241,7 +258,11 @@ class BrandWordmark extends StatelessWidget {
               decoratedTagline
                   ? Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [rule(), Flexible(child: tagline), rule()],
+                      children: [
+                        rule(),
+                        Flexible(child: tagline),
+                        rule(),
+                      ],
                     )
                   : tagline,
             ],
@@ -273,13 +294,19 @@ class PrimaryButton extends StatelessWidget {
         ? const SizedBox(
             width: 22,
             height: 22,
-            child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white),
+            child: CircularProgressIndicator(
+              strokeWidth: 2.5,
+              color: Colors.white,
+            ),
           )
         : Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
-              if (icon != null) ...[const SizedBox(width: 8), Icon(icon, size: 20)],
+              if (icon != null) ...[
+                const SizedBox(width: 8),
+                Icon(icon, size: 20),
+              ],
             ],
           );
     return FilledButton(onPressed: loading ? null : onPressed, child: child);
@@ -288,7 +315,12 @@ class PrimaryButton extends StatelessWidget {
 
 /// Section title with optional trailing action (e.g. "See all").
 class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.title, this.action, this.onAction});
+  const SectionHeader({
+    super.key,
+    required this.title,
+    this.action,
+    this.onAction,
+  });
 
   final String title;
   final String? action;
@@ -303,7 +335,10 @@ class SectionHeader extends StatelessWidget {
           Expanded(
             child: Semantics(
               header: true,
-              child: Text(title, style: Theme.of(context).textTheme.titleMedium),
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
           ),
           if (action != null)
@@ -326,7 +361,8 @@ class Skeleton extends StatefulWidget {
   State<Skeleton> createState() => _SkeletonState();
 }
 
-class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin {
+class _SkeletonState extends State<Skeleton>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1100),
@@ -386,14 +422,19 @@ class StateMessage extends StatelessWidget {
             child: Icon(icon, size: 30, color: theme.colorScheme.primary),
           ),
           const SizedBox(height: 16),
-          Text(title, style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
+          Text(
+            title,
+            style: theme.textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
           if (body != null) ...[
             const SizedBox(height: 6),
             Text(
               body!,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
           if (actionLabel != null) ...[

@@ -41,21 +41,26 @@ class ApiClient {
   void Function()? onUnauthorized;
 
   factory ApiClient.create(TokenStore tokens, {String? baseUrl}) => ApiClient(
-        Dio(BaseOptions(
-          baseUrl: baseUrl ?? kApiBaseUrl,
-          connectTimeout: kApiTimeout,
-          receiveTimeout: kApiTimeout,
-          sendTimeout: kApiTimeout,
-          contentType: Headers.jsonContentType,
-          responseType: ResponseType.json,
-        )),
-        tokens,
-      );
+    Dio(
+      BaseOptions(
+        baseUrl: baseUrl ?? kApiBaseUrl,
+        connectTimeout: kApiTimeout,
+        receiveTimeout: kApiTimeout,
+        sendTimeout: kApiTimeout,
+        contentType: Headers.jsonContentType,
+        responseType: ResponseType.json,
+      ),
+    ),
+    tokens,
+  );
 
   Future<Map<String, dynamic>> get(String path) => _send('GET', path);
 
-  Future<Map<String, dynamic>> post(String path, [Object? body, Duration? timeout]) =>
-      _send('POST', path, body: body, timeout: timeout);
+  Future<Map<String, dynamic>> post(
+    String path, [
+    Object? body,
+    Duration? timeout,
+  ]) => _send('POST', path, body: body, timeout: timeout);
 
   Future<Map<String, dynamic>> patch(String path, [Object? body]) =>
       _send('PATCH', path, body: body);
@@ -85,13 +90,20 @@ class ApiClient {
       final status = e.response?.statusCode;
       if (status == 401 && token != null) onUnauthorized?.call();
       final data = e.response?.data;
-      final serverMsg = data is Map && data['error'] is String ? data['error'] as String : null;
+      final serverMsg = data is Map && data['error'] is String
+          ? data['error'] as String
+          : null;
       final noResponse = e.response == null;
       throw ApiException(
-        serverMsg ?? (noResponse ? 'Cannot reach the ExamGenius server' : 'Request failed'),
+        serverMsg ??
+            (noResponse
+                ? 'Cannot reach the ExamGenius server'
+                : 'Request failed'),
         statusCode: status,
         isNetwork: noResponse,
-        code: data is Map && data['code'] is String ? data['code'] as String : null,
+        code: data is Map && data['code'] is String
+            ? data['code'] as String
+            : null,
         details: data is Map && data['details'] is Map
             ? Map<String, dynamic>.from(data['details'] as Map)
             : const {},

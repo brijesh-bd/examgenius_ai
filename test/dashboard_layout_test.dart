@@ -162,35 +162,35 @@ void main() {
     await tester.tap(find.text('RRB NTPC'));
     await tester.pumpAndSettle();
 
-    // Full syllabus is listed; generate is disabled until everything is chosen.
-    expect(find.text('Mathematics'), findsOneWidget);
-    expect(find.text('General Intelligence & Reasoning'), findsOneWidget);
+    // Create Practice: one screen, quick-start shortcuts, defaults preselected.
+    expect(find.text('Create Practice'), findsOneWidget);
+    expect(find.text('Quick 10'), findsOneWidget);
+    expect(find.text('Weak topics'), findsOneWidget);
+    expect(find.widgetWithText(ChoiceChip, 'Mathematics'), findsOneWidget);
+    expect(find.text('Select at least 1 topic to start'), findsOneWidget);
     FilledButton generateButton() =>
         tester.widget<FilledButton>(find.ancestor(
             of: find.text('Generate Questions'), matching: find.byType(FilledButton)));
     expect(generateButton().onPressed, isNull);
 
-    await tester.tap(find.text('Mathematics'));
+    // Subject chip → its topics appear inline (no new page, no going back).
+    await tester.tap(find.widgetWithText(ChoiceChip, 'Mathematics'));
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Time & Work'), 200,
-        scrollable: find.byType(Scrollable).last);
+    await tester.ensureVisible(find.widgetWithText(FilterChip, 'Time & Work'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Time & Work')); // topic card on the subject page
+    await tester.tap(find.widgetWithText(FilterChip, 'Time & Work'));
     await tester.pumpAndSettle();
-    expect(find.text('Choose one or more topics · 1 selected'), findsOneWidget);
-    await tester.tap(find.text('Done'));
-    await tester.pumpAndSettle();
-    expect(find.text('1 selected'), findsOneWidget); // subject card subtitle
-    await tester.ensureVisible(find.text('Medium'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Medium'));
-    await tester.pumpAndSettle();
-    expect(generateButton().onPressed, isNull); // count still missing
+    expect(find.text('Mathematics · 1 topic · Medium · 10 Qs'), findsOneWidget);
+    expect(find.widgetWithText(ChoiceChip, 'Mathematics (1)'), findsOneWidget);
+    expect(generateButton().onPressed, isNotNull); // level + count preselected
+
     await tester.ensureVisible(find.widgetWithText(ChoiceChip, '5'));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(ChoiceChip, '5'));
     await tester.pumpAndSettle();
-    expect(generateButton().onPressed, isNotNull);
+    expect(find.text('Mathematics · 1 topic · Medium · 5 Qs'), findsOneWidget);
+    // 20 / 30 are Pro on the Free plan (mock plan is Free).
+    expect(find.widgetWithText(ActionChip, '20'), findsOneWidget);
 
     await tester.tap(find.text('Generate Questions'));
     await tester.pump();

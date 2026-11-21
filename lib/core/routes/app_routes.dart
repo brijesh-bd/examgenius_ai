@@ -20,14 +20,9 @@ abstract final class AppRoutes {
   static const exams = '/exams/:categoryId';
   static String examsFor(String categoryId) => '/exams/$categoryId';
 
-  /// Syllabus + generator setup for one exam, e.g. `/syllabus/rrb_ntpc`.
+  /// Create Practice for one exam (subjects, topics, level, count), e.g. `/syllabus/rrb_ntpc`.
   static const syllabus = '/syllabus/:examId';
   static String syllabusFor(String examId) => '/syllabus/$examId';
-
-  /// Topics of one subject as selectable cards, e.g. `/syllabus/rrb_ntpc/maths`.
-  static const subjectTopics = '/syllabus/:examId/:subjectId';
-  static String subjectTopicsFor(String examId, String subjectId) =>
-      '/syllabus/$examId/$subjectId';
 
   /// Generated questions; the GenerationRequest is passed as `extra`.
   static const generatedQuestions = '/generate/questions';

@@ -36,6 +36,7 @@ void main() {
   scoringTests();
   resultHelpersTests();
   reviewTests();
+  weakTopicTests();
   test('mock session hides answers and resolves names + timer', () async {
     final repo = MockPracticeRepository(
       MockQuestionGeneratorRepository(),
@@ -117,6 +118,9 @@ class _CountingRepo implements PracticeRepository {
 
   @override
   Future<PracticeSession> startSession(GenerationRequest request) => throw UnimplementedError();
+
+  @override
+  Future<List<TopicStat>> topicStats() async => const [];
 
   @override
   Future<PracticeSession> retrySession(PracticeResult r, List<String> ids) =>
@@ -343,5 +347,22 @@ void reviewTests() {
     const req = GenerationRequest(
         examId: 'e', examName: 'E', topicIds: ['a'], difficulty: Difficulty.easy, count: 5);
     expect(const GenerateSource(req), const GenerateSource(req));
+  });
+}
+
+void weakTopicTests() {
+  test('weak topics: below 60%, at least 2 attempts, this exam only, worst first', () {
+    const stats = [
+      TopicStat(topicId: 'quant.a', topicName: 'A', total: 4, correct: 1), // 25%
+      TopicStat(topicId: 'quant.b', topicName: 'B', total: 5, correct: 2), // 40%
+      TopicStat(topicId: 'quant.c', topicName: 'C', total: 4, correct: 4), // strong
+      TopicStat(topicId: 'quant.d', topicName: 'D', total: 1, correct: 0), // too few
+      TopicStat(topicId: 'gk.e', topicName: 'E', total: 6, correct: 0), // other exam
+    ];
+    expect(
+      pickWeakTopics(stats, {'quant.a', 'quant.b', 'quant.c', 'quant.d'}),
+      ['quant.a', 'quant.b'],
+    );
+    expect(pickWeakTopics(const [], {'quant.a'}), isEmpty);
   });
 }

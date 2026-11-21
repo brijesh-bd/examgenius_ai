@@ -58,7 +58,11 @@ class ExamTile extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
     final isOn = selected ?? false;
     final surface = scheme.surface;
-    final bg = Color.lerp(surface, color, isOn ? 0.22 : (isDark ? 0.18 : 0.10))!;
+    final bg = Color.lerp(
+      surface,
+      color,
+      isOn ? 0.22 : (isDark ? 0.18 : 0.10),
+    )!;
     final bgTop = Color.lerp(surface, color, isDark ? 0.10 : 0.04)!;
     final radius = BorderRadius.circular(16);
 
@@ -95,7 +99,9 @@ class ExamTile extends StatelessWidget {
               borderRadius: radius,
               child: Stack(
                 children: [
-                  Positioned.fill(child: CustomPaint(painter: _WavePainter(color))),
+                  Positioned.fill(
+                    child: CustomPaint(painter: _WavePainter(color)),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(6, 12, 6, 8),
                     child: Column(
@@ -160,7 +166,9 @@ class ExamTile extends StatelessWidget {
                             child: Icon(
                               selected == null
                                   ? Icons.arrow_forward_rounded
-                                  : (isOn ? Icons.check_rounded : Icons.add_rounded),
+                                  : (isOn
+                                        ? Icons.check_rounded
+                                        : Icons.add_rounded),
                               size: 15,
                               color: isOn ? Colors.white : color,
                             ),
@@ -194,8 +202,14 @@ class _WavePainter extends CustomPainter {
       ..lineTo(w, h)
       ..lineTo(0, h)
       ..close();
-    canvas.drawPath(wave(0.72, 0.62, 0.77), Paint()..color = color.withValues(alpha: 0.12));
-    canvas.drawPath(wave(0.84, 0.76, 0.90), Paint()..color = color.withValues(alpha: 0.22));
+    canvas.drawPath(
+      wave(0.72, 0.62, 0.77),
+      Paint()..color = color.withValues(alpha: 0.12),
+    );
+    canvas.drawPath(
+      wave(0.84, 0.76, 0.90),
+      Paint()..color = color.withValues(alpha: 0.22),
+    );
   }
 
   @override

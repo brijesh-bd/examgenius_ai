@@ -9,39 +9,44 @@ abstract interface class QuestionGeneratorRepository {
   Future<GeneratedQuestionSet> generate(GenerationRequest request);
 }
 
-/// Form state for the generator: every field must be filled before generating.
+/// Default level / size so a student only has to pick topics.
+const kDefaultDifficulty = Difficulty.medium;
+const kDefaultQuestionCount = 10;
+
+/// Create Practice form. Level and count start with sensible defaults, so the
+/// form is complete as soon as at least one topic is picked.
 class GeneratorForm {
   const GeneratorForm({
     this.topicIds = const {},
-    this.difficulty,
-    this.count,
-    this.multiSelect = true,
+    this.difficulty = kDefaultDifficulty,
+    this.count = kDefaultQuestionCount,
     this.fresh = false,
+    this.activeSubjectId,
   });
 
   final Set<String> topicIds;
-  final Difficulty? difficulty;
-  final int? count;
-
-  /// Topic picking mode: true = many topics per subject, false = one per subject.
-  final bool multiSelect;
+  final Difficulty difficulty;
+  final int count;
 
   /// Pro: request brand-new AI questions instead of the question bank.
   final bool fresh;
 
-  bool get isComplete =>
-      topicIds.isNotEmpty && difficulty != null && count != null;
+  /// Subject whose topics are shown (null = first subject).
+  final String? activeSubjectId;
+
+  bool get isComplete => topicIds.isNotEmpty;
 
   GeneratorForm copyWith({
     Set<String>? topicIds,
     Difficulty? difficulty,
     int? count,
-    bool? multiSelect,
     bool? fresh,
+    String? activeSubjectId,
   }) => GeneratorForm(
     topicIds: topicIds ?? this.topicIds,
     difficulty: difficulty ?? this.difficulty,
     count: count ?? this.count,
-    multiSelect: multiSelect ?? this.multiSelect,
+    fresh: fresh ?? this.fresh,
+    activeSubjectId: activeSubjectId ?? this.activeSubjectId,
   );
 }

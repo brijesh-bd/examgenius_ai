@@ -323,6 +323,79 @@ class AppLocalizationsEn extends AppLocalizations {
   String get proLocked => 'Pro';
 
   @override
+  String get createPractice => 'Create Practice';
+
+  @override
+  String get changeExam => 'Change exam';
+
+  @override
+  String get stepSubject => 'Subject';
+
+  @override
+  String get stepTopics => 'Topics';
+
+  @override
+  String get stepLevel => 'Level';
+
+  @override
+  String get stepQuestions => 'Questions';
+
+  @override
+  String selectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String subjectWithCount(String name, int count) {
+    return '$name ($count)';
+  }
+
+  @override
+  String practiceSummary(String subjects, int topics, String level, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      topics,
+      locale: localeName,
+      other: '$topics topics',
+      one: '1 topic',
+    );
+    return '$subjects · $_temp0 · $level · $count Qs';
+  }
+
+  @override
+  String get selectAtLeastOneTopic => 'Select at least 1 topic to start';
+
+  @override
+  String get quick10 => 'Quick 10';
+
+  @override
+  String get quick10Hint => 'Mixed from the whole exam';
+
+  @override
+  String get lastPractice => 'Last practice';
+
+  @override
+  String get lastPracticeHint => 'Repeat your last setup';
+
+  @override
+  String get weakTopics => 'Weak Topics';
+
+  @override
+  String get weakTopicsHint => 'Focus where you lose marks';
+
+  @override
+  String get noLastPractice => 'No previous practice for this exam yet.';
+
+  @override
+  String get noWeakTopics =>
+      'Practise a few sets first. We will then find your weak topics.';
+
+  @override
+  String get quickStart => 'Quick start';
+
+  @override
+  String get orBuildYourOwn => 'Or build your own';
+
+  @override
   String get retry => 'Retry';
 
   @override
@@ -953,7 +1026,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get strongTopics => 'Strong Topics';
 
   @override
-  String get weakTopics => 'Weak Topics';
+  String get quickWeakTopics => 'Weak topics';
 
   @override
   String get noneYet => 'None yet';

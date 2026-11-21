@@ -1,6 +1,15 @@
 /// Pure validation helpers. They return an error *key* so the UI layer can map
 /// it to a localized message, keeping this file free of BuildContext.
-enum ValidationError { required, mobile, emailOrMobile, password, passwordMatch, email, name, terms }
+enum ValidationError {
+  required,
+  mobile,
+  emailOrMobile,
+  password,
+  passwordMatch,
+  email,
+  name,
+  terms,
+}
 
 abstract final class Validators {
   static final _mobile = RegExp(r'^[6-9]\d{9}$');
@@ -17,7 +26,9 @@ abstract final class Validators {
   static ValidationError? emailOrMobile(String? v) {
     final value = v?.trim() ?? '';
     if (value.isEmpty) return ValidationError.required;
-    if (value.contains('@') ? !_email.hasMatch(value) : !_mobile.hasMatch(value)) {
+    if (value.contains('@')
+        ? !_email.hasMatch(value)
+        : !_mobile.hasMatch(value)) {
       return ValidationError.emailOrMobile;
     }
     return null;

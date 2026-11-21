@@ -43,4 +43,12 @@ class ApiPracticeRepository implements PracticeRepository {
     });
     return PracticeSession.fromJson(body);
   }
+
+  @override
+  Future<List<TopicStat>> topicStats() async {
+    final body = await _api.get('/practice/topic-stats');
+    return (body['topics'] as List<dynamic>)
+        .map((t) => TopicStat.fromJson(t as Map<String, dynamic>))
+        .toList();
+  }
 }

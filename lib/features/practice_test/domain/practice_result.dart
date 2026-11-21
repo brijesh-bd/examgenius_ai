@@ -286,3 +286,25 @@ enum ReviewFilter {
       if (matches(r)) (i + 1, r),
   ];
 }
+
+/// Weakest topics of this exam for targeted practice: accuracy below
+/// [threshold] with at least [minAttempts] questions seen, worst first.
+List<String> pickWeakTopics(
+  List<TopicStat> stats,
+  Set<String> examTopicIds, {
+  double threshold = 0.6,
+  int minAttempts = 2,
+  int max = 5,
+}) {
+  final weak =
+      stats
+          .where(
+            (t) =>
+                examTopicIds.contains(t.topicId) &&
+                t.total >= minAttempts &&
+                t.accuracy < threshold,
+          )
+          .toList()
+        ..sort((a, b) => a.accuracy.compareTo(b.accuracy));
+  return weak.take(max).map((t) => t.topicId).toList();
+}

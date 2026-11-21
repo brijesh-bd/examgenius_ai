@@ -13,8 +13,10 @@ class BrandCornerWaves extends StatelessWidget {
   final bool soft;
 
   @override
-  Widget build(BuildContext context) =>
-      CustomPaint(painter: _CornerWavesPainter(soft: soft), size: Size.infinite);
+  Widget build(BuildContext context) => CustomPaint(
+    painter: _CornerWavesPainter(soft: soft),
+    size: Size.infinite,
+  );
 }
 
 /// Blue mortarboard over a gold open book.
@@ -24,8 +26,11 @@ class CapBookLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
-        child: CustomPaint(size: Size(width, width * 0.8), painter: const _CapBookLogoPainter()),
-      );
+    child: CustomPaint(
+      size: Size(width, width * 0.8),
+      painter: const _CapBookLogoPainter(),
+    ),
+  );
 }
 
 /// Books, plant, laptop with AI chip and checklist on a soft cloud.
@@ -34,37 +39,50 @@ class StudyIllustration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const ExcludeSemantics(
-        child: AspectRatio(
-          aspectRatio: 340 / 200,
-          child: CustomPaint(painter: _StudyIllustrationPainter()),
-        ),
-      );
+    child: AspectRatio(
+      aspectRatio: 340 / 200,
+      child: CustomPaint(painter: _StudyIllustrationPainter()),
+    ),
+  );
 }
 
 /// "ExamGenius" in brand blue + "AI" in purple.
 class BrandWordmarkText extends StatelessWidget {
-  const BrandWordmarkText({super.key, required this.size, required this.aiLabel, this.semanticLabel});
+  const BrandWordmarkText({
+    super.key,
+    required this.size,
+    required this.aiLabel,
+    this.semanticLabel,
+  });
   final double size;
   final String aiLabel;
   final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) => Semantics(
-        header: true,
-        label: semanticLabel,
-        child: ExcludeSemantics(
-          excluding: semanticLabel != null,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text.rich(TextSpan(children: [
+    header: true,
+    label: semanticLabel,
+    child: ExcludeSemantics(
+      excluding: semanticLabel != null,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text.rich(
+          TextSpan(
+            children: [
               TextSpan(
-                  text: 'ExamGenius ',
-                  style: AppTextStyles.wordmark(size, AppColors.brandBlue)),
-              TextSpan(text: aiLabel, style: AppTextStyles.wordmark(size, AppColors.accent)),
-            ])),
+                text: 'ExamGenius ',
+                style: AppTextStyles.wordmark(size, AppColors.brandBlue),
+              ),
+              TextSpan(
+                text: aiLabel,
+                style: AppTextStyles.wordmark(size, AppColors.accent),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }
 
 /// Blue→purple waves in the top-left and bottom-right corners, each with a
@@ -77,11 +95,19 @@ class _CornerWavesPainter extends CustomPainter {
   void paint(Canvas canvas, Size s) {
     final w = s.width, h = s.height;
     final strong = this.soft
-        ? (Paint()..color = AppColors.splashWaveSoft.colors.last.withValues(alpha: 0.35))
-        : (Paint()..shader = AppColors.splashWave.createShader(Offset.zero & s));
+        ? (Paint()
+            ..color = AppColors.splashWaveSoft.colors.last.withValues(
+              alpha: 0.35,
+            ))
+        : (Paint()
+            ..shader = AppColors.splashWave.createShader(Offset.zero & s));
     final soft = this.soft
-        ? (Paint()..color = AppColors.splashWaveSoft.colors.first.withValues(alpha: 0.22))
-        : (Paint()..shader = AppColors.splashWaveSoft.createShader(Offset.zero & s));
+        ? (Paint()
+            ..color = AppColors.splashWaveSoft.colors.first.withValues(
+              alpha: 0.22,
+            ))
+        : (Paint()
+            ..shader = AppColors.splashWaveSoft.createShader(Offset.zero & s));
     final line = Paint()
       ..color = AppColors.white.withValues(alpha: this.soft ? 0 : 1)
       ..style = PaintingStyle.stroke
@@ -207,7 +233,10 @@ class _CapBookLogoPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.5;
     canvas.drawLine(const Offset(120, 30), const Offset(120, 58), cord);
-    canvas.drawOval(Rect.fromCenter(center: const Offset(120, 62), width: 9, height: 12), blue);
+    canvas.drawOval(
+      Rect.fromCenter(center: const Offset(120, 62), width: 9, height: 12),
+      blue,
+    );
   }
 
   @override
@@ -239,8 +268,10 @@ class _StudyIllustrationPainter extends CustomPainter {
       cloud,
     );
     // Ground shadow.
-    canvas.drawOval(Rect.fromLTWH(30, 172, 280, 14),
-        fill(AppColors.laptopFrame.withValues(alpha: 0.08)));
+    canvas.drawOval(
+      Rect.fromLTWH(30, 172, 280, 14),
+      fill(AppColors.laptopFrame.withValues(alpha: 0.08)),
+    );
 
     // Books (orange bottom, blue top) with page edges.
     void book(double top, Color cover) {
@@ -250,7 +281,11 @@ class _StudyIllustrationPainter extends CustomPainter {
         ..color = AppColors.clipLine
         ..strokeWidth = 1.2;
       for (var i = 1; i < 4; i++) {
-        canvas.drawLine(Offset(58, top + 5 + i * 5), Offset(134, top + 5 + i * 5), rule);
+        canvas.drawLine(
+          Offset(58, top + 5 + i * 5),
+          Offset(134, top + 5 + i * 5),
+          rule,
+        );
       }
     }
 
@@ -260,7 +295,10 @@ class _StudyIllustrationPainter extends CustomPainter {
     // Plant leaves behind the laptop.
     void leaf(Offset base, Offset tip, double bulge, Color c) {
       final mid = Offset.lerp(base, tip, 0.5)!;
-      final n = Offset(-(tip.dy - base.dy), tip.dx - base.dx) / (tip - base).distance * bulge;
+      final n =
+          Offset(-(tip.dy - base.dy), tip.dx - base.dx) /
+          (tip - base).distance *
+          bulge;
       canvas.drawPath(
         Path()
           ..moveTo(base.dx, base.dy)
@@ -293,8 +331,10 @@ class _StudyIllustrationPainter extends CustomPainter {
     canvas.skew(-0.08, 0);
     canvas.drawRRect(_rr(-74, -58, 148, 114, 10), fill(AppColors.laptopFrame));
     final screen = Rect.fromLTWH(-66, -50, 132, 98);
-    canvas.drawRRect(RRect.fromRectAndRadius(screen, const Radius.circular(6)),
-        Paint()..shader = AppColors.screenGradient.createShader(screen));
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(screen, const Radius.circular(6)),
+      Paint()..shader = AppColors.screenGradient.createShader(screen),
+    );
     // AI chip with circuit legs.
     final chipStroke = Paint()
       ..color = AppColors.white
@@ -314,8 +354,10 @@ class _StudyIllustrationPainter extends CustomPainter {
     final tp = TextPainter(
       text: TextSpan(
         text: 'AI',
-        style: AppTextStyles.wordmark(24, AppColors.white)
-            .copyWith(fontStyle: FontStyle.italic, fontWeight: AppFontWeights.extraBold),
+        style: AppTextStyles.wordmark(24, AppColors.white).copyWith(
+          fontStyle: FontStyle.italic,
+          fontWeight: AppFontWeights.extraBold,
+        ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();

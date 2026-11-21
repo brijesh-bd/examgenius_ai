@@ -135,6 +135,23 @@ class MockPracticeRepository implements PracticeRepository {
     _results[submission.sessionId] = result;
     return result;
   }
+
+  @override
+  Future<List<TopicStat>> topicStats() async {
+    final totals = <String, TopicStat>{};
+    for (final r in _results.values) {
+      for (final t in r.topicStats) {
+        final prev = totals[t.topicId];
+        totals[t.topicId] = TopicStat(
+          topicId: t.topicId,
+          topicName: t.topicName,
+          total: (prev?.total ?? 0) + t.total,
+          correct: (prev?.correct ?? 0) + t.correct,
+        );
+      }
+    }
+    return totals.values.toList();
+  }
 }
 
 class _ServerSession {

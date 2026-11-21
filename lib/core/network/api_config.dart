@@ -13,8 +13,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///   flutter run --dart-define=API_BASE_URL=http://192.168.1.10:3000/api/v1
 const String _definedBaseUrl = String.fromEnvironment('API_BASE_URL');
 
-String get kApiBaseUrl =>
-    _definedBaseUrl.isNotEmpty ? _definedBaseUrl : 'http://127.0.0.1:3000/api/v1';
+String get kApiBaseUrl => _definedBaseUrl.isNotEmpty
+    ? _definedBaseUrl
+    : 'http://127.0.0.1:3000/api/v1';
 
 /// AI generation can take a while when Gemini is busy (the backend tries
 /// several models), so generation gets a long timeout.

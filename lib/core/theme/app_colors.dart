@@ -56,8 +56,12 @@ abstract final class AppColors {
 
   /// Cycled for syllabus subject / topic cards.
   static const List<Color> subjectPalette = [
-    Color(0xFF1E6BF0), Color(0xFF7C3AED), Color(0xFF16A34A),
-    Color(0xFFF7820F), Color(0xFFEC2C5B), Color(0xFF0EA5B7),
+    Color(0xFF1E6BF0),
+    Color(0xFF7C3AED),
+    Color(0xFF16A34A),
+    Color(0xFFF7820F),
+    Color(0xFFEC2C5B),
+    Color(0xFF0EA5B7),
   ];
 
   // ── Splash illustration ────────────────────────────────────────────────

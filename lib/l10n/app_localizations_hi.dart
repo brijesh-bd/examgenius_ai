@@ -322,6 +322,73 @@ class AppLocalizationsHi extends AppLocalizations {
   String get proLocked => 'प्रो';
 
   @override
+  String get createPractice => 'अभ्यास बनाएं';
+
+  @override
+  String get changeExam => 'परीक्षा बदलें';
+
+  @override
+  String get stepSubject => 'विषय';
+
+  @override
+  String get stepTopics => 'टॉपिक';
+
+  @override
+  String get stepLevel => 'स्तर';
+
+  @override
+  String get stepQuestions => 'प्रश्न';
+
+  @override
+  String selectedCount(int count) {
+    return '$count चुने गए';
+  }
+
+  @override
+  String subjectWithCount(String name, int count) {
+    return '$name ($count)';
+  }
+
+  @override
+  String practiceSummary(String subjects, int topics, String level, int count) {
+    return '$subjects · $topics टॉपिक · $level · $count प्रश्न';
+  }
+
+  @override
+  String get selectAtLeastOneTopic => 'शुरू करने के लिए कम से कम 1 टॉपिक चुनें';
+
+  @override
+  String get quick10 => 'क्विक 10';
+
+  @override
+  String get quick10Hint => 'पूरी परीक्षा से मिश्रित';
+
+  @override
+  String get lastPractice => 'पिछला अभ्यास';
+
+  @override
+  String get lastPracticeHint => 'अपना पिछला सेटअप दोहराएं';
+
+  @override
+  String get weakTopics => 'कमजोर टॉपिक';
+
+  @override
+  String get weakTopicsHint => 'जहां अंक कटते हैं वहां ध्यान दें';
+
+  @override
+  String get noLastPractice => 'इस परीक्षा के लिए अभी कोई पिछला अभ्यास नहीं।';
+
+  @override
+  String get noWeakTopics =>
+      'पहले कुछ सेट अभ्यास करें। फिर हम आपके कमजोर टॉपिक खोजेंगे।';
+
+  @override
+  String get quickStart => 'क्विक स्टार्ट';
+
+  @override
+  String get orBuildYourOwn => 'या अपना खुद का बनाएं';
+
+  @override
   String get retry => 'पुनः प्रयास करें';
 
   @override
@@ -957,7 +1024,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get strongTopics => 'मजबूत टॉपिक';
 
   @override
-  String get weakTopics => 'कमजोर टॉपिक';
+  String get quickWeakTopics => 'कमजोर टॉपिक';
 
   @override
   String get noneYet => 'अभी कोई नहीं';

@@ -31,11 +31,21 @@ abstract final class AppFontWeights {
 /// Google Font (Poppins) text styles. Colours are left unset unless the style
 /// is brand-specific, so they inherit from the theme in light and dark mode.
 abstract final class AppTextStyles {
-  static TextStyle _p(double size, FontWeight weight, {double? height, Color? color}) =>
-      GoogleFonts.poppins(fontSize: size, fontWeight: weight, height: height, color: color);
+  static TextStyle _p(
+    double size,
+    FontWeight weight, {
+    double? height,
+    Color? color,
+  }) => GoogleFonts.poppins(
+    fontSize: size,
+    fontWeight: weight,
+    height: height,
+    color: color,
+  );
 
   /// Full Material text theme in Poppins (used by AppTheme).
-  static TextTheme textTheme(TextTheme base) => GoogleFonts.poppinsTextTheme(base);
+  static TextTheme textTheme(TextTheme base) =>
+      GoogleFonts.poppinsTextTheme(base);
 
   /// Font family name registered by google_fonts, for widgets that need it.
   static String get fontFamily => GoogleFonts.poppins().fontFamily!;
@@ -49,11 +59,13 @@ abstract final class AppTextStyles {
   static TextStyle get bodyLarge => _p(AppFontSizes.lg, AppFontWeights.regular);
   static TextStyle get body => _p(AppFontSizes.md, AppFontWeights.regular);
   static TextStyle get bodySmall => _p(AppFontSizes.sm, AppFontWeights.regular);
-  static TextStyle get caption => _p(AppFontSizes.xs, AppFontWeights.regular, height: 1.3);
+  static TextStyle get caption =>
+      _p(AppFontSizes.xs, AppFontWeights.regular, height: 1.3);
 
   // Labels / buttons
   static TextStyle get button => _p(AppFontSizes.lg, AppFontWeights.semiBold);
-  static TextStyle get buttonSmall => _p(AppFontSizes.body, AppFontWeights.semiBold);
+  static TextStyle get buttonSmall =>
+      _p(AppFontSizes.body, AppFontWeights.semiBold);
   static TextStyle get label => _p(AppFontSizes.md, AppFontWeights.semiBold);
   static TextStyle get labelBold => _p(AppFontSizes.md, AppFontWeights.bold);
   static TextStyle get navLabel => _p(AppFontSizes.sm, AppFontWeights.medium);
@@ -62,13 +74,21 @@ abstract final class AppTextStyles {
   // Home
   static TextStyle get greeting =>
       _p(AppFontSizes.h2, AppFontWeights.extraBold, color: AppColors.white);
-  static TextStyle get greetingSub => _p(AppFontSizes.md, AppFontWeights.regular,
-      color: AppColors.white.withValues(alpha: 0.92));
-  static TextStyle get tileTitle => _p(AppFontSizes.body, AppFontWeights.extraBold, height: 1.15);
+  static TextStyle get greetingSub => _p(
+    AppFontSizes.md,
+    AppFontWeights.regular,
+    color: AppColors.white.withValues(alpha: 0.92),
+  );
+  static TextStyle get tileTitle =>
+      _p(AppFontSizes.body, AppFontWeights.extraBold, height: 1.15);
 
   // Brand
-  static TextStyle wordmark(double size, Color color) =>
-      _p(size, AppFontWeights.bold, height: 1.1, color: color).copyWith(letterSpacing: -1);
+  static TextStyle wordmark(double size, Color color) => _p(
+    size,
+    AppFontWeights.bold,
+    height: 1.1,
+    color: color,
+  ).copyWith(letterSpacing: -1);
   static TextStyle tagline(double size, Color color) =>
       _p(size, AppFontWeights.medium, height: 1.35, color: color);
   static TextStyle get chip => _p(AppFontSizes.md, AppFontWeights.semiBold);

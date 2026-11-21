@@ -626,6 +626,126 @@ abstract class AppLocalizations {
   /// **'Pro'**
   String get proLocked;
 
+  /// No description provided for @createPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Practice'**
+  String get createPractice;
+
+  /// No description provided for @changeExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Change exam'**
+  String get changeExam;
+
+  /// No description provided for @stepSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get stepSubject;
+
+  /// No description provided for @stepTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get stepTopics;
+
+  /// No description provided for @stepLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get stepLevel;
+
+  /// No description provided for @stepQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get stepQuestions;
+
+  /// No description provided for @selectedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String selectedCount(int count);
+
+  /// No description provided for @subjectWithCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} ({count})'**
+  String subjectWithCount(String name, int count);
+
+  /// No description provided for @practiceSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{subjects} · {topics, plural, =1{1 topic} other{{topics} topics}} · {level} · {count} Qs'**
+  String practiceSummary(String subjects, int topics, String level, int count);
+
+  /// No description provided for @selectAtLeastOneTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least 1 topic to start'**
+  String get selectAtLeastOneTopic;
+
+  /// No description provided for @quick10.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick 10'**
+  String get quick10;
+
+  /// No description provided for @quick10Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed from the whole exam'**
+  String get quick10Hint;
+
+  /// No description provided for @lastPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Last practice'**
+  String get lastPractice;
+
+  /// No description provided for @lastPracticeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat your last setup'**
+  String get lastPracticeHint;
+
+  /// No description provided for @weakTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak Topics'**
+  String get weakTopics;
+
+  /// No description provided for @weakTopicsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus where you lose marks'**
+  String get weakTopicsHint;
+
+  /// No description provided for @noLastPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous practice for this exam yet.'**
+  String get noLastPractice;
+
+  /// No description provided for @noWeakTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise a few sets first. We will then find your weak topics.'**
+  String get noWeakTopics;
+
+  /// No description provided for @quickStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick start'**
+  String get quickStart;
+
+  /// No description provided for @orBuildYourOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Or build your own'**
+  String get orBuildYourOwn;
+
   /// No description provided for @retry.
   ///
   /// In en, this message translates to:
@@ -1772,11 +1892,11 @@ abstract class AppLocalizations {
   /// **'Strong Topics'**
   String get strongTopics;
 
-  /// No description provided for @weakTopics.
+  /// No description provided for @quickWeakTopics.
   ///
   /// In en, this message translates to:
-  /// **'Weak Topics'**
-  String get weakTopics;
+  /// **'Weak topics'**
+  String get quickWeakTopics;
 
   /// No description provided for @noneYet.
   ///

@@ -99,6 +99,9 @@ abstract interface class PracticeRepository {
     PracticeResult result,
     List<String> questionIds,
   );
+
+  /// Per-topic totals across all of the student's results (`GET /practice/topic-stats`).
+  Future<List<TopicStat>> topicStats();
 }
 
 /// Where a test's questions come from.
