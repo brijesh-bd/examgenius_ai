@@ -89,23 +89,42 @@ class QuestionCountSelector extends StatelessWidget {
     super.key,
     required this.value,
     required this.onChanged,
+    this.maxAllowed,
+    this.onLocked,
   });
 
   final int? value;
   final ValueChanged<int> onChanged;
 
+  /// Plan limit; larger counts show a lock and call [onLocked] instead.
+  final int? maxAllowed;
+  final VoidCallback? onLocked;
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Wrap(
       spacing: AppSpacing.xs,
       runSpacing: AppSpacing.xs,
       children: [
         for (final n in kQuestionCountOptions)
-          ChoiceChip(
-            label: Text('$n'),
-            selected: value == n,
-            onSelected: (_) => onChanged(n),
-          ),
+          if (maxAllowed != null && n > maxAllowed!)
+            ActionChip(
+              avatar: const Icon(
+                Icons.lock_rounded,
+                size: 16,
+                color: AppColors.accent,
+              ),
+              label: Text('$n'),
+              tooltip: l10n.proLocked,
+              onPressed: onLocked,
+            )
+          else
+            ChoiceChip(
+              label: Text('$n'),
+              selected: value == n,
+              onSelected: (_) => onChanged(n),
+            ),
       ],
     );
   }

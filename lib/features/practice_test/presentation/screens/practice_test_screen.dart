@@ -12,6 +12,9 @@ import '../../../../core/utils/l10n_ext.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../question_generator/domain/generated_question.dart';
 import '../../domain/practice_models.dart';
+import '../../../subscription/domain/subscription_models.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../subscription/presentation/widgets/upgrade_sheet.dart';
 import '../providers/practice_providers.dart';
 import '../widgets/practice_question_card.dart';
 import '../widgets/question_palette.dart';
@@ -44,21 +47,37 @@ class PracticeTestScreen extends ConsumerWidget {
       );
     }
     final session = ref.watch(practiceSessionProvider(src));
+    // A new set used part of today's quota: keep "My Plan" up to date.
+    ref.listen(practiceSessionProvider(src), (_, next) {
+      if (next.hasValue && src is GenerateSource) {
+        ref.read(subscriptionProvider.notifier).refresh();
+      }
+    });
 
     return session.when(
       loading: () => Scaffold(
         appBar: AppBar(title: Text(_title(src))),
         body: const _GeneratingView(),
       ),
-      error: (e, _) => Scaffold(
-        appBar: AppBar(title: Text(_title(src))),
-        body: StateMessage(
-          icon: Icons.wifi_off_rounded,
-          title: apiErrorText(l10n, e),
-          actionLabel: l10n.retry,
-          onAction: () => ref.invalidate(practiceSessionProvider(src)),
-        ),
-      ),
+      error: (e, _) {
+        final limit = PlanLimitHit.from(e);
+        return Scaffold(
+          appBar: AppBar(title: Text(_title(src))),
+          body: limit != null
+              // Plan limit (e.g. today's free sets used): explain + offer Pro.
+              ? Center(
+                  child: SingleChildScrollView(
+                    child: UpgradePrompt(hit: limit),
+                  ),
+                )
+              : StateMessage(
+                  icon: Icons.wifi_off_rounded,
+                  title: apiErrorText(l10n, e),
+                  actionLabel: l10n.retry,
+                  onAction: () => ref.invalidate(practiceSessionProvider(src)),
+                ),
+        );
+      },
       data: (s) => s.questions.isEmpty
           ? Scaffold(
               appBar: AppBar(title: Text(_title(src))),

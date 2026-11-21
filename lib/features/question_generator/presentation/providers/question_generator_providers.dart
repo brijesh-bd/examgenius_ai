@@ -88,6 +88,8 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
 
   void setCount(int count) => state = state.copyWith(count: count);
 
+  void setFresh(bool fresh) => state = state.copyWith(fresh: fresh);
+
   /// Builds the request, or `null` while the form is incomplete.
   GenerationRequest? buildRequest({
     required String examName,
@@ -106,6 +108,7 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
       topicIds: ordered,
       difficulty: state.difficulty!,
       count: state.count!,
+      fresh: state.fresh,
     );
   }
 }

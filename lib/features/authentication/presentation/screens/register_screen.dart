@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/network/api_error_text.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -143,7 +144,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           child: Text(exam.name),
                         ),
                   ],
-                  onChanged: catalog.hasValue ? (v) => setState(() => _examId = v) : null,
+                  onChanged: catalog.hasValue
+                      ? (v) => setState(() => _examId = v)
+                      : null,
                   validator: (v) => v == null ? l10n.errorRequired : null,
                 ),
                 if (catalog.hasError && !catalog.isLoading)

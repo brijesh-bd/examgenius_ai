@@ -84,6 +84,7 @@ void main() {
       'topicIds': ['quant.average'],
       'difficulty': 'hard',
       'count': 10,
+      'fresh': false,
       'level': 'exam',
     });
   });

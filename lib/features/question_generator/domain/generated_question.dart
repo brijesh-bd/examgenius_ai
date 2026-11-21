@@ -22,6 +22,7 @@ class GenerationRequest {
     required this.topicIds,
     required this.difficulty,
     required this.count,
+    this.fresh = false,
   });
 
   final String examId;
@@ -30,12 +31,16 @@ class GenerationRequest {
   final Difficulty difficulty;
   final int count;
 
+  /// Pro: skip the question bank and generate brand-new questions.
+  final bool fresh;
+
   Map<String, dynamic> toJson() => {
     'examId': examId,
     'examName': examName,
     'topicIds': topicIds,
     'difficulty': difficulty.name,
     'count': count,
+    'fresh': fresh,
     // Asks the backend for questions matching the real exam's standard.
     'level': 'exam',
   };
@@ -46,11 +51,12 @@ class GenerationRequest {
       other.examId == examId &&
       other.difficulty == difficulty &&
       other.count == count &&
+      other.fresh == fresh &&
       listEquals(other.topicIds, topicIds);
 
   @override
   int get hashCode =>
-      Object.hash(examId, difficulty, count, Object.hashAll(topicIds));
+      Object.hash(examId, difficulty, count, fresh, Object.hashAll(topicIds));
 }
 
 @immutable

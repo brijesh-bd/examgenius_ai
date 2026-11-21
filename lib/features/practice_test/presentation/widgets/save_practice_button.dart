@@ -8,6 +8,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/l10n_ext.dart';
 import '../../domain/practice_result.dart';
 import '../providers/saved_practice_providers.dart';
+import '../../../subscription/domain/subscription_models.dart';
+import '../../../subscription/presentation/widgets/upgrade_sheet.dart';
 
 /// Screen 5 — Save Practice. Idle → "Saving…" → "Saved to My Practice".
 /// The success message is shown only after the backend confirms.
@@ -20,6 +22,16 @@ class SavePracticeButton extends ConsumerWidget {
     final l10n = context.l10n;
     final messenger = ScaffoldMessenger.of(context);
     final ok = await ref.read(savePracticeProvider(result).notifier).save();
+    if (!ok) {
+      // Free plan saved-practice cap → upgrade sheet instead of a generic error.
+      final limit = PlanLimitHit.from(
+        ref.read(savePracticeProvider(result)).error,
+      );
+      if (limit != null && context.mounted) {
+        await showUpgradeSheet(context, limit);
+        return;
+      }
+    }
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(

@@ -6,13 +6,23 @@ import 'token_store.dart';
 
 /// Failure from the backend, with the server's message when it sent one.
 class ApiException implements Exception {
-  const ApiException(this.message, {this.statusCode, this.isNetwork = false});
+  const ApiException(
+    this.message, {
+    this.statusCode,
+    this.isNetwork = false,
+    this.code,
+    this.details = const {},
+  });
 
   final String message;
   final int? statusCode;
 
   /// No response at all (server down, wrong IP, no internet, timeout).
   final bool isNetwork;
+
+  /// Machine-readable reason from the server, e.g. `DAILY_SETS`, `SET_SIZE`.
+  final String? code;
+  final Map<String, dynamic> details;
 
   bool get isUnauthorized => statusCode == 401;
 
@@ -81,6 +91,10 @@ class ApiClient {
         serverMsg ?? (noResponse ? 'Cannot reach the ExamGenius server' : 'Request failed'),
         statusCode: status,
         isNetwork: noResponse,
+        code: data is Map && data['code'] is String ? data['code'] as String : null,
+        details: data is Map && data['details'] is Map
+            ? Map<String, dynamic>.from(data['details'] as Map)
+            : const {},
       );
     }
   }

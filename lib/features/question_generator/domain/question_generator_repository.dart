@@ -16,6 +16,7 @@ class GeneratorForm {
     this.difficulty,
     this.count,
     this.multiSelect = true,
+    this.fresh = false,
   });
 
   final Set<String> topicIds;
@@ -25,6 +26,9 @@ class GeneratorForm {
   /// Topic picking mode: true = many topics per subject, false = one per subject.
   final bool multiSelect;
 
+  /// Pro: request brand-new AI questions instead of the question bank.
+  final bool fresh;
+
   bool get isComplete =>
       topicIds.isNotEmpty && difficulty != null && count != null;
 
@@ -33,6 +37,7 @@ class GeneratorForm {
     Difficulty? difficulty,
     int? count,
     bool? multiSelect,
+    bool? fresh,
   }) => GeneratorForm(
     topicIds: topicIds ?? this.topicIds,
     difficulty: difficulty ?? this.difficulty,

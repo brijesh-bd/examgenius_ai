@@ -5,6 +5,9 @@ abstract final class AppRoutes {
   static const register = '/register';
   static const forgotPassword = '/forgot-password';
 
+  /// Free vs Pro plans and the free trial.
+  static const plans = '/plans';
+
   static const home = '/home';
   static const practice = '/practice';
   static const analytics = '/analytics';

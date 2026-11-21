@@ -150,6 +150,178 @@ class AppLocalizationsHi extends AppLocalizations {
       'आपका सत्र समाप्त हो गया। कृपया फिर से लॉगिन करें।';
 
   @override
+  String get proName => 'ExamGenius Pro';
+
+  @override
+  String get proTagline => 'AI व्याख्याओं के साथ असीमित अभ्यास';
+
+  @override
+  String get planFree => 'फ्री';
+
+  @override
+  String get planPro => 'प्रो';
+
+  @override
+  String get myPlan => 'मेरा प्लान';
+
+  @override
+  String get seePlans => 'प्रो प्लान देखें';
+
+  @override
+  String get upgradeToPro => 'प्रो में अपग्रेड करें';
+
+  @override
+  String get maybeLater => 'बाद में';
+
+  @override
+  String startTrial(int days) {
+    return '$days दिन का फ्री ट्रायल शुरू करें';
+  }
+
+  @override
+  String get trialStarted =>
+      'आपका प्रो ट्रायल शुरू हो गया। असीमित अभ्यास का आनंद लें!';
+
+  @override
+  String get trialFailed =>
+      'ट्रायल शुरू नहीं हो सका। कृपया फिर से प्रयास करें।';
+
+  @override
+  String proUntil(String date) {
+    return '$date तक प्रो';
+  }
+
+  @override
+  String trialUntil(String date) {
+    return '$date तक फ्री ट्रायल';
+  }
+
+  @override
+  String freeSetsLeft(int left, int total) {
+    return 'आज $total में से $left फ्री सेट बाकी';
+  }
+
+  @override
+  String perMonth(int price) {
+    return '₹$price/माह';
+  }
+
+  @override
+  String planMonths(int months) {
+    String _temp0 = intl.Intl.pluralLogic(
+      months,
+      locale: localeName,
+      other: '$months माह',
+      one: '1 माह',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String priceInr(int price) {
+    return '₹$price';
+  }
+
+  @override
+  String savePercent(int percent) {
+    return '$percent% बचत';
+  }
+
+  @override
+  String get mostPopular => 'सबसे लोकप्रिय';
+
+  @override
+  String choosePlan(String plan) {
+    return '$plan चुनें';
+  }
+
+  @override
+  String get paymentsComingSoon =>
+      'ऑनलाइन भुगतान जल्द आ रहा है। अभी प्रो इस्तेमाल करने के लिए फ्री ट्रायल शुरू करें।';
+
+  @override
+  String get featureCompare => 'फ्री बनाम प्रो';
+
+  @override
+  String get featurePracticeSets => 'अभ्यास सेट';
+
+  @override
+  String featureFreeSets(int count) {
+    return '$count प्रतिदिन';
+  }
+
+  @override
+  String get featureUnlimited => 'असीमित';
+
+  @override
+  String get featureQuestionsPerSet => 'प्रति सेट प्रश्न';
+
+  @override
+  String featureUpTo(int count) {
+    return '$count तक';
+  }
+
+  @override
+  String get featureReview => 'स्कोरकार्ड और व्याख्याएं';
+
+  @override
+  String get featureSaved => 'सेव किए गए अभ्यास';
+
+  @override
+  String get featureFreshAi => 'बिल्कुल नए AI प्रश्न';
+
+  @override
+  String get pricesIncludeGst => 'कीमतों में GST शामिल है। कभी भी रद्द करें।';
+
+  @override
+  String get limitDailySetsTitle => 'आज के फ्री सेट इस्तेमाल हो चुके हैं';
+
+  @override
+  String limitDailySetsBody(int max) {
+    return 'फ्री प्लान में प्रतिदिन $max अभ्यास सेट मिलते हैं। नए सेट आधी रात को खुलेंगे, या असीमित अभ्यास के लिए प्रो लें।';
+  }
+
+  @override
+  String get limitDailyQuestionsTitle => 'दैनिक सीमा पूरी हुई';
+
+  @override
+  String limitDailyQuestionsBody(int max) {
+    return 'आपने आज $max प्रश्नों का अभ्यास किया। बहुत बढ़िया! और प्रश्न आधी रात को खुलेंगे।';
+  }
+
+  @override
+  String get limitSetSizeTitle => 'बड़े सेट प्रो सुविधा है';
+
+  @override
+  String limitSetSizeBody(int max) {
+    return 'फ्री प्लान में प्रति सेट $max प्रश्न तक। 30 प्रश्नों तक के सेट के लिए प्रो लें।';
+  }
+
+  @override
+  String get limitSavedTitle => 'सेव किए गए अभ्यास भर गए';
+
+  @override
+  String limitSavedBody(int max) {
+    return 'फ्री प्लान में $max सेव सेट रहते हैं। एक हटाएं या असीमित के लिए प्रो लें।';
+  }
+
+  @override
+  String get limitFreshTitle => 'बिल्कुल नए AI प्रश्न प्रो में हैं';
+
+  @override
+  String get limitFreshBody =>
+      'फ्री प्लान प्रश्न बैंक का उपयोग करता है। हर बार नए AI प्रश्नों के लिए प्रो लें।';
+
+  @override
+  String get freshAiToggle => 'बिल्कुल नए AI प्रश्न';
+
+  @override
+  String get freshAiToggleHint => 'प्रश्न बैंक छोड़कर नए प्रश्न बनाएं (प्रो)';
+
+  @override
+  String get proLocked => 'प्रो';
+
+  @override
   String get retry => 'पुनः प्रयास करें';
 
   @override

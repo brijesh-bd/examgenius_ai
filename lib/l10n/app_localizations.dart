@@ -362,6 +362,270 @@ abstract class AppLocalizations {
   /// **'Your session expired. Please log in again.'**
   String get errorSessionExpired;
 
+  /// No description provided for @proName.
+  ///
+  /// In en, this message translates to:
+  /// **'ExamGenius Pro'**
+  String get proName;
+
+  /// No description provided for @proTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited practice with AI explanations'**
+  String get proTagline;
+
+  /// No description provided for @planFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get planFree;
+
+  /// No description provided for @planPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro'**
+  String get planPro;
+
+  /// No description provided for @myPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'My Plan'**
+  String get myPlan;
+
+  /// No description provided for @seePlans.
+  ///
+  /// In en, this message translates to:
+  /// **'See Pro plans'**
+  String get seePlans;
+
+  /// No description provided for @upgradeToPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get upgradeToPro;
+
+  /// No description provided for @maybeLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe later'**
+  String get maybeLater;
+
+  /// No description provided for @startTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'Start {days}-day free trial'**
+  String startTrial(int days);
+
+  /// No description provided for @trialStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Pro trial has started. Enjoy unlimited practice!'**
+  String get trialStarted;
+
+  /// No description provided for @trialFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start the trial. Please try again.'**
+  String get trialFailed;
+
+  /// No description provided for @proUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro until {date}'**
+  String proUntil(String date);
+
+  /// No description provided for @trialUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Free trial until {date}'**
+  String trialUntil(String date);
+
+  /// No description provided for @freeSetsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{left} of {total} free sets left today'**
+  String freeSetsLeft(int left, int total);
+
+  /// No description provided for @perMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'₹{price}/month'**
+  String perMonth(int price);
+
+  /// No description provided for @planMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{months, plural, =1{1 Month} other{{months} Months}}'**
+  String planMonths(int months);
+
+  /// No description provided for @priceInr.
+  ///
+  /// In en, this message translates to:
+  /// **'₹{price}'**
+  String priceInr(int price);
+
+  /// No description provided for @savePercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {percent}%'**
+  String savePercent(int percent);
+
+  /// No description provided for @mostPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Popular'**
+  String get mostPopular;
+
+  /// No description provided for @choosePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose {plan}'**
+  String choosePlan(String plan);
+
+  /// No description provided for @paymentsComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Online payment is coming soon. Start the free trial to use Pro now.'**
+  String get paymentsComingSoon;
+
+  /// No description provided for @featureCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Free vs Pro'**
+  String get featureCompare;
+
+  /// No description provided for @featurePracticeSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice sets'**
+  String get featurePracticeSets;
+
+  /// No description provided for @featureFreeSets.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} per day'**
+  String featureFreeSets(int count);
+
+  /// No description provided for @featureUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited'**
+  String get featureUnlimited;
+
+  /// No description provided for @featureQuestionsPerSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions per set'**
+  String get featureQuestionsPerSet;
+
+  /// No description provided for @featureUpTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to {count}'**
+  String featureUpTo(int count);
+
+  /// No description provided for @featureReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Scorecard & explanations'**
+  String get featureReview;
+
+  /// No description provided for @featureSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved practice'**
+  String get featureSaved;
+
+  /// No description provided for @featureFreshAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand-new AI questions'**
+  String get featureFreshAi;
+
+  /// No description provided for @pricesIncludeGst.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices include GST. Cancel anytime.'**
+  String get pricesIncludeGst;
+
+  /// No description provided for @limitDailySetsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have used today\'s free sets'**
+  String get limitDailySetsTitle;
+
+  /// No description provided for @limitDailySetsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan includes {max} practice sets per day. New sets unlock at midnight, or go Pro for unlimited practice.'**
+  String limitDailySetsBody(int max);
+
+  /// No description provided for @limitDailyQuestionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily limit reached'**
+  String get limitDailyQuestionsTitle;
+
+  /// No description provided for @limitDailyQuestionsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You have practised {max} questions today. Great work! More unlock at midnight.'**
+  String limitDailyQuestionsBody(int max);
+
+  /// No description provided for @limitSetSizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bigger sets are a Pro feature'**
+  String get limitSetSizeTitle;
+
+  /// No description provided for @limitSetSizeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan allows up to {max} questions per set. Go Pro for sets of up to 30.'**
+  String limitSetSizeBody(int max);
+
+  /// No description provided for @limitSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved practice is full'**
+  String get limitSavedTitle;
+
+  /// No description provided for @limitSavedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan keeps {max} saved sets. Delete one or go Pro for unlimited saved practice.'**
+  String limitSavedBody(int max);
+
+  /// No description provided for @limitFreshTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand-new AI questions are Pro'**
+  String get limitFreshTitle;
+
+  /// No description provided for @limitFreshBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan uses our question bank. Go Pro to get freshly generated AI questions every time.'**
+  String get limitFreshBody;
+
+  /// No description provided for @freshAiToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand-new AI questions'**
+  String get freshAiToggle;
+
+  /// No description provided for @freshAiToggleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the question bank and generate new ones (Pro)'**
+  String get freshAiToggleHint;
+
+  /// No description provided for @proLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro'**
+  String get proLocked;
+
   /// No description provided for @retry.
   ///
   /// In en, this message translates to:

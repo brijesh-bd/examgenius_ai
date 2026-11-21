@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/l10n_ext.dart';
 import '../../../../core/widgets/app_widgets.dart';
@@ -14,6 +15,9 @@ import '../../../dashboard/presentation/providers/dashboard_providers.dart';
 import '../../domain/syllabus.dart';
 import '../providers/question_generator_providers.dart';
 import '../widgets/generator_options.dart';
+import '../../../subscription/domain/subscription_models.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../subscription/presentation/widgets/upgrade_sheet.dart';
 
 /// Full syllabus of one exam. The student picks topics, a difficulty level and
 /// a question count, then generates questions.
@@ -82,6 +86,7 @@ class _SyllabusBody extends ConsumerWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final form = ref.watch(generatorFormProvider(examId));
+    final plan = ref.watch(subscriptionProvider).value;
     final controller = ref.read(generatorFormProvider(examId).notifier);
 
     return Column(
@@ -145,6 +150,32 @@ class _SyllabusBody extends ConsumerWidget {
                     QuestionCountSelector(
                       value: form.count,
                       onChanged: controller.setCount,
+                      maxAllowed: plan?.limits.maxQuestionsPerSet,
+                      onLocked: () => showUpgradeSheet(
+                        context,
+                        PlanLimitHit(
+                          PlanLimitKind.setSize,
+                          max: plan?.limits.maxQuestionsPerSet,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    // Pro: brand-new AI questions instead of the shared bank.
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      secondary: const Icon(
+                        Icons.auto_awesome_rounded,
+                        color: AppColors.accent,
+                      ),
+                      title: Text(l10n.freshAiToggle),
+                      subtitle: Text(l10n.freshAiToggleHint),
+                      value: form.fresh && (plan?.limits.freshAi ?? false),
+                      onChanged: (v) => (plan?.limits.freshAi ?? false)
+                          ? controller.setFresh(v)
+                          : showUpgradeSheet(
+                              context,
+                              const PlanLimitHit(PlanLimitKind.freshAiPro),
+                            ),
                     ),
                   ],
                 ),

@@ -19,6 +19,7 @@ import 'package:examgenius_ai/features/practice_test/data/api_saved_practice_rep
 import 'package:examgenius_ai/features/practice_test/domain/practice_result.dart';
 import 'package:examgenius_ai/features/question_generator/data/api_syllabus_repository.dart';
 import 'package:examgenius_ai/features/question_generator/domain/generated_question.dart';
+import 'package:examgenius_ai/features/subscription/data/subscription_repositories.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -127,6 +128,16 @@ void main() {
     expect(list.first.result.reviews, isNotEmpty);
     await saved.delete(s.id);
     expect(saved.isSaved(result.resultId), isFalse);
+
+    // Free / Pro: one set used today, trial unlocks Pro.
+    final subs = ApiSubscriptionRepository(api);
+    final plan = await subs.fetchStatus();
+    expect(plan.isPro, isFalse);
+    expect(plan.setsUsedToday, 1);
+    expect(plan.offers, isNotEmpty);
+    final trial = await subs.startTrial();
+    expect(trial.isTrial, isTrue);
+    expect(trial.limits.maxQuestionsPerSet, greaterThan(10));
 
     await auth.logout();
     expect(tokens.hasToken, isFalse);

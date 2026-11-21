@@ -9,6 +9,7 @@ import '../../core/widgets/app_widgets.dart';
 import '../../localization/settings_providers.dart';
 import '../authentication/presentation/providers/auth_providers.dart';
 import '../dashboard/presentation/providers/dashboard_providers.dart';
+import '../subscription/presentation/widgets/my_plan_card.dart';
 
 /// Minimal profile/settings: identity, language switcher, theme, logout.
 class ProfileScreen extends ConsumerWidget {
@@ -53,6 +54,8 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 12),
+                const MyPlanCard(),
                 const SizedBox(height: 24),
                 SectionHeader(title: l10n.language),
                 SegmentedButton<String>(

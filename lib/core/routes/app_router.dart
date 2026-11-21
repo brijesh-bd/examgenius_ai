@@ -21,6 +21,7 @@ import '../../features/question_generator/presentation/screens/subject_topics_sc
 import '../../features/shell/coming_soon_screen.dart';
 import '../../features/shell/main_shell.dart';
 import '../../features/shell/profile_screen.dart';
+import '../../features/subscription/presentation/screens/plans_screen.dart';
 import '../../features/splash/splash_screen.dart';
 import 'app_routes.dart';
 
@@ -117,6 +118,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, s) => PracticeResultScreen(
           result: s.extra is PracticeResult ? s.extra as PracticeResult : null,
         ),
+      ),
+      GoRoute(
+        path: AppRoutes.plans,
+        parentNavigatorKey: _rootKey,
+        builder: (_, _) => const PlansScreen(),
       ),
       GoRoute(
         path: AppRoutes.practiceReview,
