@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/network/api_error_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -111,12 +113,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   validator: (v) => Validators.optionalEmail(v)?.message(l10n),
                 ),
                 const SizedBox(height: 16),
+                // Exams come from the server: show loading, and an error with
+                // Retry if the list could not be fetched (never an empty list).
                 DropdownButtonFormField<String>(
                   initialValue: _examId,
                   isExpanded: true,
                   decoration: InputDecoration(
                     labelText: l10n.targetExam,
                     prefixIcon: const Icon(Icons.school_outlined),
+                    suffixIcon: catalog.isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(14),
+                            child: SizedBox.square(
+                              dimension: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          )
+                        : null,
+                    errorText: catalog.hasError && !catalog.isLoading
+                        ? apiErrorText(l10n, catalog.error)
+                        : null,
+                    errorMaxLines: 3,
                   ),
                   items: [
                     for (final cat in catalog.value ?? const [])
@@ -126,9 +143,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           child: Text(exam.name),
                         ),
                   ],
-                  onChanged: (v) => setState(() => _examId = v),
+                  onChanged: catalog.hasValue ? (v) => setState(() => _examId = v) : null,
                   validator: (v) => v == null ? l10n.errorRequired : null,
                 ),
+                if (catalog.hasError && !catalog.isLoading)
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: TextButton.icon(
+                      onPressed: () => ref.invalidate(examCatalogProvider),
+                      icon: const Icon(Icons.refresh_rounded),
+                      label: Text(l10n.retry),
+                    ),
+                  ),
                 const SizedBox(height: 16),
                 PasswordField(
                   controller: _password,

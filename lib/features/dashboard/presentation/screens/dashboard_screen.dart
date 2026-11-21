@@ -187,9 +187,6 @@ class _GreetingHeader extends ConsumerWidget {
     final name = rawName.isEmpty
         ? l10n.defaultStudentName
         : rawName.split(RegExp(r'\s+')).first;
-    final unread = ref.watch(
-      dashboardSummaryProvider.select((s) => s.value?.unreadNotifications ?? 0),
-    );
     final hour = DateTime.now().hour;
     final greeting = hour < 12
         ? l10n.greetingMorning(name)
@@ -223,21 +220,6 @@ class _GreetingHeader extends ConsumerWidget {
                       style: AppTextStyles.greetingSub,
                     ),
                   ],
-                ),
-              ),
-              _CircleButton(
-                tooltip: l10n.notifications,
-                onTap: () => context.openComingSoon(l10n.notifications),
-                background: Colors.white.withValues(alpha: 0.18),
-                child: Badge(
-                  isLabelVisible: unread > 0,
-                  smallSize: 9,
-                  backgroundColor: AppColors.error,
-                  child: const Icon(
-                    Icons.notifications_none_rounded,
-                    color: Colors.white,
-                    size: 26,
-                  ),
                 ),
               ),
               const SizedBox(width: 12),
