@@ -5,7 +5,7 @@ import '../../core/utils/l10n_ext.dart';
 import '../../core/widgets/app_widgets.dart';
 import 'widgets/custom_bottom_navigation.dart';
 
-enum ShellTab { home, tests, practice, analytics }
+enum ShellTab { home, practice, analytics }
 
 /// Bottom-navigation shell. Item order must match the branch order in app_router.dart.
 /// Uses a NavigationRail on wide screens.
@@ -13,7 +13,8 @@ class MainShell extends StatelessWidget {
   const MainShell({super.key, required this.shell});
   final StatefulNavigationShell shell;
 
-  void _onTap(int i) => shell.goBranch(i, initialLocation: i == shell.currentIndex);
+  void _onTap(int i) =>
+      shell.goBranch(i, initialLocation: i == shell.currentIndex);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class MainShell extends StatelessWidget {
     final items = [
       (Icons.home_outlined, Icons.home_rounded, l10n.navHome),
       (Icons.edit_outlined, Icons.edit_rounded, l10n.navPractice),
-      (Icons.content_paste_rounded, Icons.content_paste_rounded, l10n.navTests),
+      (Icons.bookmarks_outlined, Icons.bookmarks_rounded, l10n.navSaved),
       (Icons.bar_chart_rounded, Icons.bar_chart_rounded, l10n.navAnalytics),
     ];
     final wide = MediaQuery.sizeOf(context).width >= 840;
@@ -68,7 +69,7 @@ class MainShell extends StatelessWidget {
   }
 }
 
-/// Tabs whose modules arrive in later phases (mock tests, practice, analytics).
+/// Tabs whose modules arrive in later phases (practice, analytics).
 class PlaceholderTab extends StatelessWidget {
   const PlaceholderTab({super.key, required this.tab});
   final ShellTab tab;
@@ -77,7 +78,6 @@ class PlaceholderTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final (title, icon) = switch (tab) {
-      ShellTab.tests => (l10n.mockTests, Icons.timer_outlined),
       ShellTab.practice => (l10n.dailyPractice, Icons.menu_book_outlined),
       ShellTab.analytics => (l10n.analytics, Icons.insights_outlined),
       _ => (l10n.appName, Icons.home_outlined),
@@ -85,7 +85,11 @@ class PlaceholderTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: Center(
-        child: StateMessage(icon: icon, title: l10n.comingSoon, body: l10n.comingSoonBody),
+        child: StateMessage(
+          icon: icon,
+          title: l10n.comingSoon,
+          body: l10n.comingSoonBody,
+        ),
       ),
     );
   }

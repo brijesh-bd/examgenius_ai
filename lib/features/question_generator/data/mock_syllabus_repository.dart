@@ -13,13 +13,17 @@ class MockSyllabusRepository implements SyllabusRepository {
   }
 }
 
-Map<String, dynamic> _subject(String id, String name, Map<String, String> topics) => {
-      'id': id,
-      'name': name,
-      'topics': [
-        for (final e in topics.entries) {'id': '$id.${e.key}', 'name': e.value},
-      ],
-    };
+Map<String, dynamic> _subject(
+  String id,
+  String name,
+  Map<String, String> topics,
+) => {
+  'id': id,
+  'name': name,
+  'topics': [
+    for (final e in topics.entries) {'id': '$id.${e.key}', 'name': e.value},
+  ],
+};
 
 const _arithmetic = {
   'percentage': 'Percentage',
@@ -82,22 +86,26 @@ final _quantBanking = _subject('quant', 'Quantitative Aptitude', {
   'data_sufficiency': 'Data Sufficiency',
 });
 
-final _reasoningGeneral = _subject('reasoning', 'General Intelligence & Reasoning', {
-  'analogy': 'Analogy',
-  'classification': 'Classification (Odd One Out)',
-  'number_letter_series': 'Number & Letter Series',
-  'coding_decoding': 'Coding-Decoding',
-  'blood_relations': 'Blood Relations',
-  'direction_sense': 'Direction Sense',
-  'order_ranking': 'Order & Ranking',
-  'syllogism': 'Syllogism',
-  'venn_diagrams': 'Venn Diagrams',
-  'statement_conclusion': 'Statement & Conclusion',
-  'calendar_clock': 'Calendar & Clock',
-  'mathematical_operations': 'Mathematical Operations',
-  'seating_arrangement': 'Seating Arrangement',
-  'non_verbal': 'Non-Verbal (Mirror, Water Image, Paper Folding)',
-});
+final _reasoningGeneral = _subject(
+  'reasoning',
+  'General Intelligence & Reasoning',
+  {
+    'analogy': 'Analogy',
+    'classification': 'Classification (Odd One Out)',
+    'number_letter_series': 'Number & Letter Series',
+    'coding_decoding': 'Coding-Decoding',
+    'blood_relations': 'Blood Relations',
+    'direction_sense': 'Direction Sense',
+    'order_ranking': 'Order & Ranking',
+    'syllogism': 'Syllogism',
+    'venn_diagrams': 'Venn Diagrams',
+    'statement_conclusion': 'Statement & Conclusion',
+    'calendar_clock': 'Calendar & Clock',
+    'mathematical_operations': 'Mathematical Operations',
+    'seating_arrangement': 'Seating Arrangement',
+    'non_verbal': 'Non-Verbal (Mirror, Water Image, Paper Folding)',
+  },
+);
 
 final _reasoningBanking = _subject('reasoning', 'Reasoning Ability', {
   'puzzles': 'Puzzles',
@@ -160,25 +168,33 @@ final _computer = _subject('computer', 'Computer Knowledge', {
   'security': 'Cyber Security',
 });
 
-final _bankingAwareness = _subject('banking_awareness', 'General / Banking Awareness', {
-  'banking_terms': 'Banking Terms & Services',
-  'rbi_monetary_policy': 'RBI & Monetary Policy',
-  'acts_regulations': 'Banking Acts & Regulations',
-  'financial_awareness': 'Financial Awareness',
-  'government_schemes': 'Government Schemes',
-  'current_affairs': 'Current Affairs',
-  'static_gk': 'Static GK',
-});
+final _bankingAwareness = _subject(
+  'banking_awareness',
+  'General / Banking Awareness',
+  {
+    'banking_terms': 'Banking Terms & Services',
+    'rbi_monetary_policy': 'RBI & Monetary Policy',
+    'acts_regulations': 'Banking Acts & Regulations',
+    'financial_awareness': 'Financial Awareness',
+    'government_schemes': 'Government Schemes',
+    'current_affairs': 'Current Affairs',
+    'static_gk': 'Static GK',
+  },
+);
 
-final _professionalIt = _subject('professional_it', 'Professional Knowledge (IT)', {
-  'dbms': 'DBMS',
-  'data_structures': 'Data Structures',
-  'networking': 'Computer Networks',
-  'operating_system': 'Operating System',
-  'software_engineering': 'Software Engineering',
-  'web_technology': 'Web Technology',
-  'security': 'Information Security',
-});
+final _professionalIt = _subject(
+  'professional_it',
+  'Professional Knowledge (IT)',
+  {
+    'dbms': 'DBMS',
+    'data_structures': 'Data Structures',
+    'networking': 'Computer Networks',
+    'operating_system': 'Operating System',
+    'software_engineering': 'Software Engineering',
+    'web_technology': 'Web Technology',
+    'security': 'Information Security',
+  },
+);
 
 final _technicalAlp = _subject('technical', 'Basic Science & Engineering', {
   'units_measurements': 'Units & Measurements',
@@ -198,15 +214,48 @@ final _technicalJe = _subject('technical', 'Technical Abilities', {
   'environment': 'Environment & Pollution Control',
 });
 
-final _sscStandard = [_quantSsc, _reasoningGeneral, _english, _generalAwareness];
+final _sscStandard = [
+  _quantSsc,
+  _reasoningGeneral,
+  _english,
+  _generalAwareness,
+];
 final _sscBasic = [_reasoningGeneral, _generalAwareness, _quantBasic, _english];
-final _bankStandard = [_reasoningBanking, _quantBanking, _english, _bankingAwareness, _computer];
+final _bankStandard = [
+  _reasoningBanking,
+  _quantBanking,
+  _english,
+  _bankingAwareness,
+  _computer,
+];
 
 final Map<String, List<Map<String, dynamic>>> _examSubjects = {
-  'rrb_ntpc': [_quantRailway, _reasoningGeneral, _generalAwareness, _generalScience],
-  'rrb_group_d': [_quantRailway, _reasoningGeneral, _generalScience, _generalAwareness],
-  'rrb_alp': [_quantRailway, _reasoningGeneral, _generalScience, _generalAwareness, _technicalAlp],
-  'rrb_je': [_quantRailway, _reasoningGeneral, _generalAwareness, _generalScience, _technicalJe],
+  'rrb_ntpc': [
+    _quantRailway,
+    _reasoningGeneral,
+    _generalAwareness,
+    _generalScience,
+  ],
+  'rrb_group_d': [
+    _quantRailway,
+    _reasoningGeneral,
+    _generalScience,
+    _generalAwareness,
+  ],
+  'rrb_alp': [
+    _quantRailway,
+    _reasoningGeneral,
+    _generalScience,
+    _generalAwareness,
+    _technicalAlp,
+  ],
+  'rrb_je': [
+    _quantRailway,
+    _reasoningGeneral,
+    _generalAwareness,
+    _generalScience,
+    _technicalJe,
+  ],
   'ssc_cgl': [..._sscStandard, _computer],
   'ssc_chsl': [..._sscStandard, _computer],
   'ssc_mts': _sscBasic,

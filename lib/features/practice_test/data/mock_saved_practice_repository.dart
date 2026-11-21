@@ -28,12 +28,13 @@ class MockSavedPracticeRepository implements SavedPracticeRepository {
   }
 
   Future<void> _write(List<SavedPractice> items) => _prefs.setString(
-        PrefKeys.savedPractice,
-        jsonEncode(items.map((e) => e.toJson()).toList()),
-      );
+    PrefKeys.savedPractice,
+    jsonEncode(items.map((e) => e.toJson()).toList()),
+  );
 
   @override
-  bool isSaved(String resultId) => _read().any((s) => s.result.resultId == resultId);
+  bool isSaved(String resultId) =>
+      _read().any((s) => s.result.resultId == resultId);
 
   @override
   Future<SavedPractice> save(PracticeResult result) async {

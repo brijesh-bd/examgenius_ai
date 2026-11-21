@@ -18,20 +18,20 @@ class StudentUser {
   String get firstName => name.trim().split(RegExp(r'\s+')).first;
 
   factory StudentUser.fromJson(Map<String, dynamic> json) => StudentUser(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        mobile: json['mobile'] as String,
-        email: json['email'] as String?,
-        targetExamId: (json['targetExamId'] as String?) ?? 'rrb_ntpc',
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    mobile: json['mobile'] as String,
+    email: json['email'] as String?,
+    targetExamId: (json['targetExamId'] as String?) ?? 'rrb_ntpc',
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'mobile': mobile,
-        'email': email,
-        'targetExamId': targetExamId,
-      };
+    'id': id,
+    'name': name,
+    'mobile': mobile,
+    'email': email,
+    'targetExamId': targetExamId,
+  };
 }
 
 class RegisterRequest {
@@ -56,4 +56,10 @@ class AuthFailure implements Exception {
   final AuthFailureKind kind;
 }
 
-enum AuthFailureKind { invalidCredentials, network, unknown }
+enum AuthFailureKind {
+  invalidCredentials,
+  mobileTaken,
+  emailTaken,
+  network,
+  unknown,
+}

@@ -128,7 +128,26 @@ class AppLocalizationsHi extends AppLocalizations {
   String get errorGeneric => 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।';
 
   @override
-  String get errorInvalidCredentials => 'मोबाइल नंबर या पासवर्ड गलत है';
+  String get errorInvalidCredentials => 'अमान्य ईमेल/मोबाइल या पासवर्ड';
+
+  @override
+  String get errorNetwork =>
+      'ExamGenius सर्वर से कनेक्ट नहीं हो सका। अपना इंटरनेट जांचें और फिर से प्रयास करें।';
+
+  @override
+  String get errorMobileTaken =>
+      'यह मोबाइल नंबर पहले से पंजीकृत है। कृपया लॉगिन करें।';
+
+  @override
+  String get errorEmailTaken => 'यह ईमेल पहले से पंजीकृत है। कृपया लॉगिन करें।';
+
+  @override
+  String get errorAiBusy =>
+      'AI अभी व्यस्त है। कृपया एक मिनट बाद फिर से प्रयास करें।';
+
+  @override
+  String get errorSessionExpired =>
+      'आपका सत्र समाप्त हो गया। कृपया फिर से लॉगिन करें।';
 
   @override
   String get retry => 'पुनः प्रयास करें';
@@ -249,7 +268,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get navHome => 'होम';
 
   @override
-  String get navTests => 'टेस्ट';
+  String get navSaved => 'सेव किए';
 
   @override
   String get navPractice => 'अभ्यास';
@@ -544,6 +563,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get rememberMe => 'मुझे याद रखें';
+
+  @override
+  String get showPassword => 'पासवर्ड दिखाएं';
+
+  @override
+  String get hidePassword => 'पासवर्ड छिपाएं';
 
   @override
   String get loginHeadlinePrepare => 'तैयारी करें';
@@ -899,6 +924,55 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get viewAction => 'देखें';
+
+  @override
+  String get savedEmptyTitle => 'अभी कोई सेव किया गया अभ्यास नहीं';
+
+  @override
+  String get savedEmptyBody =>
+      'टेस्ट के बाद, स्कोरकार्ड पर अभ्यास सेव करें दबाएं ताकि दोहराने के लिए यह यहां रहे।';
+
+  @override
+  String savedOn(String date) {
+    return '$date को सेव किया';
+  }
+
+  @override
+  String questionsShort(int count) {
+    return '$count प्रश्न';
+  }
+
+  @override
+  String get reviewPractice => 'देखें';
+
+  @override
+  String get practiceAgain => 'फिर से अभ्यास';
+
+  @override
+  String get retryWrongShort => 'गलत दोबारा';
+
+  @override
+  String get deletePractice => 'हटाएं';
+
+  @override
+  String get deletePracticeTitle => 'यह अभ्यास हटाएं?';
+
+  @override
+  String get deletePracticeBody =>
+      'यह सेव किया गया सेट और इसकी समीक्षा हटा दी जाएगी। आपके अन्य प्रयास प्रभावित नहीं होंगे।';
+
+  @override
+  String get practiceDeleted => 'अभ्यास हटा दिया गया।';
+
+  @override
+  String get deleteFailed =>
+      'हटाया नहीं जा सका। अपना कनेक्शन जांचें और फिर से प्रयास करें।';
+
+  @override
+  String get scoreLabel => 'स्कोर';
+
+  @override
+  String get moreActions => 'और विकल्प';
 
   @override
   String accuracyChartLabel(String percent) {

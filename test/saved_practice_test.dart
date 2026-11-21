@@ -5,6 +5,12 @@ import 'package:examgenius_ai/features/practice_test/domain/saved_practice.dart'
 import 'package:examgenius_ai/features/practice_test/presentation/providers/saved_practice_providers.dart';
 import 'package:examgenius_ai/features/question_generator/domain/generated_question.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:examgenius_ai/features/practice_test/data/mock_practice_repository.dart';
+import 'package:examgenius_ai/features/practice_test/presentation/screens/saved_practice_screen.dart';
+import 'package:examgenius_ai/features/question_generator/data/mock_question_generator_repository.dart';
+import 'package:examgenius_ai/features/question_generator/data/mock_syllabus_repository.dart';
+import 'package:examgenius_ai/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -126,5 +132,71 @@ void main() {
     final p = savePracticeProvider(_result('r9'));
     c.listen(p, (_, _) {});
     expect(c.read(p).isSaved, isTrue);
+  });
+
+  test('list controller deletes only after the backend confirms', () async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final repo = MockSavedPracticeRepository(prefs);
+    await repo.save(_result('r1'));
+    await repo.save(_result('r2'));
+    final c = ProviderContainer(overrides: [sharedPreferencesProvider.overrideWithValue(prefs)]);
+    addTearDown(c.dispose);
+    c.listen(savedPracticeListProvider, (_, _) {});
+    final items = await c.read(savedPracticeListProvider.future);
+    expect(items, hasLength(2));
+    expect(await c.read(savedPracticeListProvider.notifier).delete(items.first.id), isTrue);
+    expect(c.read(savedPracticeListProvider).value, hasLength(1));
+    expect(repo.isSaved(items.first.result.resultId), isFalse);
+  });
+
+  test('practice again works from a saved result after a restart', () async {
+    // Fresh repository = no in-memory sessions, like after relaunching the app.
+    final practice = MockPracticeRepository(MockQuestionGeneratorRepository(), MockSyllabusRepository());
+    final r = _result('r1');
+    final session = await practice.retrySession(r, ['q1']);
+    expect(session.questions.single.text, 'Q?');
+    expect(session.questions.single.topicName, 'Time & Work');
+    final scored = await practice.submit(PracticeSubmission(
+      sessionId: session.sessionId,
+      answers: const {'q1': 2},
+      timeTaken: const Duration(seconds: 20),
+      autoSubmitted: false,
+    ));
+    expect(scored.correct, 1); // answer key came from the saved attempt
+    expect(r.reviews.single.selectedIndex, 1); // original attempt unchanged
+  });
+
+  testWidgets('saved practice screen: cards, delete with confirm, empty state', (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    await tester.runAsync(() => MockSavedPracticeRepository(prefs).save(_result('r1')));
+    await tester.pumpWidget(ProviderScope(
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: SavedPracticeScreen(),
+      ),
+    ));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(find.text('RRB NTPC'), findsOneWidget);
+    expect(find.text('Time & Work'), findsOneWidget);
+    expect(find.text('Hard'), findsOneWidget);
+    expect(find.text('2 Qs'), findsOneWidget);
+    expect(find.text('0.75/2'), findsOneWidget);
+    for (final a in ['Review', 'Practice Again', 'Retry Wrong', 'Delete']) {
+      expect(find.text(a), findsOneWidget);
+    }
+
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+    expect(find.text('Delete this practice?'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, 'Delete'));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(find.text('Practice deleted.'), findsOneWidget);
+    expect(find.text('No saved practice yet'), findsOneWidget);
   });
 }

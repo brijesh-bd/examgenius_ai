@@ -16,7 +16,8 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
@@ -34,10 +35,13 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     FocusScope.of(context).unfocus();
     setState(() => _autovalidate = AutovalidateMode.onUserInteraction);
     if (!_formKey.currentState!.validate()) return;
-    await ref.read(forgotPasswordProvider.notifier).send(_identifier.text.trim());
+    await ref
+        .read(forgotPasswordProvider.notifier)
+        .send(_identifier.text.trim());
   }
 
-  void _backToLogin() => context.canPop() ? context.pop() : context.go(AppRoutes.login);
+  void _backToLogin() =>
+      context.canPop() ? context.pop() : context.go(AppRoutes.login);
 
   @override
   Widget build(BuildContext context) {
@@ -90,19 +94,27 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       key: const ValueKey('form'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const _HeroIcon(icon: Icons.lock_reset_rounded, color: AppColors.primary),
+        const _HeroIcon(
+          icon: Icons.lock_reset_rounded,
+          color: AppColors.primary,
+        ),
         const SizedBox(height: 24),
         Semantics(
           header: true,
-          child: Text(l10n.forgotTitle,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.h1.copyWith(fontSize: AppFontSizes.h1 + 2)),
+          child: Text(
+            l10n.forgotTitle,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.h1.copyWith(fontSize: AppFontSizes.h1 + 2),
+          ),
         ),
         const SizedBox(height: 10),
         Text(
           l10n.forgotSubtitle,
           textAlign: TextAlign.center,
-          style: AppTextStyles.tagline(AppFontSizes.body, scheme.onSurfaceVariant),
+          style: AppTextStyles.tagline(
+            AppFontSizes.body,
+            scheme.onSurfaceVariant,
+          ),
         ),
         const SizedBox(height: 28),
         Form(
@@ -112,11 +124,17 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             controller: _identifier,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.send,
-            autofillHints: const [AutofillHints.email, AutofillHints.telephoneNumber],
+            autofillHints: const [
+              AutofillHints.email,
+              AutofillHints.telephoneNumber,
+            ],
             onFieldSubmitted: (_) => _send(),
             style: AppTextStyles.bodyLarge,
-            decoration:
-                authFieldDecoration(context, l10n.emailOrMobile, Icons.mail_outline_rounded),
+            decoration: authFieldDecoration(
+              context,
+              l10n.emailOrMobile,
+              Icons.mail_outline_rounded,
+            ),
             validator: (v) => Validators.emailOrMobile(v)?.message(l10n),
           ),
         ),
@@ -137,9 +155,13 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             Text(l10n.rememberPassword, style: AppTextStyles.body),
             TextButton(
               onPressed: _backToLogin,
-              child: Text(l10n.login,
-                  style: AppTextStyles.labelBold
-                      .copyWith(fontSize: AppFontSizes.lg, color: AppColors.accent)),
+              child: Text(
+                l10n.login,
+                style: AppTextStyles.labelBold.copyWith(
+                  fontSize: AppFontSizes.lg,
+                  color: AppColors.accent,
+                ),
+              ),
             ),
           ],
         ),
@@ -154,19 +176,27 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       key: const ValueKey('sent'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const _HeroIcon(icon: Icons.mark_email_read_rounded, color: AppColors.success),
+        const _HeroIcon(
+          icon: Icons.mark_email_read_rounded,
+          color: AppColors.success,
+        ),
         const SizedBox(height: 24),
         Semantics(
           header: true,
-          child: Text(l10n.resetSentTitle,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.h1.copyWith(fontSize: AppFontSizes.h1 + 2)),
+          child: Text(
+            l10n.resetSentTitle,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.h1.copyWith(fontSize: AppFontSizes.h1 + 2),
+          ),
         ),
         const SizedBox(height: 10),
         Text(
           l10n.resetSentBody(target),
           textAlign: TextAlign.center,
-          style: AppTextStyles.tagline(AppFontSizes.body, scheme.onSurfaceVariant),
+          style: AppTextStyles.tagline(
+            AppFontSizes.body,
+            scheme.onSurfaceVariant,
+          ),
         ),
         const SizedBox(height: 28),
         AuthGradientButton(
@@ -183,13 +213,20 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             TextButton(
               onPressed: loading
                   ? null
-                  : () => ref.read(forgotPasswordProvider.notifier).send(target),
+                  : () =>
+                        ref.read(forgotPasswordProvider.notifier).send(target),
               child: loading
                   ? const SizedBox.square(
-                      dimension: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                  : Text(l10n.resend,
-                      style: AppTextStyles.labelBold
-                          .copyWith(fontSize: AppFontSizes.lg, color: AppColors.accent)),
+                      dimension: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      l10n.resend,
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: AppFontSizes.lg,
+                        color: AppColors.accent,
+                      ),
+                    ),
             ),
           ],
         ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/network/api_error_text.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -47,11 +50,11 @@ class PracticeTestScreen extends ConsumerWidget {
         appBar: AppBar(title: Text(_title(src))),
         body: const _GeneratingView(),
       ),
-      error: (_, _) => Scaffold(
+      error: (e, _) => Scaffold(
         appBar: AppBar(title: Text(_title(src))),
         body: StateMessage(
           icon: Icons.wifi_off_rounded,
-          title: l10n.errorGeneric,
+          title: apiErrorText(l10n, e),
           actionLabel: l10n.retry,
           onAction: () => ref.invalidate(practiceSessionProvider(src)),
         ),

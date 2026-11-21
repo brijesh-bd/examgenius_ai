@@ -48,7 +48,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     });
     if (!valid || !_agreed) return;
     final email = _email.text.trim();
-    await ref.read(authFormProvider.notifier).register(
+    await ref
+        .read(authFormProvider.notifier)
+        .register(
           RegisterRequest(
             name: _name.text,
             mobile: _mobile.text.trim(),
@@ -119,7 +121,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   items: [
                     for (final cat in catalog.value ?? const [])
                       for (final exam in cat.exams)
-                        DropdownMenuItem(value: exam.id, child: Text(exam.name)),
+                        DropdownMenuItem(
+                          value: exam.id,
+                          child: Text(exam.name),
+                        ),
                   ],
                   onChanged: (v) => setState(() => _examId = v),
                   validator: (v) => v == null ? l10n.errorRequired : null,
@@ -135,8 +140,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   controller: _confirm,
                   label: l10n.confirmPassword,
                   textInputAction: TextInputAction.done,
-                  validator: (v) =>
-                      Validators.confirmPassword(v, _password.text)?.message(l10n),
+                  validator: (v) => Validators.confirmPassword(
+                    v,
+                    _password.text,
+                  )?.message(l10n),
                 ),
               ],
             ),
@@ -149,7 +156,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           controlAffinity: ListTileControlAffinity.leading,
           title: Text(l10n.agreeTerms, style: theme.textTheme.bodyMedium),
           subtitle: _showTermsError && !_agreed
-              ? Text(l10n.errorTerms, style: TextStyle(color: theme.colorScheme.error))
+              ? Text(
+                  l10n.errorTerms,
+                  style: TextStyle(color: theme.colorScheme.error),
+                )
               : null,
           onChanged: (v) => setState(() => _agreed = v ?? false),
         ),

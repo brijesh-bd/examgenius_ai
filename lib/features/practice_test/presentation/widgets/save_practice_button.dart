@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/routes/app_router.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/l10n_ext.dart';
 import '../../domain/practice_result.dart';
@@ -30,9 +32,8 @@ class SavePracticeButton extends ConsumerWidget {
                 action: SnackBarAction(
                   label: l10n.viewAction,
                   textColor: AppColors.white,
-                  // My Saved Practice ships with Screen 6.
                   onPressed: () {
-                    if (context.mounted) context.openComingSoon(l10n.mySavedPractice);
+                    if (context.mounted) context.go(AppRoutes.savedPractice);
                   },
                 ),
               )
@@ -59,23 +60,29 @@ class SavePracticeButton extends ConsumerWidget {
     final (label, icon) = state.isSaved
         ? (l10n.practiceSaved, Icons.bookmark_added_rounded)
         : state.saving
-            ? (l10n.savingPractice, Icons.bookmark_add_outlined)
-            : (l10n.savePractice, Icons.bookmark_add_outlined);
+        ? (l10n.savingPractice, Icons.bookmark_add_outlined)
+        : (l10n.savePractice, Icons.bookmark_add_outlined);
 
     return FilledButton.icon(
       style: FilledButton.styleFrom(
         minimumSize: const Size.fromHeight(50),
         backgroundColor: AppColors.accent,
         foregroundColor: AppColors.white,
-        disabledBackgroundColor:
-            state.isSaved ? AppColors.success.withValues(alpha: 0.15) : null,
+        disabledBackgroundColor: state.isSaved
+            ? AppColors.success.withValues(alpha: 0.15)
+            : null,
         disabledForegroundColor: state.isSaved ? AppColors.success : null,
       ),
-      onPressed: state.saving || state.isSaved ? null : () => _save(context, ref),
+      onPressed: state.saving || state.isSaved
+          ? null
+          : () => _save(context, ref),
       icon: state.saving
           ? const SizedBox.square(
               dimension: 18,
-              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.accent,
+              ),
             )
           : Icon(icon),
       label: Text(label),

@@ -1,18 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/api_config.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
+import '../../data/api_dashboard_repository.dart';
 import '../../data/mock_dashboard_repository.dart';
 import '../../domain/dashboard_models.dart';
 import '../../domain/dashboard_repository.dart';
 
-final dashboardRepositoryProvider =
-    Provider<DashboardRepository>((ref) => MockDashboardRepository());
+final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
+  if (ref.watch(useMockBackendProvider)) return MockDashboardRepository();
+  return ApiDashboardRepository(ref.watch(apiClientProvider));
+});
 
 final examCatalogProvider = FutureProvider<List<ExamCategory>>(
   (ref) => ref.watch(dashboardRepositoryProvider).fetchExamCatalog(),
 );
 
-final dashboardSummaryProvider = FutureProvider.autoDispose<DashboardSummary>((ref) {
+final dashboardSummaryProvider = FutureProvider.autoDispose<DashboardSummary>((
+  ref,
+) {
   final user = ref.watch(sessionProvider);
   return ref.watch(dashboardRepositoryProvider).fetchSummary(user?.id ?? '');
 });
@@ -31,7 +38,10 @@ final targetExamNameProvider = Provider.autoDispose<String?>((ref) {
 });
 
 /// Catalog lookup by exam id (null while loading or if unknown).
-final examByIdProvider = Provider.autoDispose.family<Exam?, String>((ref, examId) {
+final examByIdProvider = Provider.autoDispose.family<Exam?, String>((
+  ref,
+  examId,
+) {
   final catalog = ref.watch(examCatalogProvider).value;
   if (catalog == null) return null;
   for (final c in catalog) {

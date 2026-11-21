@@ -32,16 +32,25 @@ const kExamCatalogJson = <Map<String, dynamic>>[
       {'id': 'ibps_po', 'name': 'IBPS PO', 'categoryId': 'banking'},
       {'id': 'ibps_clerk', 'name': 'IBPS Clerk', 'categoryId': 'banking'},
       {'id': 'ibps_rrb_po', 'name': 'IBPS RRB PO', 'categoryId': 'banking'},
-      {'id': 'ibps_rrb_clerk', 'name': 'IBPS RRB Clerk', 'categoryId': 'banking'},
-      {'id': 'ibps_so_it', 'name': 'IBPS SO IT Officer', 'categoryId': 'banking'},
+      {
+        'id': 'ibps_rrb_clerk',
+        'name': 'IBPS RRB Clerk',
+        'categoryId': 'banking',
+      },
+      {
+        'id': 'ibps_so_it',
+        'name': 'IBPS SO IT Officer',
+        'categoryId': 'banking',
+      },
       {'id': 'sbi_po', 'name': 'SBI PO', 'categoryId': 'banking'},
       {'id': 'sbi_clerk', 'name': 'SBI Clerk', 'categoryId': 'banking'},
     ],
   },
 ];
 
-final List<ExamCategory> kExamCatalog =
-    kExamCatalogJson.map(ExamCategory.fromJson).toList(growable: false);
+final List<ExamCategory> kExamCatalog = kExamCatalogJson
+    .map(ExamCategory.fromJson)
+    .toList(growable: false);
 
 class MockDashboardRepository implements DashboardRepository {
   @override

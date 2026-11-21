@@ -7,23 +7,27 @@ import 'practice_result.dart';
 /// difficulty, scorecard, analytics) plus when it was saved.
 @immutable
 class SavedPractice {
-  const SavedPractice({required this.id, required this.savedAt, required this.result});
+  const SavedPractice({
+    required this.id,
+    required this.savedAt,
+    required this.result,
+  });
 
   final String id;
   final DateTime savedAt;
   final PracticeResult result;
 
   factory SavedPractice.fromJson(Map<String, dynamic> json) => SavedPractice(
-        id: json['id'] as String,
-        savedAt: DateTime.parse(json['savedAt'] as String),
-        result: PracticeResult.fromJson(json['result'] as Map<String, dynamic>),
-      );
+    id: json['id'] as String,
+    savedAt: DateTime.parse(json['savedAt'] as String),
+    result: PracticeResult.fromJson(json['result'] as Map<String, dynamic>),
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'savedAt': savedAt.toIso8601String(),
-        'result': result.toJson(),
-      };
+    'id': id,
+    'savedAt': savedAt.toIso8601String(),
+    'result': result.toJson(),
+  };
 }
 
 /// Saved practice sets. The backend already holds the full attempt, so saving

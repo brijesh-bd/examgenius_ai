@@ -4,6 +4,7 @@ import 'student_user.dart';
 /// implementation (Dio + JWT in secure storage) without touching screens.
 abstract interface class AuthRepository {
   StudentUser? currentUser();
+
   /// [identifier] is a mobile number or an email. When [rememberMe] is false
   /// the session lives only in memory and is gone on the next app start.
   Future<StudentUser> login({

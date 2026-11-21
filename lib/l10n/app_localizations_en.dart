@@ -128,7 +128,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorGeneric => 'Something went wrong. Please try again.';
 
   @override
-  String get errorInvalidCredentials => 'Invalid mobile number or password';
+  String get errorInvalidCredentials => 'Invalid email/mobile or password';
+
+  @override
+  String get errorNetwork =>
+      'Cannot reach the ExamGenius server. Check your internet connection and try again.';
+
+  @override
+  String get errorMobileTaken =>
+      'This mobile number is already registered. Please log in.';
+
+  @override
+  String get errorEmailTaken =>
+      'This email is already registered. Please log in.';
+
+  @override
+  String get errorAiBusy =>
+      'AI is busy right now. Please try again in a minute.';
+
+  @override
+  String get errorSessionExpired =>
+      'Your session expired. Please log in again.';
 
   @override
   String get retry => 'Retry';
@@ -249,7 +269,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navHome => 'Home';
 
   @override
-  String get navTests => 'Tests';
+  String get navSaved => 'Saved';
 
   @override
   String get navPractice => 'Practice';
@@ -542,6 +562,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rememberMe => 'Remember Me';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
 
   @override
   String get loginHeadlinePrepare => 'Prepare';
@@ -893,6 +919,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewAction => 'View';
+
+  @override
+  String get savedEmptyTitle => 'No saved practice yet';
+
+  @override
+  String get savedEmptyBody =>
+      'After a test, tap Save Practice on the scorecard to keep it here for revision.';
+
+  @override
+  String savedOn(String date) {
+    return 'Saved $date';
+  }
+
+  @override
+  String questionsShort(int count) {
+    return '$count Qs';
+  }
+
+  @override
+  String get reviewPractice => 'Review';
+
+  @override
+  String get practiceAgain => 'Practice Again';
+
+  @override
+  String get retryWrongShort => 'Retry Wrong';
+
+  @override
+  String get deletePractice => 'Delete';
+
+  @override
+  String get deletePracticeTitle => 'Delete this practice?';
+
+  @override
+  String get deletePracticeBody =>
+      'This saved set and its review will be removed. Your other attempts are not affected.';
+
+  @override
+  String get practiceDeleted => 'Practice deleted.';
+
+  @override
+  String get deleteFailed =>
+      'Could not delete. Check your connection and try again.';
+
+  @override
+  String get scoreLabel => 'Score';
+
+  @override
+  String get moreActions => 'More actions';
 
   @override
   String accuracyChartLabel(String percent) {

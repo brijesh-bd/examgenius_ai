@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/theme/app_typography.dart';
+
 import 'package:flutter/services.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -44,7 +46,9 @@ class AuthScaffold extends StatelessWidget {
                 height: 300,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: RadialGradient(colors: [glow, glow.withValues(alpha: 0)]),
+                  gradient: RadialGradient(
+                    colors: [glow, glow.withValues(alpha: 0)],
+                  ),
                 ),
               ),
             ),
@@ -66,12 +70,18 @@ class AuthScaffold extends StatelessWidget {
                       decoratedTagline: true,
                     ),
                     const SizedBox(height: 36),
-                    Text(title, style: theme.textTheme.titleLarge?.copyWith(fontSize: AppFontSizes.h2)),
+                    Text(
+                      title,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontSize: AppFontSizes.h2,
+                      ),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     ...children,
@@ -88,7 +98,11 @@ class AuthScaffold extends StatelessWidget {
 
 /// +91 prefixed, digits-only, 10-length mobile field.
 class MobileField extends StatelessWidget {
-  const MobileField({super.key, required this.controller, required this.validator});
+  const MobileField({
+    super.key,
+    required this.controller,
+    required this.validator,
+  });
 
   final TextEditingController controller;
   final FormFieldValidator<String> validator;
@@ -149,8 +163,14 @@ class _PasswordFieldState extends State<PasswordField> {
         labelText: widget.label,
         prefixIcon: const Icon(Icons.lock_outline_rounded, size: 20),
         suffixIcon: IconButton(
-          tooltip: _obscure ? 'Show password' : 'Hide password',
-          icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+          tooltip: _obscure
+              ? context.l10n.showPassword
+              : context.l10n.hidePassword,
+          icon: Icon(
+            _obscure
+                ? Icons.visibility_outlined
+                : Icons.visibility_off_outlined,
+          ),
           onPressed: () => setState(() => _obscure = !_obscure),
         ),
       ),
@@ -162,12 +182,19 @@ class _PasswordFieldState extends State<PasswordField> {
 /// Maps an auth error to a localized snackbar.
 void showAuthError(BuildContext context, Object error) {
   final l10n = context.l10n;
-  final msg = error is AuthFailure && error.kind == AuthFailureKind.invalidCredentials
-      ? l10n.errorInvalidCredentials
-      : l10n.errorGeneric;
+  final msg = switch (error) {
+    AuthFailure(kind: AuthFailureKind.invalidCredentials) =>
+      l10n.errorInvalidCredentials,
+    AuthFailure(kind: AuthFailureKind.mobileTaken) => l10n.errorMobileTaken,
+    AuthFailure(kind: AuthFailureKind.emailTaken) => l10n.errorEmailTaken,
+    AuthFailure(kind: AuthFailureKind.network) => l10n.errorNetwork,
+    _ => l10n.errorGeneric,
+  };
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
-    ..showSnackBar(SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating));
+    ..showSnackBar(
+      SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating),
+    );
 }
 
 /// Pill-shaped blue gradient button with a login icon and a loading state.
@@ -215,7 +242,9 @@ class AuthGradientButton extends StatelessWidget {
                     ? const SizedBox.square(
                         dimension: 24,
                         child: CircularProgressIndicator(
-                            strokeWidth: 2.5, color: AppColors.white),
+                          strokeWidth: 2.5,
+                          color: AppColors.white,
+                        ),
                       )
                     : Row(
                         mainAxisSize: MainAxisSize.min,
@@ -223,9 +252,13 @@ class AuthGradientButton extends StatelessWidget {
                           Icon(icon, color: AppColors.white, size: 26),
                           const SizedBox(width: 12),
                           ExcludeSemantics(
-                            child: Text(label,
-                                style: AppTextStyles.button.copyWith(
-                                    fontSize: AppFontSizes.xl, color: AppColors.white)),
+                            child: Text(
+                              label,
+                              style: AppTextStyles.button.copyWith(
+                                fontSize: AppFontSizes.xl,
+                                color: AppColors.white,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -239,12 +272,16 @@ class AuthGradientButton extends StatelessWidget {
 }
 
 /// Rounded outlined input with a leading icon and hint text (auth screens).
-InputDecoration authFieldDecoration(BuildContext context, String hint, IconData icon,
-    {Widget? suffix}) {
+InputDecoration authFieldDecoration(
+  BuildContext context,
+  String hint,
+  IconData icon, {
+  Widget? suffix,
+}) {
   OutlineInputBorder border(Color c, [double w = 1]) => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: c, width: w),
-      );
+    borderRadius: BorderRadius.circular(14),
+    borderSide: BorderSide(color: c, width: w),
+  );
   final scheme = Theme.of(context).colorScheme;
   return InputDecoration(
     hintText: hint,

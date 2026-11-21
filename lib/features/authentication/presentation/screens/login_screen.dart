@@ -48,7 +48,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         .login(_identifier.text.trim(), _password.text, rememberMe: _remember);
   }
 
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -93,8 +92,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Text(
                           l10n.appTagline,
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.tagline(AppFontSizes.md,
-                              isDark ? AppColors.white : AppColors.headline),
+                          style: AppTextStyles.tagline(
+                            AppFontSizes.md,
+                            isDark ? AppColors.white : AppColors.headline,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         const Padding(
@@ -105,16 +106,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Text.rich(
                           TextSpan(
                             style: AppTextStyles.h1.copyWith(
-                                fontSize: AppFontSizes.h1 + 6, height: 1.15, color: headColor),
+                              fontSize: AppFontSizes.h1 + 6,
+                              height: 1.15,
+                              color: headColor,
+                            ),
                             children: [
                               TextSpan(text: '${l10n.loginHeadlinePrepare} '),
                               TextSpan(
-                                  text: l10n.loginHeadlineSmarter,
-                                  style: const TextStyle(color: AppColors.brandBlue)),
+                                text: l10n.loginHeadlineSmarter,
+                                style: const TextStyle(
+                                  color: AppColors.brandBlue,
+                                ),
+                              ),
                               TextSpan(text: '\n${l10n.loginHeadlineAchieve} '),
                               TextSpan(
-                                  text: l10n.loginHeadlineMore,
-                                  style: const TextStyle(color: AppColors.accent)),
+                                text: l10n.loginHeadlineMore,
+                                style: const TextStyle(color: AppColors.accent),
+                              ),
                             ],
                           ),
                           textAlign: TextAlign.center,
@@ -123,8 +131,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Text(
                           l10n.loginTagline,
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.tagline(AppFontSizes.lg,
-                              isDark ? AppColors.white : AppColors.textMuted),
+                          style: AppTextStyles.tagline(
+                            AppFontSizes.lg,
+                            isDark ? AppColors.white : AppColors.textMuted,
+                          ),
                         ),
                         const SizedBox(height: 18),
                         Form(
@@ -142,10 +152,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     AutofillHints.telephoneNumber,
                                   ],
                                   style: AppTextStyles.bodyLarge,
-                                  decoration:
-                                      authFieldDecoration(context, l10n.emailOrMobile, Icons.mail_outline_rounded),
+                                  decoration: authFieldDecoration(
+                                    context,
+                                    l10n.emailOrMobile,
+                                    Icons.mail_outline_rounded,
+                                  ),
                                   validator: (v) =>
-                                      Validators.emailOrMobile(v)?.message(l10n),
+                                      Validators.emailOrMobile(v)
+                                          ?.message(l10n),
                                 ),
                                 const SizedBox(height: 12),
                                 TextFormField(
@@ -155,21 +169,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   autofillHints: const [AutofillHints.password],
                                   onFieldSubmitted: (_) => _submit(),
                                   style: AppTextStyles.bodyLarge,
-                                  decoration: authFieldDecoration(context, 
+                                  decoration: authFieldDecoration(
+                                    context,
                                     l10n.password,
                                     Icons.lock_outline_rounded,
                                     suffix: Padding(
                                       padding: const EdgeInsets.only(right: 6),
                                       child: IconButton(
-                                        tooltip: l10n.password,
-                                        icon: Icon(_obscure
-                                            ? Icons.visibility_off_outlined
-                                            : Icons.visibility_outlined),
-                                        onPressed: () => setState(() => _obscure = !_obscure),
+                                        tooltip: _obscure
+                                            ? l10n.showPassword
+                                            : l10n.hidePassword,
+                                        icon: Icon(
+                                          _obscure
+                                              ? Icons.visibility_off_outlined
+                                              : Icons.visibility_outlined,
+                                        ),
+                                        onPressed: () => setState(
+                                          () => _obscure = !_obscure,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  validator: (v) => Validators.password(v)?.message(l10n),
+                                  validator: (v) =>
+                                      Validators.password(v)?.message(l10n),
                                 ),
                               ],
                             ),
@@ -182,19 +204,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               dimension: 40,
                               child: Checkbox(
                                 value: _remember,
-                                onChanged: (v) => setState(() => _remember = v ?? true),
+                                onChanged: (v) =>
+                                    setState(() => _remember = v ?? true),
                               ),
                             ),
                             Expanded(
                               child: GestureDetector(
-                                onTap: () => setState(() => _remember = !_remember),
-                                child: Text(l10n.rememberMe, style: AppTextStyles.body),
+                                onTap: () =>
+                                    setState(() => _remember = !_remember),
+                                child: Text(
+                                  l10n.rememberMe,
+                                  style: AppTextStyles.body,
+                                ),
                               ),
                             ),
                             TextButton(
-                              onPressed: () => context.push(AppRoutes.forgotPassword),
-                              child: Text(l10n.forgotPassword,
-                                  style: AppTextStyles.label.copyWith(color: AppColors.primary)),
+                              onPressed: () =>
+                                  context.push(AppRoutes.forgotPassword),
+                              child: Text(
+                                l10n.forgotPassword,
+                                style: AppTextStyles.label.copyWith(
+                                  color: AppColors.primary,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -209,20 +241,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           children: [
                             const Expanded(child: Divider(indent: 24)),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 18),
-                              child: Text(l10n.orUpper,
-                                  style: AppTextStyles.body
-                                      .copyWith(color: scheme.onSurfaceVariant)),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 18,
+                              ),
+                              child: Text(
+                                l10n.orUpper,
+                                style: AppTextStyles.body.copyWith(
+                                  color: scheme.onSurfaceVariant,
+                                ),
+                              ),
                             ),
                             const Expanded(child: Divider(endIndent: 24)),
                           ],
                         ),
                         const SizedBox(height: 16),
                         _SocialButton(
-                          icon: const Icon(Icons.smartphone_rounded,
-                              color: AppColors.primary, size: 26),
+                          icon: const Icon(
+                            Icons.smartphone_rounded,
+                            color: AppColors.primary,
+                            size: 26,
+                          ),
                           label: l10n.continueWithMobileOtp,
-                          onPressed: () => context.openComingSoon(l10n.continueWithMobileOtp),
+                          onPressed: () => context.openComingSoon(
+                            l10n.continueWithMobileOtp,
+                          ),
                         ),
                         const SizedBox(height: 14),
                         Wrap(
@@ -256,7 +298,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 }
 
 class _SocialButton extends StatelessWidget {
-  const _SocialButton({required this.icon, required this.label, required this.onPressed});
+  const _SocialButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
 
   final Widget icon;
   final String label;
@@ -279,10 +325,14 @@ class _SocialButton extends StatelessWidget {
           icon,
           const SizedBox(width: 14),
           Flexible(
-            child: Text(label,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.button.copyWith(
-                    fontSize: AppFontSizes.lg + 1, color: scheme.onSurface)),
+            child: Text(
+              label,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.button.copyWith(
+                fontSize: AppFontSizes.lg + 1,
+                color: scheme.onSurface,
+              ),
+            ),
           ),
         ],
       ),

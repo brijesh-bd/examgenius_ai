@@ -15,13 +15,18 @@ class SyllabusTopic {
 }
 
 class SyllabusSubject {
-  const SyllabusSubject({required this.id, required this.name, required this.topics});
+  const SyllabusSubject({
+    required this.id,
+    required this.name,
+    required this.topics,
+  });
 
   final String id;
   final String name;
   final List<SyllabusTopic> topics;
 
-  factory SyllabusSubject.fromJson(Map<String, dynamic> json) => SyllabusSubject(
+  factory SyllabusSubject.fromJson(Map<String, dynamic> json) =>
+      SyllabusSubject(
         id: json['id'] as String,
         name: json['name'] as String,
         topics: (json['topics'] as List<dynamic>)
@@ -49,11 +54,11 @@ class Syllabus {
   }
 
   factory Syllabus.fromJson(Map<String, dynamic> json) => Syllabus(
-        examId: json['examId'] as String,
-        subjects: (json['subjects'] as List<dynamic>)
-            .map((s) => SyllabusSubject.fromJson(s as Map<String, dynamic>))
-            .toList(),
-      );
+    examId: json['examId'] as String,
+    subjects: (json['subjects'] as List<dynamic>)
+        .map((s) => SyllabusSubject.fromJson(s as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 String subjectIdOf(String topicId) {

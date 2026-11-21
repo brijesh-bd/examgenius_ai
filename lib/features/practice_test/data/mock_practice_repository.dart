@@ -72,28 +72,45 @@ class MockPracticeRepository implements PracticeRepository {
     List<String> questionIds,
   ) async {
     await Future<void>.delayed(submitLatency);
-    final server = _sessions[result.sessionId];
-    if (server == null) {
-      throw StateError('Unknown session ${result.sessionId}');
-    }
+    // Rebuilt from the scored result (the backend's stored attempt), so this
+    // also works for saved practice after an app restart.
     final ids = questionIds.toSet();
-    final picked = server.questions.where((q) => ids.contains(q.id)).toList();
-    final src = server.session;
+    final picked = [
+      for (final r in result.reviews)
+        if (ids.contains(r.questionId))
+          GeneratedQuestion(
+            id: r.questionId,
+            topicId: r.topicId,
+            difficulty: result.difficulty,
+            question: r.question,
+            options: r.options,
+            correctIndex: r.correctIndex,
+            explanation: r.explanation,
+          ),
+    ];
+    final names = {for (final r in result.reviews) r.questionId: r.topicName};
+    final original = _sessions[result.sessionId]?.session;
     final session = PracticeSession(
       sessionId:
           'mock_retry_${DateTime.now().millisecondsSinceEpoch}_${_seq++}',
-      examId: src.examId,
-      examName: src.examName,
-      subjects: src.subjects,
-      topics: src.topics,
-      difficulty: src.difficulty,
+      examId: original?.examId ?? '',
+      examName: result.examName,
+      subjects: result.subjects,
+      topics: result.topics,
+      difficulty: result.difficulty,
       requestedCount: picked.length,
       questions: [
-        for (final q in src.questions)
-          if (ids.contains(q.id)) q,
+        for (final q in picked)
+          PracticeQuestion(
+            id: q.id,
+            topicId: q.topicId,
+            topicName: names[q.id] ?? q.topicId,
+            text: q.question,
+            options: q.options,
+          ),
       ],
       timeLimit: picked.isEmpty ? null : perQuestion * picked.length,
-      isPreview: src.isPreview,
+      isPreview: original?.isPreview ?? true,
     );
     _sessions[session.sessionId] = _ServerSession(session, picked);
     return session;

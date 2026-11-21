@@ -18,24 +18,29 @@ import 'dashboard_card.dart';
   final l10n = context.l10n;
   return switch (c.id) {
     'railway' => (
-        icon: Icons.train_rounded,
-        color: AppColors.railway,
-        label: l10n.railwayExams,
-        shortLabel: l10n.railway,
-      ),
+      icon: Icons.train_rounded,
+      color: AppColors.railway,
+      label: l10n.railwayExams,
+      shortLabel: l10n.railway,
+    ),
     'ssc' => (
-        icon: Icons.groups_rounded,
-        color: AppColors.ssc,
-        label: l10n.sscExams,
-        shortLabel: l10n.ssc,
-      ),
+      icon: Icons.groups_rounded,
+      color: AppColors.ssc,
+      label: l10n.sscExams,
+      shortLabel: l10n.ssc,
+    ),
     'banking' => (
-        icon: Icons.account_balance_rounded,
-        color: AppColors.banking,
-        label: l10n.bankingExams,
-        shortLabel: l10n.banking,
-      ),
-    _ => (icon: Icons.school_rounded, color: AppColors.primary, label: c.name, shortLabel: c.name),
+      icon: Icons.account_balance_rounded,
+      color: AppColors.banking,
+      label: l10n.bankingExams,
+      shortLabel: l10n.banking,
+    ),
+    _ => (
+      icon: Icons.school_rounded,
+      color: AppColors.primary,
+      label: c.name,
+      shortLabel: c.name,
+    ),
   };
 }
 
@@ -43,7 +48,9 @@ import 'dashboard_card.dart';
 String shortExamName(String name) {
   const prefixes = ['RRB ', 'SSC ', 'IBPS '];
   for (final p in prefixes) {
-    if (name.startsWith(p) && name.length > p.length) return name.substring(p.length);
+    if (name.startsWith(p) && name.length > p.length) {
+      return name.substring(p.length);
+    }
   }
   return name;
 }
@@ -62,7 +69,11 @@ class ExamCategoryCards extends ConsumerWidget {
     return catalog.when(
       loading: () => const DashboardGrid(
         wideColumns: 3,
-        children: [Skeleton(height: 140), Skeleton(height: 140), Skeleton(height: 140)],
+        children: [
+          Skeleton(height: 140),
+          Skeleton(height: 140),
+          Skeleton(height: 140),
+        ],
       ),
       error: (_, _) => DashboardCard(
         child: StateMessage(
@@ -75,7 +86,10 @@ class ExamCategoryCards extends ConsumerWidget {
       data: (cats) {
         if (cats.isEmpty) {
           return DashboardCard(
-            child: StateMessage(icon: Icons.school_outlined, title: l10n.comingSoon),
+            child: StateMessage(
+              icon: Icons.school_outlined,
+              title: l10n.comingSoon,
+            ),
           );
         }
         return DashboardGrid(
@@ -92,7 +106,11 @@ class ExamCategoryCards extends ConsumerWidget {
 
 /// Tinted card: icon, category name, short list of supported exams.
 class ExamCategoryCard extends StatelessWidget {
-  const ExamCategoryCard({super.key, required this.category, required this.onTap});
+  const ExamCategoryCard({
+    super.key,
+    required this.category,
+    required this.onTap,
+  });
 
   final ExamCategory category;
   final VoidCallback onTap;
@@ -120,8 +138,11 @@ class ExamCategoryCard extends StatelessWidget {
               children: [
                 Icon(style.icon, color: style.color, size: 32),
                 const Spacer(),
-                Icon(Icons.chevron_right_rounded,
-                    size: 20, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  size: 20,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ],
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -129,8 +150,10 @@ class ExamCategoryCard extends StatelessWidget {
               style.label,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.titleSmall
-                  ?.copyWith(fontWeight: FontWeight.w700, height: 1.2),
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                height: 1.2,
+              ),
             ),
             const SizedBox(height: AppSpacing.xxs),
             Text(

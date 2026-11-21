@@ -59,8 +59,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     super.dispose();
   }
 
-  Animation<double> _interval(double a, double b) =>
-      CurvedAnimation(parent: _c, curve: Interval(a, b, curve: Curves.easeOutCubic));
+  Animation<double> _interval(double a, double b) => CurvedAnimation(
+    parent: _c,
+    curve: Interval(a, b, curve: Curves.easeOutCubic),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               child: LayoutBuilder(
                 builder: (context, box) {
                   // Scale the whole composition to the screen; 390×780 is the design size.
-                  final scale = (box.maxWidth / 390).clamp(0.75, 1.25) *
+                  final scale =
+                      (box.maxWidth / 390).clamp(0.75, 1.25) *
                       (box.maxHeight / 780).clamp(0.7, 1.0);
                   return Center(
                     child: SingleChildScrollView(
@@ -96,7 +99,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ScaleTransition(
-                              scale: Tween(begin: 0.8, end: 1.0).animate(logoIn),
+                              scale: Tween(
+                                begin: 0.8,
+                                end: 1.0,
+                              ).animate(logoIn),
                               child: FadeTransition(
                                 opacity: logoIn,
                                 child: CapBookLogo(width: 150 * scale),
@@ -114,18 +120,24 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                       child: FittedBox(
                                         fit: BoxFit.scaleDown,
                                         child: Text.rich(
-                                          TextSpan(children: [
-                                            TextSpan(
-                                              text: 'ExamGenius ',
-                                              style: AppTextStyles.wordmark(
-                                                  AppFontSizes.hero * scale, AppColors.brandBlue),
-                                            ),
-                                            TextSpan(
-                                              text: l10n.aiLabel,
-                                              style: AppTextStyles.wordmark(
-                                                  AppFontSizes.hero * scale, AppColors.accent),
-                                            ),
-                                          ]),
+                                          TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: 'ExamGenius ',
+                                                style: AppTextStyles.wordmark(
+                                                  AppFontSizes.hero * scale,
+                                                  AppColors.brandBlue,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: l10n.aiLabel,
+                                                style: AppTextStyles.wordmark(
+                                                  AppFontSizes.hero * scale,
+                                                  AppColors.accent,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -135,7 +147,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                     l10n.appTagline,
                                     textAlign: TextAlign.center,
                                     style: AppTextStyles.tagline(
-                                        AppFontSizes.xl * scale, AppColors.textMuted),
+                                      AppFontSizes.xl * scale,
+                                      AppColors.textMuted,
+                                    ),
                                   ),
                                   SizedBox(height: 14 * scale),
                                   const _StarDivider(),
@@ -146,8 +160,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             FadeTransition(
                               opacity: artIn,
                               child: SlideTransition(
-                                position: Tween(begin: const Offset(0, 0.08), end: Offset.zero)
-                                    .animate(artIn),
+                                position: Tween(
+                                  begin: const Offset(0, 0.08),
+                                  end: Offset.zero,
+                                ).animate(artIn),
                                 child: ExcludeSemantics(
                                   child: AspectRatio(
                                     aspectRatio: 340 / 200,
@@ -157,7 +173,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                               ),
                             ),
                             SizedBox(height: 28 * scale),
-                            FadeTransition(opacity: artIn, child: const _CategoryChips()),
+                            FadeTransition(
+                              opacity: artIn,
+                              child: const _CategoryChips(),
+                            ),
                           ],
                         ),
                       ),
@@ -180,10 +199,10 @@ class _StarDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget line() => Container(
-          width: 84,
-          height: 1.5,
-          color: AppColors.divider.withValues(alpha: 0.6),
-        );
+      width: 84,
+      height: 1.5,
+      color: AppColors.divider.withValues(alpha: 0.6),
+    );
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -208,23 +227,27 @@ class _CategoryChips extends ConsumerWidget {
     final cats = ref.watch(examCatalogProvider).value ?? const [];
 
     Widget chip(IconData icon, String label, Color color) => Container(
-          constraints: const BoxConstraints(minHeight: 40),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: color.withValues(alpha: 0.18)),
+      constraints: const BoxConstraints(minHeight: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: color.withValues(alpha: 0.18)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: color, size: 20),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: AppTextStyles.chip.copyWith(
+              color: Color.lerp(color, Colors.black, 0.25),
+            ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: color, size: 20),
-              const SizedBox(width: 8),
-              Text(label,
-                  style: AppTextStyles.chip.copyWith(color: Color.lerp(color, Colors.black, 0.25))),
-            ],
-          ),
-        );
+        ],
+      ),
+    );
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -239,10 +262,10 @@ class _CategoryChips extends ConsumerWidget {
               final s = categoryStyle(context, c);
               return chip(s.icon, s.shortLabel, s.color);
             }(),
-          if (cats.isNotEmpty) chip(Icons.grid_view_rounded, l10n.more, AppColors.accent),
+          if (cats.isNotEmpty)
+            chip(Icons.grid_view_rounded, l10n.more, AppColors.accent),
         ],
       ),
     );
   }
 }
-

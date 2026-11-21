@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/theme/app_typography.dart';
 
 /// One bottom-nav destination.
 @immutable
 class NavItem {
-  const NavItem({required this.icon, required this.selectedIcon, required this.label});
+  const NavItem({
+    required this.icon,
+    required this.selectedIcon,
+    required this.label,
+  });
   final IconData icon;
   final IconData selectedIcon;
   final String label;
@@ -22,7 +27,6 @@ class CustomBottomNavigation extends StatelessWidget {
   final List<NavItem> items;
   final int selectedIndex;
   final ValueChanged<int> onSelected;
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,14 @@ class CustomBottomNavigation extends StatelessWidget {
           child: Row(
             children: [
               for (var i = 0; i < items.length; i++)
-                Expanded(child: _tab(scheme, items[i], i == selectedIndex, () => onSelected(i))),
+                Expanded(
+                  child: _tab(
+                    scheme,
+                    items[i],
+                    i == selectedIndex,
+                    () => onSelected(i),
+                  ),
+                ),
             ],
           ),
         ),
@@ -54,7 +65,12 @@ class CustomBottomNavigation extends StatelessWidget {
     );
   }
 
-  Widget _tab(ColorScheme scheme, NavItem it, bool selected, VoidCallback onTap) {
+  Widget _tab(
+    ColorScheme scheme,
+    NavItem it,
+    bool selected,
+    VoidCallback onTap,
+  ) {
     final fg = selected ? scheme.primary : scheme.onSurface;
     return Semantics(
       selected: selected,
@@ -68,14 +84,15 @@ class CustomBottomNavigation extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 4),
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: selected ? scheme.primaryContainer.withValues(alpha: 0.6) : Colors.transparent,
+            color: selected
+                ? scheme.primaryContainer.withValues(alpha: 0.6)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(18),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(selected ? it.selectedIcon : it.icon,
-                  size: 28, color: fg),
+              Icon(selected ? it.selectedIcon : it.icon, size: 28, color: fg),
               const SizedBox(height: 4),
               Text(
                 it.label,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/theme/app_typography.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,7 +32,8 @@ class DashboardScreen extends ConsumerWidget {
         subtitle: l10n.mockTestsSub,
         icon: Icons.assignment_turned_in_rounded,
         color: AppColors.mockTests,
-        onTap: () => context.go(AppRoutes.tests),
+        // Mock test engine not built yet; the old Tests tab is now Saved.
+        onTap: () => context.openComingSoon(l10n.mockTests),
       ),
       ExamTile(
         title: l10n.dailyPractice,
@@ -49,7 +52,11 @@ class DashboardScreen extends ConsumerWidget {
     ];
 
     final List<Widget> categoryTiles = catalog.when(
-      loading: () => const [Skeleton(height: 160), Skeleton(height: 160), Skeleton(height: 160)],
+      loading: () => const [
+        Skeleton(height: 160),
+        Skeleton(height: 160),
+        Skeleton(height: 160),
+      ],
       error: (_, _) => const [],
       data: (cats) => [
         for (final c in cats)
@@ -57,7 +64,10 @@ class DashboardScreen extends ConsumerWidget {
             final style = categoryStyle(context, c);
             return ExamTile(
               title: style.shortLabel,
-              subtitle: c.exams.take(3).map((e) => shortExamName(e.name)).join(", "),
+              subtitle: c.exams
+                  .take(3)
+                  .map((e) => shortExamName(e.name))
+                  .join(", "),
               icon: style.icon,
               color: style.color,
               onTap: () => context.push(AppRoutes.examsFor(c.id)),
@@ -76,7 +86,9 @@ class DashboardScreen extends ConsumerWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: scheme.surfaceContainerLowest,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(28),
+                ),
               ),
               child: RefreshIndicator(
                 onRefresh: () => ref.refresh(examCatalogProvider.future),
@@ -95,7 +107,10 @@ class DashboardScreen extends ConsumerWidget {
                                   header: true,
                                   child: Text(
                                     l10n.homeChooseExam,
-                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
                                           fontWeight: FontWeight.w800,
                                           color: scheme.onSurface,
                                         ),
@@ -104,14 +119,20 @@ class DashboardScreen extends ConsumerWidget {
                               ),
                               if (firstCategoryId != null)
                                 TextButton(
-                                  onPressed: () =>
-                                      context.push(AppRoutes.examsFor(firstCategoryId)),
+                                  onPressed: () => context.push(
+                                    AppRoutes.examsFor(firstCategoryId),
+                                  ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(l10n.viewAll,
-                                          style: AppTextStyles.labelBold),
-                                      const Icon(Icons.chevron_right_rounded, size: 22),
+                                      Text(
+                                        l10n.viewAll,
+                                        style: AppTextStyles.labelBold,
+                                      ),
+                                      const Icon(
+                                        Icons.chevron_right_rounded,
+                                        size: 22,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -133,10 +154,13 @@ class DashboardScreen extends ConsumerWidget {
                                 icon: Icons.wifi_off_rounded,
                                 title: l10n.errorGeneric,
                                 actionLabel: l10n.retry,
-                                onAction: () => ref.invalidate(examCatalogProvider),
+                                onAction: () =>
+                                    ref.invalidate(examCatalogProvider),
                               ),
                             ),
-                          ExamTileGrid(children: [...categoryTiles, ...modules]),
+                          ExamTileGrid(
+                            children: [...categoryTiles, ...modules],
+                          ),
                         ],
                       ),
                     ),
@@ -157,9 +181,12 @@ class _GreetingHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final rawName = ref.watch(sessionProvider.select((u) => u?.name.trim() ?? ''));
-    final name =
-        rawName.isEmpty ? l10n.defaultStudentName : rawName.split(RegExp(r'\s+')).first;
+    final rawName = ref.watch(
+      sessionProvider.select((u) => u?.name.trim() ?? ''),
+    );
+    final name = rawName.isEmpty
+        ? l10n.defaultStudentName
+        : rawName.split(RegExp(r'\s+')).first;
     final unread = ref.watch(
       dashboardSummaryProvider.select((s) => s.value?.unreadNotifications ?? 0),
     );
@@ -167,8 +194,8 @@ class _GreetingHeader extends ConsumerWidget {
     final greeting = hour < 12
         ? l10n.greetingMorning(name)
         : hour < 17
-            ? l10n.greetingAfternoon(name)
-            : l10n.greetingEvening(name);
+        ? l10n.greetingAfternoon(name)
+        : l10n.greetingEvening(name);
 
     return DecoratedBox(
       decoration: const BoxDecoration(gradient: AppColors.brandGradient),
@@ -206,8 +233,11 @@ class _GreetingHeader extends ConsumerWidget {
                   isLabelVisible: unread > 0,
                   smallSize: 9,
                   backgroundColor: AppColors.error,
-                  child: const Icon(Icons.notifications_none_rounded,
-                      color: Colors.white, size: 26),
+                  child: const Icon(
+                    Icons.notifications_none_rounded,
+                    color: Colors.white,
+                    size: 26,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -215,7 +245,11 @@ class _GreetingHeader extends ConsumerWidget {
                 tooltip: l10n.profile,
                 onTap: () => context.push(AppRoutes.profile),
                 background: Colors.white,
-                child: const Icon(Icons.person_rounded, color: AppColors.primary, size: 30),
+                child: const Icon(
+                  Icons.person_rounded,
+                  color: AppColors.primary,
+                  size: 30,
+                ),
               ),
             ],
           ),

@@ -8,14 +8,18 @@ class Exam {
   final String categoryId;
 
   factory Exam.fromJson(Map<String, dynamic> json) => Exam(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        categoryId: json['categoryId'] as String,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    categoryId: json['categoryId'] as String,
+  );
 }
 
 class ExamCategory {
-  const ExamCategory({required this.id, required this.name, required this.exams});
+  const ExamCategory({
+    required this.id,
+    required this.name,
+    required this.exams,
+  });
 
   /// e.g. `railway`, `ssc`, `banking`. Unknown ids get a neutral style.
   final String id;
@@ -23,12 +27,12 @@ class ExamCategory {
   final List<Exam> exams;
 
   factory ExamCategory.fromJson(Map<String, dynamic> json) => ExamCategory(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        exams: (json['exams'] as List<dynamic>)
-            .map((e) => Exam.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    exams: (json['exams'] as List<dynamic>)
+        .map((e) => Exam.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 class RecentResult {
@@ -50,7 +54,11 @@ class RecentResult {
 }
 
 class ContinueItem {
-  const ContinueItem({required this.title, required this.subtitle, required this.progress});
+  const ContinueItem({
+    required this.title,
+    required this.subtitle,
+    required this.progress,
+  });
 
   final String title;
   final String subtitle;

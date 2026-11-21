@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/theme/app_typography.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -30,7 +31,9 @@ class DashboardCard extends StatelessWidget {
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
       side: BorderSide(
-        color: theme.colorScheme.outlineVariant.withValues(alpha: isDark ? 0.4 : 0.35),
+        color: theme.colorScheme.outlineVariant.withValues(
+          alpha: isDark ? 0.4 : 0.35,
+        ),
       ),
     );
     return DecoratedBox(
@@ -99,8 +102,13 @@ class DashboardSectionTitle extends StatelessWidget {
               TextButton(
                 onPressed: onViewAll,
                 style: TextButton.styleFrom(
-                  minimumSize: const Size(AppSpacing.minTouch, AppSpacing.minTouch),
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                  minimumSize: const Size(
+                    AppSpacing.minTouch,
+                    AppSpacing.minTouch,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xs,
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -146,12 +154,21 @@ class DashboardGrid extends StatelessWidget {
           for (var j = 0; j < cols; j++) {
             if (j > 0) cells.add(const SizedBox(width: AppSpacing.xs));
             final k = i + j;
-            cells.add(Expanded(child: k < children.length ? children[k] : const SizedBox()));
+            cells.add(
+              Expanded(
+                child: k < children.length ? children[k] : const SizedBox(),
+              ),
+            );
           }
           if (rows.isNotEmpty) rows.add(const SizedBox(height: AppSpacing.xs));
-          rows.add(IntrinsicHeight(
-            child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: cells),
-          ));
+          rows.add(
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: cells,
+              ),
+            ),
+          );
         }
         return Column(children: rows);
       },
@@ -188,7 +205,10 @@ class DashboardTile extends StatelessWidget {
       onTap: onTap,
       radius: AppSpacing.tileRadius,
       color: tinted ? color.withValues(alpha: isDark ? 0.18 : 0.08) : null,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xxs,
+        vertical: AppSpacing.sm,
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Column(
@@ -201,8 +221,10 @@ class DashboardTile extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.labelMedium
-                  ?.copyWith(fontWeight: FontWeight.w600, height: 1.25),
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                height: 1.25,
+              ),
             ),
             if (subtitle != null) ...[
               const SizedBox(height: 2),

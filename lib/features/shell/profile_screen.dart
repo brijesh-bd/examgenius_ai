@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/app_typography.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/utils/l10n_ext.dart';
@@ -42,7 +44,10 @@ class ProfileScreen extends ConsumerWidget {
                         style: AppTextStyles.h3,
                       ),
                     ),
-                    title: Text(user?.name ?? '', style: theme.textTheme.titleMedium),
+                    title: Text(
+                      user?.name ?? '',
+                      style: theme.textTheme.titleMedium,
+                    ),
                     subtitle: Text(
                       ['+91 ${user?.mobile ?? ''}', ?exam].join('\n'),
                     ),
@@ -56,24 +61,37 @@ class ProfileScreen extends ConsumerWidget {
                     ButtonSegment(value: 'hi', label: Text(l10n.hindi)),
                   ],
                   selected: {locale.languageCode},
-                  onSelectionChanged: (s) =>
-                      ref.read(localeProvider.notifier).setLocale(Locale(s.first)),
+                  onSelectionChanged: (s) => ref
+                      .read(localeProvider.notifier)
+                      .setLocale(Locale(s.first)),
                 ),
                 const SizedBox(height: 24),
                 SectionHeader(title: l10n.theme),
                 SegmentedButton<ThemeMode>(
                   segments: [
-                    ButtonSegment(value: ThemeMode.system, label: Text(l10n.themeSystem)),
-                    ButtonSegment(value: ThemeMode.light, label: Text(l10n.themeLight)),
-                    ButtonSegment(value: ThemeMode.dark, label: Text(l10n.themeDark)),
+                    ButtonSegment(
+                      value: ThemeMode.system,
+                      label: Text(l10n.themeSystem),
+                    ),
+                    ButtonSegment(
+                      value: ThemeMode.light,
+                      label: Text(l10n.themeLight),
+                    ),
+                    ButtonSegment(
+                      value: ThemeMode.dark,
+                      label: Text(l10n.themeDark),
+                    ),
                   ],
                   selected: {mode},
-                  onSelectionChanged: (s) =>
-                      ref.read(themeModeProvider.notifier).setThemeMode(s.first),
+                  onSelectionChanged: (s) => ref
+                      .read(themeModeProvider.notifier)
+                      .setThemeMode(s.first),
                 ),
                 const SizedBox(height: 32),
                 OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(foregroundColor: theme.colorScheme.error),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: theme.colorScheme.error,
+                  ),
                   icon: const Icon(Icons.logout_rounded),
                   label: Text(l10n.logout),
                   onPressed: () => ref.read(sessionProvider.notifier).logout(),

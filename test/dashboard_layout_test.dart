@@ -114,7 +114,17 @@ void main() {
         .items
         .map((i) => i.label)
         .toList();
-    expect(labels, ['Home', 'Practice', 'Tests', 'Analytics']);
+    expect(labels, ['Home', 'Practice', 'Saved', 'Analytics']);
+  });
+
+  testWidgets('Saved tab opens My Saved Practice (empty state)', (tester) async {
+    await _pumpDashboard(tester, size: const Size(360, 800));
+    await tester.tap(find.text('Saved'));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(find.text('My Saved Practice'), findsOneWidget);
+    expect(find.text('No saved practice yet'), findsOneWidget);
+    expect(find.byType(CustomBottomNavigation), findsOneWidget); // still in the shell
   });
 
   testWidgets('shows three exam categories and three module tiles',

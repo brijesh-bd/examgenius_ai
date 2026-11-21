@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/network/api_error_text.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:go_router/go_router.dart';
@@ -23,8 +26,12 @@ class ExamSelectionScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final catalog = ref.watch(examCatalogProvider);
-    final category = catalog.value?.where((c) => c.id == categoryId).firstOrNull;
-    final title = category == null ? l10n.selectExam : categoryStyle(context, category).label;
+    final category = catalog.value
+        ?.where((c) => c.id == categoryId)
+        .firstOrNull;
+    final title = category == null
+        ? l10n.selectExam
+        : categoryStyle(context, category).label;
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
@@ -42,14 +49,17 @@ class ExamSelectionScreen extends ConsumerWidget {
               ],
             ),
           ),
-          error: (_, _) => StateMessage(
+          error: (e, _) => StateMessage(
             icon: Icons.wifi_off_rounded,
-            title: l10n.errorGeneric,
+            title: apiErrorText(l10n, e),
             actionLabel: l10n.retry,
             onAction: () => ref.invalidate(examCatalogProvider),
           ),
           data: (_) => category == null || category.exams.isEmpty
-              ? StateMessage(icon: Icons.school_outlined, title: l10n.comingSoon)
+              ? StateMessage(
+                  icon: Icons.school_outlined,
+                  title: l10n.comingSoon,
+                )
               : _ExamList(category: category),
         ),
       ),
@@ -79,8 +89,9 @@ class _ExamList extends ConsumerWidget {
             children: [
               Text(
                 l10n.selectExamBody,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: AppSpacing.md),
               ExamTileGrid(
@@ -88,7 +99,9 @@ class _ExamList extends ConsumerWidget {
                   for (final exam in category.exams)
                     ExamTile(
                       title: exam.name,
-                      subtitle: exam.id == targetId ? l10n.currentTarget : l10n.syllabusTitle,
+                      subtitle: exam.id == targetId
+                          ? l10n.currentTarget
+                          : l10n.syllabusTitle,
                       icon: style.icon,
                       color: style.color,
                       onTap: () => context.push(AppRoutes.syllabusFor(exam.id)),

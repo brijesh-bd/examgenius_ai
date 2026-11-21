@@ -1,24 +1,48 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/api_config.dart';
+import '../../../../core/network/token_store.dart';
 import '../../../../core/services/preferences_service.dart';
+import '../../data/api_auth_repository.dart';
 import '../../data/mock_auth_repository.dart';
 import '../../domain/auth_repository.dart';
 import '../../domain/student_user.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => MockAuthRepository(ref.watch(sharedPreferencesProvider)),
-);
+/// Real backend by default; in-app mock under `flutter test` or USE_MOCK_BACKEND.
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  if (ref.watch(useMockBackendProvider)) return MockAuthRepository(prefs);
+  return ApiAuthRepository(
+    ref.watch(apiClientProvider),
+    ref.watch(tokenStoreProvider),
+    prefs,
+  );
+});
 
 /// Current session. `null` = logged out. Router redirects listen to this.
 class SessionController extends Notifier<StudentUser?> {
   AuthRepository get _repo => ref.read(authRepositoryProvider);
 
   @override
-  StudentUser? build() => ref.read(authRepositoryProvider).currentUser();
+  StudentUser? build() {
+    // Expired/invalid token on any request → log out (router sends to login).
+    ref.read(apiClientProvider).onUnauthorized = () {
+      if (state != null) logout();
+    };
+    return ref.read(authRepositoryProvider).currentUser();
+  }
 
-  Future<void> login(String identifier, String password, {bool rememberMe = true}) async {
+  Future<void> login(
+    String identifier,
+    String password, {
+    bool rememberMe = true,
+  }) async {
     state = await _repo.login(
-        identifier: identifier, password: password, rememberMe: rememberMe);
+      identifier: identifier,
+      password: password,
+      rememberMe: rememberMe,
+    );
   }
 
   Future<void> register(RegisterRequest request) async {
@@ -31,18 +55,24 @@ class SessionController extends Notifier<StudentUser?> {
   }
 }
 
-final sessionProvider =
-    NotifierProvider<SessionController, StudentUser?>(SessionController.new);
+final sessionProvider = NotifierProvider<SessionController, StudentUser?>(
+  SessionController.new,
+);
 
 /// Submission status for auth forms (keeps loading/error out of widgets).
 class AuthFormController extends Notifier<AsyncValue<void>> {
   @override
   AsyncValue<void> build() => const AsyncData(null);
 
-  Future<bool> login(String identifier, String password, {bool rememberMe = true}) =>
-      _run(() => ref
-          .read(sessionProvider.notifier)
-          .login(identifier, password, rememberMe: rememberMe));
+  Future<bool> login(
+    String identifier,
+    String password, {
+    bool rememberMe = true,
+  }) => _run(
+    () => ref
+        .read(sessionProvider.notifier)
+        .login(identifier, password, rememberMe: rememberMe),
+  );
 
   Future<bool> register(RegisterRequest request) =>
       _run(() => ref.read(sessionProvider.notifier).register(request));
@@ -56,8 +86,8 @@ class AuthFormController extends Notifier<AsyncValue<void>> {
 
 final authFormProvider =
     NotifierProvider.autoDispose<AuthFormController, AsyncValue<void>>(
-  AuthFormController.new,
-);
+      AuthFormController.new,
+    );
 
 /// Forgot-password request. `AsyncData(null)` = form, `AsyncData(target)` =
 /// instructions sent to `target`, plus loading / error.
@@ -79,5 +109,5 @@ class ForgotPasswordController extends Notifier<AsyncValue<String?>> {
 
 final forgotPasswordProvider =
     NotifierProvider.autoDispose<ForgotPasswordController, AsyncValue<String?>>(
-  ForgotPasswordController.new,
-);
+      ForgotPasswordController.new,
+    );

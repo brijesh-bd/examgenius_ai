@@ -15,6 +15,7 @@ import '../../features/practice_test/domain/practice_result.dart';
 import '../../features/practice_test/presentation/screens/answer_review_screen.dart';
 import '../../features/practice_test/presentation/screens/practice_result_screen.dart';
 import '../../features/practice_test/presentation/screens/practice_test_screen.dart';
+import '../../features/practice_test/presentation/screens/saved_practice_screen.dart';
 import '../../features/question_generator/presentation/screens/syllabus_screen.dart';
 import '../../features/question_generator/presentation/screens/subject_topics_screen.dart';
 import '../../features/shell/coming_soon_screen.dart';
@@ -132,7 +133,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             AppRoutes.practice,
             const PlaceholderTab(tab: ShellTab.practice),
           ),
-          _branch(AppRoutes.tests, const PlaceholderTab(tab: ShellTab.tests)),
+          _branch(AppRoutes.savedPractice, const SavedPracticeScreen()),
           _branch(
             AppRoutes.analytics,
             const PlaceholderTab(tab: ShellTab.analytics),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/network/api_error_text.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -41,15 +44,22 @@ class SyllabusScreen extends ConsumerWidget {
               ],
             ),
           ),
-          error: (_, _) => StateMessage(
+          error: (e, _) => StateMessage(
             icon: Icons.wifi_off_rounded,
-            title: l10n.errorGeneric,
+            title: apiErrorText(l10n, e),
             actionLabel: l10n.retry,
             onAction: () => ref.invalidate(syllabusProvider(examId)),
           ),
           data: (s) => s.subjects.isEmpty
-              ? StateMessage(icon: Icons.menu_book_outlined, title: l10n.comingSoon)
-              : _SyllabusBody(examId: examId, examName: exam?.name ?? examId, syllabus: s),
+              ? StateMessage(
+                  icon: Icons.menu_book_outlined,
+                  title: l10n.comingSoon,
+                )
+              : _SyllabusBody(
+                  examId: examId,
+                  examName: exam?.name ?? examId,
+                  syllabus: s,
+                ),
         ),
       ),
     );
@@ -57,7 +67,11 @@ class SyllabusScreen extends ConsumerWidget {
 }
 
 class _SyllabusBody extends ConsumerWidget {
-  const _SyllabusBody({required this.examId, required this.examName, required this.syllabus});
+  const _SyllabusBody({
+    required this.examId,
+    required this.examName,
+    required this.syllabus,
+  });
 
   final String examId;
   final String examName;
@@ -77,7 +91,11 @@ class _SyllabusBody extends ConsumerWidget {
             children: [
               ResponsiveCenter(
                 padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.page, AppSpacing.md, AppSpacing.page, AppSpacing.lg),
+                  AppSpacing.page,
+                  AppSpacing.md,
+                  AppSpacing.page,
+                  AppSpacing.lg,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -89,8 +107,9 @@ class _SyllabusBody extends ConsumerWidget {
                     Text(
                       '${l10n.subjectsCount(syllabus.subjects.length)} · '
                       '${l10n.topicsCount(syllabus.topicCount)}',
-                      style: theme.textTheme.bodySmall
-                          ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     ExamTileGrid(
@@ -98,8 +117,9 @@ class _SyllabusBody extends ConsumerWidget {
                         for (final (i, subject) in syllabus.subjects.indexed)
                           () {
                             final style = subjectStyle(subject, i);
-                            final picked =
-                                subject.topics.where((t) => form.topicIds.contains(t.id)).length;
+                            final picked = subject.topics
+                                .where((t) => form.topicIds.contains(t.id))
+                                .length;
                             return ExamTile(
                               title: subject.name,
                               subtitle: picked == 0
@@ -107,8 +127,9 @@ class _SyllabusBody extends ConsumerWidget {
                                   : l10n.topicsSelected(picked),
                               icon: style.icon,
                               color: style.color,
-                              onTap: () =>
-                                  context.push(AppRoutes.subjectTopicsFor(examId, subject.id)),
+                              onTap: () => context.push(
+                                AppRoutes.subjectTopicsFor(examId, subject.id),
+                              ),
                             );
                           }(),
                       ],
@@ -121,7 +142,10 @@ class _SyllabusBody extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     SectionHeader(title: '3. ${l10n.numberOfQuestions}'),
-                    QuestionCountSelector(value: form.count, onChanged: controller.setCount),
+                    QuestionCountSelector(
+                      value: form.count,
+                      onChanged: controller.setCount,
+                    ),
                   ],
                 ),
               ),
@@ -132,7 +156,10 @@ class _SyllabusBody extends ConsumerWidget {
           selectedTopics: form.topicIds.length,
           enabled: form.isComplete,
           onGenerate: () {
-            final request = controller.buildRequest(examName: examName, syllabus: syllabus);
+            final request = controller.buildRequest(
+              examName: examName,
+              syllabus: syllabus,
+            );
             if (request == null) return;
             context.push(AppRoutes.generatedQuestions, extra: request);
           },
@@ -162,16 +189,23 @@ class _GenerateBar extends StatelessWidget {
       color: theme.colorScheme.surface,
       child: ResponsiveCenter(
         padding: const EdgeInsets.fromLTRB(
-            AppSpacing.page, AppSpacing.sm, AppSpacing.page, AppSpacing.sm),
+          AppSpacing.page,
+          AppSpacing.sm,
+          AppSpacing.page,
+          AppSpacing.sm,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              enabled ? l10n.topicsSelected(selectedTopics) : l10n.generatorIncomplete,
+              enabled
+                  ? l10n.topicsSelected(selectedTopics)
+                  : l10n.generatorIncomplete,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: AppSpacing.xs),
             PrimaryButton(

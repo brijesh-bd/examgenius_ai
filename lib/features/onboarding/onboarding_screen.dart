@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/app_typography.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -69,8 +71,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       ? null
                       : TextButton(
                           onPressed: _finish,
-                          child: Text(l10n.skip,
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text(
+                            l10n.skip,
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
                         ),
                 ),
               ),
@@ -80,7 +84,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   onPageChanged: (i) => setState(() => _page = i),
                   children: [
                     const _LanguagePage(),
-                    for (final s in slides) _FeaturePage(art: s.$1, title: s.$2, body: s.$3),
+                    for (final s in slides)
+                      _FeaturePage(art: s.$1, title: s.$2, body: s.$3),
                   ],
                 ),
               ),
@@ -120,17 +125,22 @@ class _LanguagePage extends ConsumerWidget {
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: Material(
-          color: selected ? theme.colorScheme.primaryContainer : theme.colorScheme.surface,
+          color: selected
+              ? theme.colorScheme.primaryContainer
+              : theme.colorScheme.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
             side: BorderSide(
-              color: selected ? theme.colorScheme.primary : theme.colorScheme.outlineVariant,
+              color: selected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outlineVariant,
               width: selected ? 2 : 1,
             ),
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () => ref.read(localeProvider.notifier).setLocale(Locale(code)),
+            onTap: () =>
+                ref.read(localeProvider.notifier).setLocale(Locale(code)),
             child: Padding(
               padding: const EdgeInsets.all(18),
               child: Row(
@@ -138,13 +148,22 @@ class _LanguagePage extends ConsumerWidget {
                   CircleAvatar(
                     backgroundColor: theme.colorScheme.primary,
                     foregroundColor: theme.colorScheme.onPrimary,
-                    child: Text(sample, style: const TextStyle(fontWeight: FontWeight.w700)),
+                    child: Text(
+                      sample,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
                   ),
                   const SizedBox(width: 16),
-                  Expanded(child: Text(label, style: theme.textTheme.titleMedium)),
+                  Expanded(
+                    child: Text(label, style: theme.textTheme.titleMedium),
+                  ),
                   Icon(
-                    selected ? Icons.check_circle_rounded : Icons.circle_outlined,
-                    color: selected ? theme.colorScheme.primary : theme.colorScheme.outline,
+                    selected
+                        ? Icons.check_circle_rounded
+                        : Icons.circle_outlined,
+                    color: selected
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.outline,
                   ),
                 ],
               ),
@@ -160,13 +179,21 @@ class _LanguagePage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24),
-          const Center(child: BrandWordmark(logoSize: 64, fontSize: AppFontSizes.h1, showTagline: false)),
+          const Center(
+            child: BrandWordmark(
+              logoSize: 64,
+              fontSize: AppFontSizes.h1,
+              showTagline: false,
+            ),
+          ),
           const SizedBox(height: 28),
           Text(l10n.chooseLanguage, style: theme.textTheme.headlineSmall),
           const SizedBox(height: 8),
           Text(
             l10n.chooseLanguageSubtitle,
-            style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 28),
           option('en', 'English', 'A'),
@@ -180,7 +207,11 @@ class _LanguagePage extends ConsumerWidget {
 enum _Art { aiPractice, mockTests, analytics }
 
 class _FeaturePage extends StatelessWidget {
-  const _FeaturePage({required this.art, required this.title, required this.body});
+  const _FeaturePage({
+    required this.art,
+    required this.title,
+    required this.body,
+  });
 
   final _Art art;
   final String title;
@@ -199,15 +230,21 @@ class _FeaturePage extends StatelessWidget {
               SizedBox(height: c.maxHeight * 0.06),
               _Illustration(art: art, size: size),
               const SizedBox(height: 40),
-              Text(title,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.headlineSmall?.copyWith(fontSize: AppFontSizes.h2)),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontSize: AppFontSizes.h2,
+                ),
+              ),
               const SizedBox(height: 12),
               Text(
                 body,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant, height: 1.5),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  height: 1.5,
+                ),
               ),
             ],
           ),
@@ -229,64 +266,103 @@ class _Illustration extends StatelessWidget {
     final circle = isDark ? AppColors.darkTint : AppColors.lightTint;
 
     Widget badge(Widget child, Color color, {double pad = 8}) => Container(
-          padding: EdgeInsets.all(pad),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(size * 0.06),
-            boxShadow: [BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 12)],
-          ),
-          child: child,
-        );
+      padding: EdgeInsets.all(pad),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(size * 0.06),
+        boxShadow: [
+          BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 12),
+        ],
+      ),
+      child: child,
+    );
 
-    final sparkle = Icon(Icons.auto_awesome, size: size * 0.08, color: AppColors.primaryVariant);
+    final sparkle = Icon(
+      Icons.auto_awesome,
+      size: size * 0.08,
+      color: AppColors.primaryVariant,
+    );
 
     final List<Widget> layers = switch (art) {
       _Art.aiPractice => [
-          Positioned(
-            bottom: size * 0.16,
-            child: Icon(Icons.menu_book_rounded, size: size * 0.3, color: AppColors.success),
+        Positioned(
+          bottom: size * 0.16,
+          child: Icon(
+            Icons.menu_book_rounded,
+            size: size * 0.3,
+            color: AppColors.success,
           ),
-          Positioned(
-            top: size * 0.18,
-            child: Icon(Icons.laptop_mac_rounded, size: size * 0.5, color: AppColors.primary),
+        ),
+        Positioned(
+          top: size * 0.18,
+          child: Icon(
+            Icons.laptop_mac_rounded,
+            size: size * 0.5,
+            color: AppColors.primary,
           ),
-          Positioned(
-            top: size * 0.1,
-            right: size * 0.14,
-            child: badge(
-              Text('AI',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w800, fontSize: size * 0.09)),
-              AppColors.accent,
-              pad: size * 0.035,
+        ),
+        Positioned(
+          top: size * 0.1,
+          right: size * 0.14,
+          child: badge(
+            Text(
+              'AI',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: size * 0.09,
+              ),
             ),
+            AppColors.accent,
+            pad: size * 0.035,
           ),
-          Positioned(top: size * 0.4, right: size * 0.08, child: sparkle),
-        ],
+        ),
+        Positioned(top: size * 0.4, right: size * 0.08, child: sparkle),
+      ],
       _Art.mockTests => [
-          Icon(Icons.assignment_turned_in_rounded, size: size * 0.58, color: AppColors.primary),
-          Positioned(
-            bottom: size * 0.16,
-            right: size * 0.16,
-            child: Container(
-              padding: EdgeInsets.all(size * 0.02),
-              decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-              child: Icon(Icons.access_time_filled_rounded,
-                  size: size * 0.2, color: AppColors.secondary),
+        Icon(
+          Icons.assignment_turned_in_rounded,
+          size: size * 0.58,
+          color: AppColors.primary,
+        ),
+        Positioned(
+          bottom: size * 0.16,
+          right: size * 0.16,
+          child: Container(
+            padding: EdgeInsets.all(size * 0.02),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.access_time_filled_rounded,
+              size: size * 0.2,
+              color: AppColors.secondary,
             ),
           ),
-          Positioned(top: size * 0.18, right: size * 0.16, child: sparkle),
-        ],
+        ),
+        Positioned(top: size * 0.18, right: size * 0.16, child: sparkle),
+      ],
       _Art.analytics => [
-          Icon(Icons.bar_chart_rounded, size: size * 0.58, color: AppColors.success),
-          Positioned(
-            top: size * 0.16,
-            right: size * 0.16,
-            child: badge(Icon(Icons.trending_up_rounded, color: Colors.white, size: size * 0.1),
-                AppColors.primary),
+        Icon(
+          Icons.bar_chart_rounded,
+          size: size * 0.58,
+          color: AppColors.success,
+        ),
+        Positioned(
+          top: size * 0.16,
+          right: size * 0.16,
+          child: badge(
+            Icon(
+              Icons.trending_up_rounded,
+              color: Colors.white,
+              size: size * 0.1,
+            ),
+            AppColors.primary,
           ),
-          Positioned(bottom: size * 0.2, left: size * 0.16, child: sparkle),
-        ],
+        ),
+        Positioned(bottom: size * 0.2, left: size * 0.16, child: sparkle),
+      ],
     };
 
     return ExcludeSemantics(

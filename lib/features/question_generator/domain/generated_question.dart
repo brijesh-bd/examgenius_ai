@@ -5,8 +5,10 @@ enum Difficulty {
   medium,
   hard;
 
-  static Difficulty fromJson(String value) =>
-      Difficulty.values.firstWhere((d) => d.name == value, orElse: () => Difficulty.medium);
+  static Difficulty fromJson(String value) => Difficulty.values.firstWhere(
+    (d) => d.name == value,
+    orElse: () => Difficulty.medium,
+  );
 }
 
 /// Body of `POST /api/v1/questions/generate`. The backend builds the AI prompt
@@ -29,14 +31,14 @@ class GenerationRequest {
   final int count;
 
   Map<String, dynamic> toJson() => {
-        'examId': examId,
-        'examName': examName,
-        'topicIds': topicIds,
-        'difficulty': difficulty.name,
-        'count': count,
-        // Asks the backend for questions matching the real exam's standard.
-        'level': 'exam',
-      };
+    'examId': examId,
+    'examName': examName,
+    'topicIds': topicIds,
+    'difficulty': difficulty.name,
+    'count': count,
+    // Asks the backend for questions matching the real exam's standard.
+    'level': 'exam',
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -47,7 +49,8 @@ class GenerationRequest {
       listEquals(other.topicIds, topicIds);
 
   @override
-  int get hashCode => Object.hash(examId, difficulty, count, Object.hashAll(topicIds));
+  int get hashCode =>
+      Object.hash(examId, difficulty, count, Object.hashAll(topicIds));
 }
 
 @immutable
@@ -70,7 +73,8 @@ class GeneratedQuestion {
   final int correctIndex;
   final String explanation;
 
-  factory GeneratedQuestion.fromJson(Map<String, dynamic> json) => GeneratedQuestion(
+  factory GeneratedQuestion.fromJson(Map<String, dynamic> json) =>
+      GeneratedQuestion(
         id: json['id'] as String,
         topicId: json['topicId'] as String,
         difficulty: Difficulty.fromJson(json['difficulty'] as String),

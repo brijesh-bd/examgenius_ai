@@ -6,7 +6,6 @@ abstract final class AppRoutes {
   static const forgotPassword = '/forgot-password';
 
   static const home = '/home';
-  static const tests = '/tests';
   static const practice = '/practice';
   static const analytics = '/analytics';
   static const profile = '/profile';
@@ -38,6 +37,9 @@ abstract final class AppRoutes {
 
   /// Re-attempt selected questions; a RetrySource is passed as `extra`.
   static const practiceRetry = '/practice/retry';
+
+  /// My Saved Practice — third bottom tab (replaced the old Tests tab).
+  static const savedPractice = '/saved';
 
   static const publicRoutes = {
     splash,

@@ -6,13 +6,17 @@ import '../../core/services/preferences_service.dart';
 class OnboardingController extends Notifier<bool> {
   @override
   bool build() =>
-      ref.read(sharedPreferencesProvider).getBool(PrefKeys.onboardingDone) ?? false;
+      ref.read(sharedPreferencesProvider).getBool(PrefKeys.onboardingDone) ??
+      false;
 
   Future<void> complete() async {
     state = true;
-    await ref.read(sharedPreferencesProvider).setBool(PrefKeys.onboardingDone, true);
+    await ref
+        .read(sharedPreferencesProvider)
+        .setBool(PrefKeys.onboardingDone, true);
   }
 }
 
-final onboardingDoneProvider =
-    NotifierProvider<OnboardingController, bool>(OnboardingController.new);
+final onboardingDoneProvider = NotifierProvider<OnboardingController, bool>(
+  OnboardingController.new,
+);

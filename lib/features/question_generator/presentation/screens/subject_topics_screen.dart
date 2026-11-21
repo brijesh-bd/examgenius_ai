@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/network/api_error_text.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +17,11 @@ import '../widgets/generator_options.dart';
 /// Works for every subject; selections live in the exam's
 /// [generatorFormProvider], shared with the syllabus screen underneath.
 class SubjectTopicsScreen extends ConsumerWidget {
-  const SubjectTopicsScreen({super.key, required this.examId, required this.subjectId});
+  const SubjectTopicsScreen({
+    super.key,
+    required this.examId,
+    required this.subjectId,
+  });
 
   final String examId;
   final String subjectId;
@@ -39,11 +46,11 @@ class SubjectTopicsScreen extends ConsumerWidget {
           ),
         ),
       ),
-      error: (_, _) => Scaffold(
+      error: (e, _) => Scaffold(
         appBar: AppBar(title: Text(l10n.selectTopics)),
         body: StateMessage(
           icon: Icons.wifi_off_rounded,
-          title: l10n.errorGeneric,
+          title: apiErrorText(l10n, e),
           actionLabel: l10n.retry,
           onAction: () => ref.invalidate(syllabusProvider(examId)),
         ),
@@ -53,17 +60,28 @@ class SubjectTopicsScreen extends ConsumerWidget {
         if (index < 0 || s.subjects[index].topics.isEmpty) {
           return Scaffold(
             appBar: AppBar(title: Text(l10n.selectTopics)),
-            body: StateMessage(icon: Icons.menu_book_outlined, title: l10n.comingSoon),
+            body: StateMessage(
+              icon: Icons.menu_book_outlined,
+              title: l10n.comingSoon,
+            ),
           );
         }
-        return _TopicList(examId: examId, subject: s.subjects[index], index: index);
+        return _TopicList(
+          examId: examId,
+          subject: s.subjects[index],
+          index: index,
+        );
       },
     );
   }
 }
 
 class _TopicList extends ConsumerWidget {
-  const _TopicList({required this.examId, required this.subject, required this.index});
+  const _TopicList({
+    required this.examId,
+    required this.subject,
+    required this.index,
+  });
 
   final String examId;
   final SyllabusSubject subject;
@@ -78,7 +96,9 @@ class _TopicList extends ConsumerWidget {
     final controller = ref.read(generatorFormProvider(examId).notifier);
     final style = subjectStyle(subject, index);
     final multi = form.multiSelect;
-    final picked = subject.topics.where((t) => form.topicIds.contains(t.id)).length;
+    final picked = subject.topics
+        .where((t) => form.topicIds.contains(t.id))
+        .length;
     final allPicked = picked == subject.topics.length;
 
     return Scaffold(
@@ -90,7 +110,11 @@ class _TopicList extends ConsumerWidget {
             // Mode switch + summary row.
             ResponsiveCenter(
               padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.page, AppSpacing.sm, AppSpacing.page, AppSpacing.xs),
+                AppSpacing.page,
+                AppSpacing.sm,
+                AppSpacing.page,
+                AppSpacing.xs,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -110,7 +134,8 @@ class _TopicList extends ConsumerWidget {
                       ),
                     ],
                     selected: {multi},
-                    onSelectionChanged: (v) => controller.setMultiSelect(v.first),
+                    onSelectionChanged: (v) =>
+                        controller.setMultiSelect(v.first),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Row(
@@ -119,8 +144,9 @@ class _TopicList extends ConsumerWidget {
                         child: Text(
                           '${multi ? l10n.multipleSelectionHint : l10n.singleSelectionHint}'
                           ' · ${l10n.topicsSelected(picked)}',
-                          style: theme.textTheme.bodySmall
-                              ?.copyWith(color: scheme.onSurfaceVariant),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                          ),
                         ),
                       ),
                       if (multi && !allPicked)
@@ -148,13 +174,21 @@ class _TopicList extends ConsumerWidget {
                   final on = form.topicIds.contains(t.id);
                   return ResponsiveCenter(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.page, vertical: 3),
+                      horizontal: AppSpacing.page,
+                      vertical: 3,
+                    ),
                     child: Material(
-                      color: on ? style.color.withValues(alpha: 0.10) : scheme.surface,
+                      color: on
+                          ? style.color.withValues(alpha: 0.10)
+                          : scheme.surface,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSpacing.tileRadius),
+                        borderRadius: BorderRadius.circular(
+                          AppSpacing.tileRadius,
+                        ),
                         side: BorderSide(
-                          color: on ? style.color : scheme.outlineVariant.withValues(alpha: 0.6),
+                          color: on
+                              ? style.color
+                              : scheme.outlineVariant.withValues(alpha: 0.6),
                           width: on ? 1.5 : 1,
                         ),
                       ),
@@ -164,8 +198,12 @@ class _TopicList extends ConsumerWidget {
                         leading: CircleAvatar(
                           radius: 16,
                           backgroundColor: style.color.withValues(alpha: 0.15),
-                          child: Text('${i + 1}',
-                              style: AppTextStyles.labelBold.copyWith(color: style.color)),
+                          child: Text(
+                            '${i + 1}',
+                            style: AppTextStyles.labelBold.copyWith(
+                              color: style.color,
+                            ),
+                          ),
                         ),
                         title: Text(t.name, style: theme.textTheme.bodyLarge),
                         trailing: multi

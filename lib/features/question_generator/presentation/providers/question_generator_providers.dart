@@ -1,16 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/api_config.dart';
+import '../../data/api_syllabus_repository.dart';
 import '../../data/mock_question_generator_repository.dart';
 import '../../data/mock_syllabus_repository.dart';
 import '../../domain/generated_question.dart';
 import '../../domain/question_generator_repository.dart';
 import '../../domain/syllabus.dart';
 
-final syllabusRepositoryProvider =
-    Provider<SyllabusRepository>((ref) => MockSyllabusRepository());
+final syllabusRepositoryProvider = Provider<SyllabusRepository>((ref) {
+  if (ref.watch(useMockBackendProvider)) return MockSyllabusRepository();
+  return ApiSyllabusRepository(ref.watch(apiClientProvider));
+});
 
 final questionGeneratorRepositoryProvider =
-    Provider<QuestionGeneratorRepository>((ref) => MockQuestionGeneratorRepository());
+    Provider<QuestionGeneratorRepository>(
+      (ref) => MockQuestionGeneratorRepository(),
+    );
 
 final syllabusProvider = FutureProvider.autoDispose.family<Syllabus, String>(
   (ref, examId) => ref.watch(syllabusRepositoryProvider).fetchSyllabus(examId),
@@ -62,14 +69,18 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
   /// Selects every topic of [subject] (multiple mode only).
   void selectAllIn(SyllabusSubject subject) {
     if (!state.multiSelect) return;
-    state = state.copyWith(topicIds: {...state.topicIds, ...subject.topics.map((t) => t.id)});
+    state = state.copyWith(
+      topicIds: {...state.topicIds, ...subject.topics.map((t) => t.id)},
+    );
   }
 
   /// Clears the selection for [subject] only.
-  void clearSubject(SyllabusSubject subject) => state = state.copyWith(topicIds: {
-        for (final id in state.topicIds)
-          if (subjectIdOf(id) != subject.id) id,
-      });
+  void clearSubject(SyllabusSubject subject) => state = state.copyWith(
+    topicIds: {
+      for (final id in state.topicIds)
+        if (subjectIdOf(id) != subject.id) id,
+    },
+  );
 
   void clearTopics() => state = state.copyWith(topicIds: const {});
 
@@ -78,7 +89,10 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
   void setCount(int count) => state = state.copyWith(count: count);
 
   /// Builds the request, or `null` while the form is incomplete.
-  GenerationRequest? buildRequest({required String examName, required Syllabus syllabus}) {
+  GenerationRequest? buildRequest({
+    required String examName,
+    required Syllabus syllabus,
+  }) {
     if (!state.isComplete) return null;
     // Keep syllabus order so identical selections produce equal requests.
     final ordered = [
@@ -97,5 +111,6 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
 }
 
 final generatorFormProvider = NotifierProvider.autoDispose
-    .family<GeneratorFormController, GeneratorForm, String>(GeneratorFormController.new);
-
+    .family<GeneratorFormController, GeneratorForm, String>(
+      GeneratorFormController.new,
+    );

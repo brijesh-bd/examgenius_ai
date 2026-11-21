@@ -25,18 +25,18 @@ class GeneratorForm {
   /// Topic picking mode: true = many topics per subject, false = one per subject.
   final bool multiSelect;
 
-  bool get isComplete => topicIds.isNotEmpty && difficulty != null && count != null;
+  bool get isComplete =>
+      topicIds.isNotEmpty && difficulty != null && count != null;
 
   GeneratorForm copyWith({
     Set<String>? topicIds,
     Difficulty? difficulty,
     int? count,
     bool? multiSelect,
-  }) =>
-      GeneratorForm(
-        topicIds: topicIds ?? this.topicIds,
-        difficulty: difficulty ?? this.difficulty,
-        count: count ?? this.count,
-        multiSelect: multiSelect ?? this.multiSelect,
-      );
+  }) => GeneratorForm(
+    topicIds: topicIds ?? this.topicIds,
+    difficulty: difficulty ?? this.difficulty,
+    count: count ?? this.count,
+    multiSelect: multiSelect ?? this.multiSelect,
+  );
 }

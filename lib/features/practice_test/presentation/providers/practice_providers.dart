@@ -4,19 +4,28 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../question_generator/presentation/providers/question_generator_providers.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/api_config.dart';
+import '../../../../localization/settings_providers.dart';
+import '../../data/api_practice_repository.dart';
 import '../../data/mock_practice_repository.dart';
 import '../../domain/practice_models.dart';
 import '../../domain/practice_result.dart';
 
-/// Swap for an API-backed repository when the backend is live.
-final practiceRepositoryProvider = Provider<PracticeRepository>(
-  (ref) => MockPracticeRepository(
-    ref.watch(questionGeneratorRepositoryProvider),
-    ref.watch(syllabusRepositoryProvider),
-  ),
-);
+/// Real backend by default; in-app mock under `flutter test` or USE_MOCK_BACKEND.
+final practiceRepositoryProvider = Provider<PracticeRepository>((ref) {
+  if (ref.watch(useMockBackendProvider)) {
+    return MockPracticeRepository(
+      ref.watch(questionGeneratorRepositoryProvider),
+      ref.watch(syllabusRepositoryProvider),
+    );
+  }
+  return ApiPracticeRepository(
+    ref.watch(apiClientProvider),
+    language: () => ref.read(localeProvider).languageCode,
+  );
+});
 
-/// Generates questions and opens a session for one request.
 /// Opens a session for a [SessionSource]: fresh generation or a retry.
 final practiceSessionProvider = FutureProvider.autoDispose
     .family<PracticeSession, SessionSource>((ref, source) {

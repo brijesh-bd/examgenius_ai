@@ -142,14 +142,15 @@ class AccuracyRing extends StatelessWidget {
                         fontSize: size * 0.22,
                       ),
                     ),
-                    Text(
-                      l10n.accuracyLabel,
-                      style: AppTextStyles.caption.copyWith(
-                        color: onDark
-                            ? AppColors.white.withValues(alpha: 0.9)
-                            : scheme.onSurfaceVariant,
+                    if (size >= 90) // too small for the word: percent only
+                      Text(
+                        l10n.accuracyLabel,
+                        style: AppTextStyles.caption.copyWith(
+                          color: onDark
+                              ? AppColors.white.withValues(alpha: 0.9)
+                              : scheme.onSurfaceVariant,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

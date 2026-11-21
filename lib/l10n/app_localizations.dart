@@ -329,8 +329,38 @@ abstract class AppLocalizations {
   /// No description provided for @errorInvalidCredentials.
   ///
   /// In en, this message translates to:
-  /// **'Invalid mobile number or password'**
+  /// **'Invalid email/mobile or password'**
   String get errorInvalidCredentials;
+
+  /// No description provided for @errorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot reach the ExamGenius server. Check your internet connection and try again.'**
+  String get errorNetwork;
+
+  /// No description provided for @errorMobileTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'This mobile number is already registered. Please log in.'**
+  String get errorMobileTaken;
+
+  /// No description provided for @errorEmailTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered. Please log in.'**
+  String get errorEmailTaken;
+
+  /// No description provided for @errorAiBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'AI is busy right now. Please try again in a minute.'**
+  String get errorAiBusy;
+
+  /// No description provided for @errorSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session expired. Please log in again.'**
+  String get errorSessionExpired;
 
   /// No description provided for @retry.
   ///
@@ -542,11 +572,11 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get navHome;
 
-  /// No description provided for @navTests.
+  /// No description provided for @navSaved.
   ///
   /// In en, this message translates to:
-  /// **'Tests'**
-  String get navTests;
+  /// **'Saved'**
+  String get navSaved;
 
   /// No description provided for @navPractice.
   ///
@@ -1081,6 +1111,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remember Me'**
   String get rememberMe;
+
+  /// No description provided for @showPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get showPassword;
+
+  /// No description provided for @hidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get hidePassword;
 
   /// No description provided for @loginHeadlinePrepare.
   ///
@@ -1705,6 +1747,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View'**
   String get viewAction;
+
+  /// No description provided for @savedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved practice yet'**
+  String get savedEmptyTitle;
+
+  /// No description provided for @savedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'After a test, tap Save Practice on the scorecard to keep it here for revision.'**
+  String get savedEmptyBody;
+
+  /// No description provided for @savedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved {date}'**
+  String savedOn(String date);
+
+  /// No description provided for @questionsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Qs'**
+  String questionsShort(int count);
+
+  /// No description provided for @reviewPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get reviewPractice;
+
+  /// No description provided for @practiceAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice Again'**
+  String get practiceAgain;
+
+  /// No description provided for @retryWrongShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry Wrong'**
+  String get retryWrongShort;
+
+  /// No description provided for @deletePractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deletePractice;
+
+  /// No description provided for @deletePracticeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this practice?'**
+  String get deletePracticeTitle;
+
+  /// No description provided for @deletePracticeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This saved set and its review will be removed. Your other attempts are not affected.'**
+  String get deletePracticeBody;
+
+  /// No description provided for @practiceDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice deleted.'**
+  String get practiceDeleted;
+
+  /// No description provided for @deleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete. Check your connection and try again.'**
+  String get deleteFailed;
+
+  /// No description provided for @scoreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get scoreLabel;
+
+  /// No description provided for @moreActions.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get moreActions;
 
   /// No description provided for @accuracyChartLabel.
   ///
