@@ -507,7 +507,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get navHome => 'होम';
 
   @override
-  String get navSaved => 'सेव किए';
+  String get navSaved => 'लाइब्रेरी';
 
   @override
   String get navPractice => 'अभ्यास';
@@ -1165,7 +1165,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get viewAction => 'देखें';
 
   @override
-  String get savedEmptyTitle => 'अभी कोई सेव किया गया अभ्यास नहीं';
+  String get savedEmptyTitle => 'आपकी लाइब्रेरी खाली है';
 
   @override
   String get savedEmptyBody =>
@@ -1198,7 +1198,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get deletePracticeBody =>
-      'यह सेव किया गया सेट और इसकी समीक्षा हटा दी जाएगी। आपके अन्य प्रयास प्रभावित नहीं होंगे।';
+      'यह अभ्यास सेट, इसके प्रयासों का इतिहास, बुकमार्क और नोट्स हमेशा के लिए हटा दिए जाएंगे।';
 
   @override
   String get practiceDeleted => 'अभ्यास हटा दिया गया।';
@@ -1225,4 +1225,511 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get orUpper => 'या';
+
+  @override
+  String get myLibrary => 'मेरी लर्निंग लाइब्रेरी';
+
+  @override
+  String get libraryStatSets => 'अभ्यास सेट';
+
+  @override
+  String get libraryStatQuestions => 'प्रश्न';
+
+  @override
+  String get libraryStatNotes => 'नोट्स';
+
+  @override
+  String get libraryCategories => 'आपकी लाइब्रेरी';
+
+  @override
+  String librarySetsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count सेट',
+      one: '1 सेट',
+      zero: 'अभी कोई सेट नहीं',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recentPracticeSets => 'हाल ही में बनाए गए';
+
+  @override
+  String get libraryEmptyTitle => 'आपकी लाइब्रेरी खाली है';
+
+  @override
+  String get libraryEmptyBody =>
+      'आप जो भी अभ्यास सेट बनाते हैं, वह प्रश्नों, उत्तरों और व्याख्याओं के साथ यहां अपने आप सेव हो जाता है।';
+
+  @override
+  String categoryLibraryTitle(String category) {
+    return '$category लाइब्रेरी';
+  }
+
+  @override
+  String categoryEmptyTitle(String category) {
+    return 'अभी कोई $category अभ्यास नहीं';
+  }
+
+  @override
+  String get categoryEmptyBody =>
+      'इस श्रेणी की किसी परीक्षा के लिए अभ्यास सेट बनाएं, वह यहां दिखेगा।';
+
+  @override
+  String get noMatchingSets => 'इन फ़िल्टर से कोई अभ्यास सेट नहीं मिला';
+
+  @override
+  String get clearFilters => 'फ़िल्टर हटाएं';
+
+  @override
+  String get searchSetsHint => 'परीक्षा, विषय या टॉपिक खोजें';
+
+  @override
+  String get filterExam => 'परीक्षा';
+
+  @override
+  String get filterSubject => 'विषय';
+
+  @override
+  String get filterTopic => 'टॉपिक';
+
+  @override
+  String get filterDifficulty => 'कठिनाई';
+
+  @override
+  String get filterLanguage => 'भाषा';
+
+  @override
+  String get filterDate => 'तारीख';
+
+  @override
+  String get filterAny => 'सभी';
+
+  @override
+  String get sortLatest => 'नए पहले';
+
+  @override
+  String get sortOldest => 'पुराने पहले';
+
+  @override
+  String get dateLast7 => 'पिछले 7 दिन';
+
+  @override
+  String get dateLast30 => 'पिछले 30 दिन';
+
+  @override
+  String get dateCustom => 'तारीख चुनें…';
+
+  @override
+  String get dateAny => 'कभी भी';
+
+  @override
+  String get notAttempted => 'प्रयास नहीं किया';
+
+  @override
+  String attemptsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count प्रयास',
+      one: '1 प्रयास',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get latestScore => 'नवीनतम स्कोर';
+
+  @override
+  String get viewHistory => 'इतिहास';
+
+  @override
+  String get attemptFirstToReview =>
+      'पहले यह सेट हल करें — सबमिट करने के बाद उत्तर और व्याख्या खुलेंगे।';
+
+  @override
+  String get loadMore => 'और देखें';
+
+  @override
+  String get savedToLibrary => 'आपकी लाइब्रेरी में अपने आप सेव हो गया';
+
+  @override
+  String get openLibrary => 'लाइब्रेरी खोलें';
+
+  @override
+  String get openingPractice => 'अभ्यास खुल रहा है…';
+
+  @override
+  String get aiStudyNotes => 'AI स्टडी नोट्स';
+
+  @override
+  String get aiStudyNotesSub => 'AI नोट्स से हर टॉपिक को समझें।';
+
+  @override
+  String get notesChooseCategory => 'श्रेणी चुनें';
+
+  @override
+  String get notesChooseCategoryBody =>
+      'अपनी परीक्षा श्रेणी चुनें, फिर परीक्षा और पढ़ने का टॉपिक।';
+
+  @override
+  String get notesChooseTopic => 'टॉपिक चुनें';
+
+  @override
+  String notesChooseTopicBody(String exam) {
+    return 'नोट्स बनाने के लिए $exam सिलेबस से एक टॉपिक चुनें।';
+  }
+
+  @override
+  String get createNotesTitle => 'नोट्स बनाएँ';
+
+  @override
+  String get notesExam => 'परीक्षा';
+
+  @override
+  String get notesSubject => 'विषय';
+
+  @override
+  String get notesTopic => 'टॉपिक';
+
+  @override
+  String get notesLevel => 'व्याख्या का स्तर';
+
+  @override
+  String get noteLevelBasic => 'बेसिक';
+
+  @override
+  String get noteLevelExam => 'परीक्षा स्तर';
+
+  @override
+  String get noteLevelAdvanced => 'एडवांस्ड';
+
+  @override
+  String get notesSections => 'नोट्स में शामिल करें';
+
+  @override
+  String get notesSectionsReset => 'रीसेट';
+
+  @override
+  String get secExplanation => 'विस्तृत अवधारणा व्याख्या';
+
+  @override
+  String get secDefinitions => 'परिभाषाएँ';
+
+  @override
+  String get secExamples => 'वास्तविक जीवन के उदाहरण';
+
+  @override
+  String get secStepByStep => 'चरण-दर-चरण व्याख्या';
+
+  @override
+  String get secDiagrams => 'डायग्राम और फ्लोचार्ट';
+
+  @override
+  String get secGraphs => 'ग्राफ़ (जहाँ उपयोगी हो)';
+
+  @override
+  String get secFormulas => 'सूत्र और तालिकाएँ';
+
+  @override
+  String get secTips => 'परीक्षा टिप्स और ट्रिक्स';
+
+  @override
+  String get secMistakes => 'आम गलतियाँ';
+
+  @override
+  String get secKeyPoints => 'महत्वपूर्ण परीक्षा बिंदु';
+
+  @override
+  String get secRevision => 'त्वरित रिवीजन नोट्स';
+
+  @override
+  String get secMcqs => 'व्याख्या सहित टॉपिक MCQ';
+
+  @override
+  String get notesPickOneSection => 'कम से कम एक भाग चुनें।';
+
+  @override
+  String get generateNotes => 'पूरे नोट्स बनाएँ';
+
+  @override
+  String get generatingNotes =>
+      'आपके नोट्स लिखे जा रहे हैं… इसमें एक मिनट तक लग सकता है।';
+
+  @override
+  String get notesFailed => 'नोट्स नहीं बन सके। कुछ भी सेव नहीं हुआ।';
+
+  @override
+  String get notesSaved => 'आपकी लाइब्रेरी में सेव हो गया';
+
+  @override
+  String get notesContents => 'विषय-सूची';
+
+  @override
+  String get nOverview => 'टॉपिक परिचय';
+
+  @override
+  String get nDetailed => 'विस्तृत व्याख्या';
+
+  @override
+  String get nConcepts => 'महत्वपूर्ण अवधारणाएँ';
+
+  @override
+  String get nExamples => 'उदाहरण';
+
+  @override
+  String get nDiagrams => 'डायग्राम, फ्लोचार्ट और ग्राफ़';
+
+  @override
+  String get nFormulas => 'सूत्र और तालिकाएँ';
+
+  @override
+  String get nTips => 'परीक्षा टिप्स और ट्रिक्स';
+
+  @override
+  String get nMistakes => 'आम गलतियाँ';
+
+  @override
+  String get nKeyPoints => 'महत्वपूर्ण परीक्षा बिंदु';
+
+  @override
+  String get nRevision => 'त्वरित रिवीजन';
+
+  @override
+  String get nMcqs => 'महत्वपूर्ण प्रश्न और MCQ';
+
+  @override
+  String get nNext => 'आगे क्या पढ़ें';
+
+  @override
+  String noteStep(int n) {
+    return 'चरण $n';
+  }
+
+  @override
+  String noteAnswer(String answer) {
+    return 'उत्तर: $answer';
+  }
+
+  @override
+  String get noteShowAnswer => 'उत्तर दिखाएँ';
+
+  @override
+  String get noteHideAnswer => 'उत्तर छिपाएँ';
+
+  @override
+  String get noteNotFound => 'यह नोट नहीं खुल सका।';
+
+  @override
+  String get noteExpandAll => 'सब खोलें';
+
+  @override
+  String get noteCollapseAll => 'सब बंद करें';
+
+  @override
+  String get myPracticeSets => 'मेरे अभ्यास सेट';
+
+  @override
+  String get myStudyNotes => 'मेरे स्टडी नोट्स';
+
+  @override
+  String notesLibraryTitle(String category) {
+    return '$category नोट्स';
+  }
+
+  @override
+  String notesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count नोट्स',
+      one: '1 नोट',
+      zero: 'अभी कोई नोट्स नहीं',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get searchNotesHint => 'टॉपिक, विषय या परीक्षा से खोजें';
+
+  @override
+  String notesEmptyTitle(String category) {
+    return 'अभी कोई $category नोट्स नहीं';
+  }
+
+  @override
+  String get notesEmptyBody =>
+      'किसी भी टॉपिक के AI स्टडी नोट्स बनाएँ — वे यहाँ अपने-आप सेव होंगे।';
+
+  @override
+  String get noMatchingNotes => 'इन फ़िल्टर से कोई नोट्स नहीं मिले';
+
+  @override
+  String get createNotesCta => 'नोट्स बनाएँ';
+
+  @override
+  String noteCreatedOn(String date) {
+    return '$date को बनाया';
+  }
+
+  @override
+  String get noteBookmark => 'बुकमार्क करें';
+
+  @override
+  String get noteRemoveBookmark => 'बुकमार्क हटाएँ';
+
+  @override
+  String get noteBookmarked => 'नोट बुकमार्क हो गया';
+
+  @override
+  String get noteUnbookmarked => 'बुकमार्क हटा दिया';
+
+  @override
+  String get noteMoreActions => 'और विकल्प';
+
+  @override
+  String get personalNote => 'व्यक्तिगत नोट';
+
+  @override
+  String get personalNoteHint => 'अपने पॉइंट, शॉर्टकट या संदेह लिखें…';
+
+  @override
+  String get personalNoteAdd => 'व्यक्तिगत नोट जोड़ें';
+
+  @override
+  String get personalNoteEdit => 'बदलें';
+
+  @override
+  String get personalNoteSaved => 'व्यक्तिगत नोट सेव हो गया';
+
+  @override
+  String get noteSave => 'सेव करें';
+
+  @override
+  String get noteDelete => 'नोट हटाएँ';
+
+  @override
+  String get noteDeleteTitle => 'यह नोट हटाएँ?';
+
+  @override
+  String get noteDeleteBody =>
+      'यह नोट और इस पर आपका व्यक्तिगत नोट हमेशा के लिए हट जाएगा।';
+
+  @override
+  String get noteDeleted => 'नोट हटा दिया गया';
+
+  @override
+  String get quickRevision => 'त्वरित रिवीजन';
+
+  @override
+  String get flashcards => 'फ्लैशकार्ड';
+
+  @override
+  String get flashcardTapToFlip => 'उत्तर देखने के लिए कार्ड पर टैप करें';
+
+  @override
+  String flashcardCount(int n, int total) {
+    return '$n / $total';
+  }
+
+  @override
+  String get flashcardPrev => 'पिछला';
+
+  @override
+  String get flashcardNext => 'अगला';
+
+  @override
+  String get noFlashcards =>
+      'इस नोट में फ्लैशकार्ड बनाने लायक अवधारणाएँ या सूत्र नहीं हैं।';
+
+  @override
+  String get noRevision => 'इस नोट में रिवीजन पॉइंट नहीं हैं।';
+
+  @override
+  String get notesViewAll => 'सभी';
+
+  @override
+  String get notesViewBookmarked => 'बुकमार्क';
+
+  @override
+  String get notesViewPersonal => 'व्यक्तिगत नोट्स';
+
+  @override
+  String get noBookmarkedNotes => 'यहाँ अभी कोई बुकमार्क नोट नहीं';
+
+  @override
+  String get noBookmarkedNotesBody =>
+      'किसी नोट पर बुकमार्क आइकन टैप करें, वह यहाँ दिखेगा।';
+
+  @override
+  String get noPersonalNotes => 'यहाँ अभी कोई व्यक्तिगत नोट नहीं';
+
+  @override
+  String get noPersonalNotesBody =>
+      'कोई नोट खोलें और अपने पॉइंट जोड़ें — वे यहाँ दिखेंगे।';
+
+  @override
+  String get historyTitle => 'अभ्यास इतिहास';
+
+  @override
+  String get historyEmpty =>
+      'अभी कोई प्रयास नहीं। इतिहास बनाने के लिए यह सेट हल करें।';
+
+  @override
+  String historyAttempt(int n) {
+    return 'प्रयास $n';
+  }
+
+  @override
+  String historyLine(String score, String max, String percent) {
+    return 'स्कोर $score/$max · सटीकता $percent';
+  }
+
+  @override
+  String get learningPath => 'लर्निंग पाथ';
+
+  @override
+  String get openLearningPath => 'लर्निंग पाथ';
+
+  @override
+  String learningPathProgress(int done, int total) {
+    return '$total में से $done टॉपिक पूरे';
+  }
+
+  @override
+  String learningTopicPosition(int n, int total) {
+    return 'टॉपिक $n / $total';
+  }
+
+  @override
+  String get markCompleted => 'पूरा हुआ चिह्नित करें';
+
+  @override
+  String get markedCompleted => 'पूरा हुआ चिह्नित किया';
+
+  @override
+  String get markedNotCompleted => 'अधूरा चिह्नित किया';
+
+  @override
+  String get continueNextTopic => 'अगले टॉपिक पर जाएँ';
+
+  @override
+  String get statusCompleted => 'पूरा';
+
+  @override
+  String get statusCurrent => 'वर्तमान';
+
+  @override
+  String get statusUpcoming => 'आगामी';
+
+  @override
+  String get notesReady => 'नोट्स तैयार';
+
+  @override
+  String get allTopicsCompleted => 'सभी टॉपिक पूरे — बहुत बढ़िया!';
+
+  @override
+  String get nextTopicHint => 'नोट्स बनाने के लिए टॉपिक पर टैप करें';
 }

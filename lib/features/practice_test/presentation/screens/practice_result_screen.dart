@@ -8,10 +8,8 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/l10n_ext.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../question_generator/domain/generated_question.dart';
-import '../../domain/practice_models.dart';
 import '../../domain/practice_result.dart';
 import '../widgets/result_charts.dart';
-import '../widgets/save_practice_button.dart';
 import '../widgets/test_timer_chip.dart';
 
 /// Screen 3 — Final Result & Scorecard. Displays the backend's scored result.
@@ -30,8 +28,10 @@ class PracticeResultScreen extends StatelessWidget {
         body: StateMessage(icon: Icons.quiz_outlined, title: l10n.errorGeneric),
       );
     }
+    // System back returns to the previous screen (the test itself was
+    // replaced by this one); only with nothing to go back to → dashboard.
     return PopScope(
-      canPop: false,
+      canPop: context.canPop(),
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) context.go(AppRoutes.home);
       },
@@ -477,7 +477,7 @@ class _TopicChips extends StatelessWidget {
   }
 }
 
-/// The four result actions: review, save, retry wrong, dashboard.
+/// The result actions: review, open Library (auto-saved), dashboard.
 class _Actions extends StatelessWidget {
   const _Actions({required this.result});
   final PracticeResult result;
@@ -485,7 +485,6 @@ class _Actions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final hasWrong = result.wrongReviews.isNotEmpty;
     ButtonStyle tall(Color c) => FilledButton.styleFrom(
       minimumSize: const Size.fromHeight(50),
       backgroundColor: c,
@@ -502,21 +501,22 @@ class _Actions extends StatelessWidget {
           label: Text(l10n.reviewAnswers),
         ),
         const SizedBox(height: 10),
-        SavePracticeButton(result: result),
-        const SizedBox(height: 10),
-        FilledButton.icon(
-          style: tall(AppColors.error),
-          onPressed: hasWrong
-              ? () => context.push(
-                  AppRoutes.practiceRetry,
-                  extra: RetrySource(
-                    result,
-                    result.wrongReviews.map((w) => w.questionId).toList(),
-                  ),
-                )
-              : null,
-          icon: const Icon(Icons.replay_rounded),
-          label: Text(l10n.retryWrong),
+        // Every generated set is saved to the Library automatically.
+        OutlinedButton.icon(
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(50),
+          ),
+          onPressed: () => context.go(AppRoutes.savedPractice),
+          icon: const Icon(Icons.cloud_done_rounded, color: AppColors.success),
+          label: Text(l10n.openLibrary),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Text(
+            l10n.savedToLibrary,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
         ),
         const SizedBox(height: 10),
         OutlinedButton.icon(

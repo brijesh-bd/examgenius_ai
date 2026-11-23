@@ -9,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-GenerationRequest _req(List<String> topics, Difficulty d, int count) => GenerationRequest(
+GenerationRequest _req(List<String> topics, Difficulty d, int count) =>
+    GenerationRequest(
       examId: 'ssc_cgl',
       examName: 'SSC CGL',
       topicIds: topics,
@@ -34,27 +35,33 @@ void main() {
     }
   });
 
-  test('sample bank is well-formed and every topic exists in some syllabus', () async {
-    final repo = MockSyllabusRepository();
-    final allTopics = <String>{};
-    for (final c in kExamCatalog) {
-      for (final e in c.exams) {
-        final s = await repo.fetchSyllabus(e.id);
-        allTopics.addAll(s.subjects.expand((x) => x.topics).map((t) => t.id));
+  test(
+    'sample bank is well-formed and every topic exists in some syllabus',
+    () async {
+      final repo = MockSyllabusRepository();
+      final allTopics = <String>{};
+      for (final c in kExamCatalog) {
+        for (final e in c.exams) {
+          final s = await repo.fetchSyllabus(e.id);
+          allTopics.addAll(s.subjects.expand((x) => x.topics).map((t) => t.id));
+        }
       }
-    }
-    final ids = <String>{};
-    for (final q in kSampleQuestionBank) {
-      expect(ids.add(q.id), isTrue);
-      expect(q.options.length, 4, reason: q.question);
-      expect(q.correctIndex, inInclusiveRange(0, 3));
-      expect(q.options.toSet().length, 4, reason: q.question);
-      expect(allTopics, contains(q.topicId));
-    }
-  });
+      final ids = <String>{};
+      for (final q in kSampleQuestionBank) {
+        expect(ids.add(q.id), isTrue);
+        expect(q.options.length, 4, reason: q.question);
+        expect(q.correctIndex, inInclusiveRange(0, 3));
+        expect(q.options.toSet().length, 4, reason: q.question);
+        expect(allTopics, contains(q.topicId));
+      }
+    },
+  );
 
   test('selection: exact topic first, same level only, capped at count', () {
-    final out = selectQuestions(_req(['quant.time_work'], Difficulty.medium, 3), kSampleQuestionBank);
+    final out = selectQuestions(
+      _req(['quant.time_work'], Difficulty.medium, 3),
+      kSampleQuestionBank,
+    );
     expect(out.length, 3);
     expect(out.first.topicId, 'quant.time_work');
     expect(out.every((q) => q.difficulty == Difficulty.medium), isTrue);
@@ -62,18 +69,26 @@ void main() {
   });
 
   test('selection never crosses into unselected subjects', () {
-    final out = selectQuestions(_req(['english.synonyms'], Difficulty.easy, 30), kSampleQuestionBank);
+    final out = selectQuestions(
+      _req(['english.synonyms'], Difficulty.easy, 30),
+      kSampleQuestionBank,
+    );
     expect(out, isNotEmpty);
     expect(out.every((q) => q.topicId.startsWith('english.')), isTrue);
   });
 
-  test('form is complete as soon as a topic is picked (level and count default)', () {
-    expect(const GeneratorForm().isComplete, isFalse);
-    expect(const GeneratorForm(topicIds: {'quant.average'}).isComplete, isTrue);
-    expect(const GeneratorForm().difficulty, Difficulty.medium);
-    expect(const GeneratorForm().count, 10);
-  });
-
+  test(
+    'form is complete as soon as a topic is picked (level and count default)',
+    () {
+      expect(const GeneratorForm().isComplete, isFalse);
+      expect(
+        const GeneratorForm(topicIds: {'quant.average'}).isComplete,
+        isTrue,
+      );
+      expect(const GeneratorForm().difficulty, Difficulty.medium);
+      expect(const GeneratorForm().count, 10);
+    },
+  );
 
   test('request JSON matches backend contract', () {
     expect(_req(['quant.average'], Difficulty.hard, 10).toJson(), {
@@ -88,13 +103,18 @@ void main() {
   });
 
   group('create practice form', () {
-    const subject = SyllabusSubject(id: 'math', name: 'Mathematics', topics: [
-      SyllabusTopic(id: 'math.a', name: 'A'),
-      SyllabusTopic(id: 'math.b', name: 'B'),
-      SyllabusTopic(id: 'math.c', name: 'C'),
-    ]);
+    const subject = SyllabusSubject(
+      id: 'math',
+      name: 'Mathematics',
+      topics: [
+        SyllabusTopic(id: 'math.a', name: 'A'),
+        SyllabusTopic(id: 'math.b', name: 'B'),
+        SyllabusTopic(id: 'math.c', name: 'C'),
+      ],
+    );
     late ProviderContainer c;
-    GeneratorFormController ctl() => c.read(generatorFormProvider('x').notifier);
+    GeneratorFormController ctl() =>
+        c.read(generatorFormProvider('x').notifier);
     GeneratorForm form() => c.read(generatorFormProvider('x'));
 
     setUp(() {
@@ -131,7 +151,11 @@ void main() {
     });
 
     test('presets fill the form and jump to the first topic\'s subject', () {
-      ctl().applyPreset(topicIds: {'math.b', 'math.c'}, difficulty: Difficulty.hard, count: 5);
+      ctl().applyPreset(
+        topicIds: {'math.b', 'math.c'},
+        difficulty: Difficulty.hard,
+        count: 5,
+      );
       expect(form().topicIds, {'math.b', 'math.c'});
       expect(form().difficulty, Difficulty.hard);
       expect(form().count, 5);
@@ -143,7 +167,9 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     final store = LastPracticeStore(await SharedPreferences.getInstance());
     expect(store.read('rrb_ntpc'), isNull);
-    await store.save(_req(['quant.percentage', 'quant.average'], Difficulty.hard, 20));
+    await store.save(
+      _req(['quant.percentage', 'quant.average'], Difficulty.hard, 20),
+    );
     final last = store.read('ssc_cgl');
     expect(last?.topicIds, {'quant.percentage', 'quant.average'});
     expect(last?.difficulty, Difficulty.hard);

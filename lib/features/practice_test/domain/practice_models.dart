@@ -48,9 +48,13 @@ class PracticeSession {
     required this.requestedCount,
     this.timeLimit,
     this.isPreview = false,
+    this.setId,
   });
 
   final String sessionId;
+
+  /// Library set this test belongs to (`null` for partial retries).
+  final String? setId;
   final String examId;
   final String examName;
   final List<String> subjects;
@@ -68,6 +72,7 @@ class PracticeSession {
   factory PracticeSession.fromJson(Map<String, dynamic> json) =>
       PracticeSession(
         sessionId: json['sessionId'] as String,
+        setId: json['setId'] as String?,
         examId: json['examId'] as String,
         examName: json['examName'] as String,
         subjects: (json['subjects'] as List<dynamic>).cast<String>(),
@@ -120,6 +125,21 @@ final class GenerateSource extends SessionSource {
       other is GenerateSource && other.request == request;
   @override
   int get hashCode => request.hashCode;
+}
+
+/// Practice Again on a My Learning Library set: same questions, new attempt.
+final class LibrarySetSource extends SessionSource {
+  const LibrarySetSource(this.setId, {this.examName = ''});
+  final String setId;
+
+  /// For the test screen title only (not part of equality).
+  final String examName;
+
+  @override
+  bool operator ==(Object other) =>
+      other is LibrarySetSource && other.setId == setId;
+  @override
+  int get hashCode => setId.hashCode;
 }
 
 /// Re-attempt of selected questions from an earlier result.

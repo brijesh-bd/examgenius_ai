@@ -514,7 +514,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navHome => 'Home';
 
   @override
-  String get navSaved => 'Saved';
+  String get navSaved => 'Library';
 
   @override
   String get navPractice => 'Practice';
@@ -1166,7 +1166,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewAction => 'View';
 
   @override
-  String get savedEmptyTitle => 'No saved practice yet';
+  String get savedEmptyTitle => 'Your Library is empty';
 
   @override
   String get savedEmptyBody =>
@@ -1199,7 +1199,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deletePracticeBody =>
-      'This saved set and its review will be removed. Your other attempts are not affected.';
+      'This practice set, its attempt history, bookmarks and notes will be permanently removed.';
 
   @override
   String get practiceDeleted => 'Practice deleted.';
@@ -1226,4 +1226,511 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orUpper => 'OR';
+
+  @override
+  String get myLibrary => 'My Learning Library';
+
+  @override
+  String get libraryStatSets => 'Practice sets';
+
+  @override
+  String get libraryStatQuestions => 'Questions';
+
+  @override
+  String get libraryStatNotes => 'Notes';
+
+  @override
+  String get libraryCategories => 'Your libraries';
+
+  @override
+  String librarySetsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sets',
+      one: '1 set',
+      zero: 'No sets yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recentPracticeSets => 'Recently generated';
+
+  @override
+  String get libraryEmptyTitle => 'Your Library is empty';
+
+  @override
+  String get libraryEmptyBody =>
+      'Every practice set you generate is saved here automatically, with its questions, answers and explanations.';
+
+  @override
+  String categoryLibraryTitle(String category) {
+    return '$category Library';
+  }
+
+  @override
+  String categoryEmptyTitle(String category) {
+    return 'No $category practice yet';
+  }
+
+  @override
+  String get categoryEmptyBody =>
+      'Generate a practice set for an exam in this category and it will appear here.';
+
+  @override
+  String get noMatchingSets => 'No practice sets match these filters';
+
+  @override
+  String get clearFilters => 'Clear filters';
+
+  @override
+  String get searchSetsHint => 'Search exam, subject or topic';
+
+  @override
+  String get filterExam => 'Exam';
+
+  @override
+  String get filterSubject => 'Subject';
+
+  @override
+  String get filterTopic => 'Topic';
+
+  @override
+  String get filterDifficulty => 'Difficulty';
+
+  @override
+  String get filterLanguage => 'Language';
+
+  @override
+  String get filterDate => 'Date';
+
+  @override
+  String get filterAny => 'All';
+
+  @override
+  String get sortLatest => 'Latest first';
+
+  @override
+  String get sortOldest => 'Oldest first';
+
+  @override
+  String get dateLast7 => 'Last 7 days';
+
+  @override
+  String get dateLast30 => 'Last 30 days';
+
+  @override
+  String get dateCustom => 'Choose dates…';
+
+  @override
+  String get dateAny => 'Any time';
+
+  @override
+  String get notAttempted => 'Not attempted';
+
+  @override
+  String attemptsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count attempts',
+      one: '1 attempt',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get latestScore => 'Latest score';
+
+  @override
+  String get viewHistory => 'History';
+
+  @override
+  String get attemptFirstToReview =>
+      'Attempt this set first — answers and explanations unlock after you submit.';
+
+  @override
+  String get loadMore => 'Load more';
+
+  @override
+  String get savedToLibrary => 'Saved to your Library automatically';
+
+  @override
+  String get openLibrary => 'Open Library';
+
+  @override
+  String get openingPractice => 'Opening practice…';
+
+  @override
+  String get aiStudyNotes => 'AI Study Notes';
+
+  @override
+  String get aiStudyNotesSub => 'Understand every topic with AI-powered notes.';
+
+  @override
+  String get notesChooseCategory => 'Choose a category';
+
+  @override
+  String get notesChooseCategoryBody =>
+      'Pick your exam category, then an exam and a topic to study.';
+
+  @override
+  String get notesChooseTopic => 'Choose a topic';
+
+  @override
+  String notesChooseTopicBody(String exam) {
+    return 'Pick one topic from the $exam syllabus to create notes.';
+  }
+
+  @override
+  String get createNotesTitle => 'Create Notes';
+
+  @override
+  String get notesExam => 'Exam';
+
+  @override
+  String get notesSubject => 'Subject';
+
+  @override
+  String get notesTopic => 'Topic';
+
+  @override
+  String get notesLevel => 'Explanation level';
+
+  @override
+  String get noteLevelBasic => 'Basic';
+
+  @override
+  String get noteLevelExam => 'Exam Standard';
+
+  @override
+  String get noteLevelAdvanced => 'Advanced';
+
+  @override
+  String get notesSections => 'Include in your notes';
+
+  @override
+  String get notesSectionsReset => 'Reset';
+
+  @override
+  String get secExplanation => 'Detailed concept explanation';
+
+  @override
+  String get secDefinitions => 'Definitions';
+
+  @override
+  String get secExamples => 'Real-life examples';
+
+  @override
+  String get secStepByStep => 'Step-by-step explanations';
+
+  @override
+  String get secDiagrams => 'Diagrams & flowcharts';
+
+  @override
+  String get secGraphs => 'Graphs (where useful)';
+
+  @override
+  String get secFormulas => 'Formulas & tables';
+
+  @override
+  String get secTips => 'Exam tips & tricks';
+
+  @override
+  String get secMistakes => 'Common mistakes';
+
+  @override
+  String get secKeyPoints => 'Important exam points';
+
+  @override
+  String get secRevision => 'Quick revision notes';
+
+  @override
+  String get secMcqs => 'Topic MCQs with explanations';
+
+  @override
+  String get notesPickOneSection => 'Select at least one section.';
+
+  @override
+  String get generateNotes => 'Generate Complete Notes';
+
+  @override
+  String get generatingNotes =>
+      'Writing your notes… this can take up to a minute.';
+
+  @override
+  String get notesFailed => 'Notes could not be generated. Nothing was saved.';
+
+  @override
+  String get notesSaved => 'Saved to your Library';
+
+  @override
+  String get notesContents => 'Contents';
+
+  @override
+  String get nOverview => 'Topic Overview';
+
+  @override
+  String get nDetailed => 'Detailed Explanation';
+
+  @override
+  String get nConcepts => 'Important Concepts';
+
+  @override
+  String get nExamples => 'Examples';
+
+  @override
+  String get nDiagrams => 'Diagrams, Flowcharts & Graphs';
+
+  @override
+  String get nFormulas => 'Formulas & Tables';
+
+  @override
+  String get nTips => 'Exam Tips & Tricks';
+
+  @override
+  String get nMistakes => 'Common Mistakes';
+
+  @override
+  String get nKeyPoints => 'Important Exam Points';
+
+  @override
+  String get nRevision => 'Quick Revision';
+
+  @override
+  String get nMcqs => 'Important Questions & MCQs';
+
+  @override
+  String get nNext => 'What to Study Next';
+
+  @override
+  String noteStep(int n) {
+    return 'Step $n';
+  }
+
+  @override
+  String noteAnswer(String answer) {
+    return 'Answer: $answer';
+  }
+
+  @override
+  String get noteShowAnswer => 'Show answer';
+
+  @override
+  String get noteHideAnswer => 'Hide answer';
+
+  @override
+  String get noteNotFound => 'This note could not be opened.';
+
+  @override
+  String get noteExpandAll => 'Expand all';
+
+  @override
+  String get noteCollapseAll => 'Collapse all';
+
+  @override
+  String get myPracticeSets => 'My Practice Sets';
+
+  @override
+  String get myStudyNotes => 'My Study Notes';
+
+  @override
+  String notesLibraryTitle(String category) {
+    return '$category Notes';
+  }
+
+  @override
+  String notesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notes',
+      one: '1 note',
+      zero: 'No notes yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get searchNotesHint => 'Search by topic, subject or exam';
+
+  @override
+  String notesEmptyTitle(String category) {
+    return 'No $category notes yet';
+  }
+
+  @override
+  String get notesEmptyBody =>
+      'Create AI Study Notes for any topic and they are saved here automatically.';
+
+  @override
+  String get noMatchingNotes => 'No notes match these filters';
+
+  @override
+  String get createNotesCta => 'Create notes';
+
+  @override
+  String noteCreatedOn(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get noteBookmark => 'Bookmark';
+
+  @override
+  String get noteRemoveBookmark => 'Remove bookmark';
+
+  @override
+  String get noteBookmarked => 'Note bookmarked';
+
+  @override
+  String get noteUnbookmarked => 'Bookmark removed';
+
+  @override
+  String get noteMoreActions => 'More actions';
+
+  @override
+  String get personalNote => 'Personal note';
+
+  @override
+  String get personalNoteHint => 'Write your own points, shortcuts or doubts…';
+
+  @override
+  String get personalNoteAdd => 'Add personal note';
+
+  @override
+  String get personalNoteEdit => 'Edit';
+
+  @override
+  String get personalNoteSaved => 'Personal note saved';
+
+  @override
+  String get noteSave => 'Save';
+
+  @override
+  String get noteDelete => 'Delete note';
+
+  @override
+  String get noteDeleteTitle => 'Delete this note?';
+
+  @override
+  String get noteDeleteBody =>
+      'This note and your personal note on it will be permanently removed.';
+
+  @override
+  String get noteDeleted => 'Note deleted';
+
+  @override
+  String get quickRevision => 'Quick revision';
+
+  @override
+  String get flashcards => 'Flashcards';
+
+  @override
+  String get flashcardTapToFlip => 'Tap the card to see the answer';
+
+  @override
+  String flashcardCount(int n, int total) {
+    return '$n / $total';
+  }
+
+  @override
+  String get flashcardPrev => 'Previous';
+
+  @override
+  String get flashcardNext => 'Next';
+
+  @override
+  String get noFlashcards =>
+      'This note has no concepts or formulas to turn into flashcards.';
+
+  @override
+  String get noRevision => 'This note has no revision points.';
+
+  @override
+  String get notesViewAll => 'All';
+
+  @override
+  String get notesViewBookmarked => 'Bookmarked';
+
+  @override
+  String get notesViewPersonal => 'Personal notes';
+
+  @override
+  String get noBookmarkedNotes => 'No bookmarked notes here yet';
+
+  @override
+  String get noBookmarkedNotesBody =>
+      'Tap the bookmark icon on a note to keep it here.';
+
+  @override
+  String get noPersonalNotes => 'No personal notes here yet';
+
+  @override
+  String get noPersonalNotesBody =>
+      'Open a note and add your own points — they will appear here.';
+
+  @override
+  String get historyTitle => 'Practice history';
+
+  @override
+  String get historyEmpty =>
+      'No attempts yet. Practise this set to build its history.';
+
+  @override
+  String historyAttempt(int n) {
+    return 'Attempt $n';
+  }
+
+  @override
+  String historyLine(String score, String max, String percent) {
+    return 'Score $score/$max · Accuracy $percent';
+  }
+
+  @override
+  String get learningPath => 'Learning path';
+
+  @override
+  String get openLearningPath => 'Learning path';
+
+  @override
+  String learningPathProgress(int done, int total) {
+    return '$done of $total topics completed';
+  }
+
+  @override
+  String learningTopicPosition(int n, int total) {
+    return 'Topic $n of $total';
+  }
+
+  @override
+  String get markCompleted => 'Mark as completed';
+
+  @override
+  String get markedCompleted => 'Marked as completed';
+
+  @override
+  String get markedNotCompleted => 'Marked as not completed';
+
+  @override
+  String get continueNextTopic => 'Continue to Next Topic';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusCurrent => 'Current';
+
+  @override
+  String get statusUpcoming => 'Upcoming';
+
+  @override
+  String get notesReady => 'Notes ready';
+
+  @override
+  String get allTopicsCompleted => 'All topics completed — great work!';
+
+  @override
+  String get nextTopicHint => 'Tap a topic to create its notes';
 }

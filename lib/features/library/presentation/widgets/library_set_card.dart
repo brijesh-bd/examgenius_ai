@@ -4,39 +4,39 @@ import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/l10n_ext.dart';
+import '../../../practice_test/presentation/widgets/result_charts.dart';
 import '../../../question_generator/presentation/widgets/generator_options.dart';
-import '../../domain/saved_practice.dart';
-import 'result_charts.dart';
+import '../../domain/library_models.dart';
 
-/// One saved practice set: exam, subject, topics, difficulty, question count,
-/// score, accuracy, date — plus Review / Practice Again / Retry Wrong / Delete.
-class SavedPracticeCard extends StatelessWidget {
-  const SavedPracticeCard({
+/// One saved practice set: exam, subjects, topics, questions, difficulty,
+/// language, date, latest score / attempt status — plus Review, Practice
+/// Again, History and Delete.
+class LibrarySetCard extends StatelessWidget {
+  const LibrarySetCard({
     super.key,
-    required this.saved,
+    required this.set,
     required this.onReview,
     required this.onPracticeAgain,
-    required this.onRetryWrong,
+    required this.onHistory,
     required this.onDelete,
   });
 
-  final SavedPractice saved;
+  final LibrarySet set;
   final VoidCallback onReview;
   final VoidCallback onPracticeAgain;
-
-  /// `null` when the attempt had no wrong answers.
-  final VoidCallback? onRetryWrong;
+  final VoidCallback onHistory;
   final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
-    final r = saved.result;
+    final s = set;
+    final st = s.stats;
     final locale = Localizations.localeOf(context).toLanguageTag();
-    final date = DateFormat.yMMMd(locale).add_jm().format(r.completedAt);
+    final date = DateFormat.yMMMd(locale).add_jm().format(s.createdAt);
     const maxTopics = 3;
-    final extra = r.topics.length - maxTopics;
+    final extra = s.topics.length - maxTopics;
 
     return Container(
       decoration: BoxDecoration(
@@ -54,7 +54,6 @@ class SavedPracticeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Accent strip + header.
           Container(
             padding: const EdgeInsets.fromLTRB(16, 14, 12, 12),
             decoration: BoxDecoration(
@@ -84,7 +83,7 @@ class SavedPracticeCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        r.examName,
+                        s.examName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.labelBold.copyWith(
@@ -92,7 +91,7 @@ class SavedPracticeCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        r.subjects.join(' · '),
+                        s.subjects.map((x) => x.name).join(' · '),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.bodySmall.copyWith(
@@ -102,7 +101,10 @@ class SavedPracticeCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                AccuracyRing(value: r.accuracy, size: 56),
+                if (st.attempted && st.latestAccuracy != null)
+                  AccuracyRing(value: st.latestAccuracy!, size: 52)
+                else
+                  _StatusPill(label: l10n.notAttempted),
               ],
             ),
           ),
@@ -115,7 +117,8 @@ class SavedPracticeCard extends StatelessWidget {
                   spacing: 6,
                   runSpacing: 6,
                   children: [
-                    for (final t in r.topics.take(maxTopics)) _Chip(label: t),
+                    for (final t in s.topics.take(maxTopics))
+                      _Chip(label: t.name),
                     if (extra > 0) _Chip(label: '+$extra'),
                   ],
                 ),
@@ -124,23 +127,22 @@ class SavedPracticeCard extends StatelessWidget {
                   children: [
                     _Fact(
                       icon: Icons.signal_cellular_alt_rounded,
-                      value: r.difficulty.label(l10n),
-                      color: r.difficulty.color,
+                      value: s.difficulty.label(l10n),
+                      color: s.difficulty.color,
                     ),
                     _Fact(
                       icon: Icons.list_alt_rounded,
-                      value: l10n.questionsShort(r.total),
+                      value: l10n.questionsShort(s.questionCount),
                       color: AppColors.primary,
                     ),
                     _Fact(
-                      icon: Icons.emoji_events_rounded,
-                      value: '${scoreText(r.score)}/${scoreText(r.maxScore)}',
+                      icon: Icons.translate_rounded,
+                      value: s.language == 'hi' ? l10n.hindi : l10n.english,
                       color: AppColors.secondary,
-                      semantic: l10n.scoreLabel,
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     Icon(
@@ -157,6 +159,17 @@ class SavedPracticeCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    if (st.attempted)
+                      Text(
+                        '${l10n.latestScore}: '
+                        '${scoreText(st.latestScore ?? 0)}/'
+                        '${scoreText(st.latestMaxScore ?? 0)}'
+                        ' · ${l10n.attemptsCount(st.attempts)}',
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.primaryDark,
+                          fontWeight: AppFontWeights.semiBold,
+                        ),
+                      ),
                   ],
                 ),
               ],
@@ -186,10 +199,10 @@ class SavedPracticeCard extends StatelessWidget {
                 Row(
                   children: [
                     _Action(
-                      icon: Icons.replay_rounded,
-                      label: l10n.retryWrongShort,
+                      icon: Icons.history_rounded,
+                      label: l10n.viewHistory,
                       color: AppColors.secondary,
-                      onTap: onRetryWrong,
+                      onTap: onHistory,
                     ),
                     _Action(
                       icon: Icons.delete_outline_rounded,
@@ -203,6 +216,30 @@ class SavedPracticeCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StatusPill extends StatelessWidget {
+  const _StatusPill({required this.label});
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: AppTextStyles.caption.copyWith(
+          color: scheme.onSurfaceVariant,
+          fontWeight: AppFontWeights.semiBold,
+        ),
       ),
     );
   }
@@ -234,23 +271,17 @@ class _Chip extends StatelessWidget {
 }
 
 class _Fact extends StatelessWidget {
-  const _Fact({
-    required this.icon,
-    required this.value,
-    required this.color,
-    this.semantic,
-  });
+  const _Fact({required this.icon, required this.value, required this.color});
 
   final IconData icon;
   final String value;
   final Color color;
-  final String? semantic;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Semantics(
-        label: semantic == null ? value : '$semantic $value',
+        label: value,
         child: ExcludeSemantics(
           child: Row(
             children: [

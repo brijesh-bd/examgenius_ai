@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../question_generator/domain/generated_question.dart';
 import '../../../question_generator/presentation/providers/question_generator_providers.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_config.dart';
 import '../../../../localization/settings_providers.dart';
+import '../../../library/presentation/providers/library_providers.dart';
 import '../../data/api_practice_repository.dart';
 import '../../data/mock_practice_repository.dart';
 import '../../domain/practice_models.dart';
@@ -26,18 +28,32 @@ final practiceRepositoryProvider = Provider<PracticeRepository>((ref) {
   );
 });
 
-/// Opens a session for a [SessionSource]: fresh generation or a retry.
+/// Opens a session for a [SessionSource]: fresh generation, a retry, or
+/// Practice Again on a Library set.
 final practiceSessionProvider = FutureProvider.autoDispose
     .family<PracticeSession, SessionSource>((ref, source) {
       final repo = ref.watch(practiceRepositoryProvider);
       return switch (source) {
-        GenerateSource(:final request) => repo.startSession(request),
+        GenerateSource(:final request) => _generate(ref, repo, request),
+        LibrarySetSource(:final setId) =>
+          ref.watch(libraryRepositoryProvider).startSet(setId),
         RetrySource(:final result, :final questionIds) => repo.retrySession(
           result,
           questionIds,
         ),
       };
     });
+
+Future<PracticeSession> _generate(
+  Ref ref,
+  PracticeRepository repo,
+  GenerationRequest request,
+) async {
+  final session = await repo.startSession(request);
+  // The backend saved the new set to the Library: refresh it.
+  if (ref.mounted) ref.read(libraryRevisionProvider.notifier).bump();
+  return session;
+}
 
 /// Everything the test screen shows, derived from user actions + the clock.
 @immutable
@@ -189,6 +205,10 @@ class PracticeTestController extends Notifier<PracticeTestState> {
           );
       if (!ref.mounted) return;
       state = state.copyWith(submitting: false, result: result);
+      // New attempt → the Library's scores and attempt counts changed.
+      if (session.setId != null) {
+        ref.read(libraryRevisionProvider.notifier).bump();
+      }
     } on Object catch (e) {
       if (!ref.mounted) return;
       state = state.copyWith(submitting: false, submitError: e);

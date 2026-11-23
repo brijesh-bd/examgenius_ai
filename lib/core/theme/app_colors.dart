@@ -52,6 +52,9 @@ abstract final class AppColors {
   // ── Home module tiles ──────────────────────────────────────────────────
   static const Color mockTests = Color(0xFF7C3AED);
   static const Color dailyPractice = Color(0xFFEC2C5B);
+
+  /// Home "AI Study Notes" card (took the Daily Practice slot and colour).
+  static const Color studyNotes = dailyPractice;
   static const Color previousYear = Color(0xFF0EA5B7);
 
   /// Cycled for syllabus subject / topic cards.

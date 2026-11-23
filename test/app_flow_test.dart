@@ -9,10 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> pumpApp(WidgetTester tester, Map<String, Object> prefs) async {
   SharedPreferences.setMockInitialValues(prefs);
   final p = await SharedPreferences.getInstance();
-  await tester.pumpWidget(ProviderScope(
-    overrides: [sharedPreferencesProvider.overrideWithValue(p)],
-    child: const ExamGeniusApp(),
-  ));
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [sharedPreferencesProvider.overrideWithValue(p)],
+      child: const ExamGeniusApp(),
+    ),
+  );
   await tester.pump(const Duration(seconds: 2)); // splash
   await tester.pumpAndSettle();
 }
@@ -49,7 +51,9 @@ void main() {
     expect(find.text('This field is required'), findsNWidgets(2));
   });
 
-  testWidgets('validation errors clear as soon as the fields are filled', (tester) async {
+  testWidgets('validation errors clear as soon as the fields are filled', (
+    tester,
+  ) async {
     await pumpApp(tester, {'onboarding_done': true});
     await tester.ensureVisible(find.text('Login'));
     await tester.pumpAndSettle();
@@ -59,7 +63,10 @@ void main() {
 
     await tester.enterText(find.byType(TextFormField).at(0), '9876543210');
     await tester.pump();
-    expect(find.text('This field is required'), findsOneWidget); // email/mobile error gone
+    expect(
+      find.text('This field is required'),
+      findsOneWidget,
+    ); // email/mobile error gone
     await tester.enterText(find.byType(TextFormField).at(1), 'password123');
     await tester.pump();
     expect(find.text('This field is required'), findsNothing);
@@ -72,7 +79,9 @@ void main() {
     expect(find.text('Continue with Email OTP'), findsNothing);
   });
 
-  testWidgets('forgot password: validate, send, confirmation, back to login', (tester) async {
+  testWidgets('forgot password: validate, send, confirmation, back to login', (
+    tester,
+  ) async {
     await pumpApp(tester, {'onboarding_done': true});
     await tester.ensureVisible(find.text('Forgot Password?'));
     await tester.pumpAndSettle();
@@ -85,18 +94,27 @@ void main() {
     expect(find.text('This field is required'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField), 'abc');
     await tester.pump();
-    expect(find.text('Enter a valid email or 10-digit mobile number'), findsOneWidget);
+    expect(
+      find.text('Enter a valid email or 10-digit mobile number'),
+      findsOneWidget,
+    );
     await tester.enterText(find.byType(TextFormField), 'student@example.com');
     await tester.pump();
-    expect(find.text('Enter a valid email or 10-digit mobile number'), findsNothing);
+    expect(
+      find.text('Enter a valid email or 10-digit mobile number'),
+      findsNothing,
+    );
 
     await tester.tap(find.text('Send Reset Link'));
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
     expect(find.text('Check your inbox'), findsOneWidget);
     expect(
-        find.text('We have sent password reset instructions to student@example.com'),
-        findsOneWidget);
+      find.text(
+        'We have sent password reset instructions to student@example.com',
+      ),
+      findsOneWidget,
+    );
 
     await tester.tap(find.text('Back to Login'));
     await tester.pumpAndSettle();

@@ -245,7 +245,8 @@ class _Comparison extends StatelessWidget {
     // Free numbers are known even when the student is Pro (shown for reference).
     final freeSets = status.isPro ? 2 : (status.limits.setsPerDay ?? 2);
     final freeSize = status.isPro ? 10 : status.limits.maxQuestionsPerSet;
-    final freeSaved = status.isPro ? 10 : (status.limits.maxSaved ?? 10);
+    // null = unlimited (every generated set is kept in the Library).
+    final freeSaved = status.isPro ? null : status.limits.maxSaved;
     const proSize = 30;
 
     Widget cell(String text, {bool strong = false, Color? color}) => Expanded(
@@ -313,7 +314,9 @@ class _Comparison extends StatelessWidget {
           row(l10n.featureReview, yes(), yes()),
           row(
             l10n.featureSaved,
-            cell('$freeSaved'),
+            freeSaved == null
+                ? cell(l10n.featureUnlimited, strong: true)
+                : cell('$freeSaved'),
             cell(l10n.featureUnlimited, strong: true),
           ),
           row(l10n.featureFreshAi, no(), yes()),

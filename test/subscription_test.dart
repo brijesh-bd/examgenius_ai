@@ -14,16 +14,16 @@ import 'package:examgenius_ai/core/services/preferences_service.dart';
 late SharedPreferences _prefs;
 
 Widget _app(Widget home, {SubscriptionRepository? repo}) => ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(_prefs),
-        if (repo != null) subscriptionRepositoryProvider.overrideWithValue(repo),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: home,
-      ),
-    );
+  overrides: [
+    sharedPreferencesProvider.overrideWithValue(_prefs),
+    if (repo != null) subscriptionRepositoryProvider.overrideWithValue(repo),
+  ],
+  child: MaterialApp(
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: home,
+  ),
+);
 
 void main() {
   setUp(() async {
@@ -38,7 +38,13 @@ void main() {
       'expiresAt': null,
       'trialAvailable': true,
       'trialDays': 7,
-      'limits': {'setsPerDay': 2, 'questionsPerDay': null, 'maxQuestionsPerSet': 10, 'maxSaved': 10, 'freshAi': false},
+      'limits': {
+        'setsPerDay': 2,
+        'questionsPerDay': null,
+        'maxQuestionsPerSet': 10,
+        'maxSaved': 10,
+        'freshAi': false,
+      },
       'usageToday': {'sets': 1, 'questions': 5},
       'resetsAt': '2026-11-21T18:30:00.000Z',
       'offers': [
@@ -56,7 +62,11 @@ void main() {
       'source': 'trial',
       'expiresAt': '2026-11-28T10:00:00.000Z',
       'trialAvailable': false,
-      'limits': {'questionsPerDay': 300, 'maxQuestionsPerSet': 30, 'freshAi': true},
+      'limits': {
+        'questionsPerDay': 300,
+        'maxQuestionsPerSet': 30,
+        'freshAi': true,
+      },
       'usageToday': {'sets': 4, 'questions': 40},
       'resetsAt': '2026-11-21T18:30:00.000Z',
       'offers': <dynamic>[],
@@ -66,22 +76,36 @@ void main() {
   });
 
   test('server 403 codes map to plan limits; other errors do not', () {
-    final hit = PlanLimitHit.from(const ApiException('x', statusCode: 403, code: 'DAILY_SETS',
-        details: {'max': 2, 'resetsAt': '2026-11-21T18:30:00.000Z'}));
+    final hit = PlanLimitHit.from(
+      const ApiException(
+        'x',
+        statusCode: 403,
+        code: 'DAILY_SETS',
+        details: {'max': 2, 'resetsAt': '2026-11-21T18:30:00.000Z'},
+      ),
+    );
     expect(hit?.kind, PlanLimitKind.dailySets);
     expect(hit?.max, 2);
     expect(hit?.resetsAt, DateTime.utc(2026, 11, 21, 18, 30));
-    expect(PlanLimitHit.from(const ApiException('x', statusCode: 403, code: 'SAVED_LIMIT'))?.kind,
-        PlanLimitKind.savedLimit);
+    expect(
+      PlanLimitHit.from(
+        const ApiException('x', statusCode: 403, code: 'SAVED_LIMIT'),
+      )?.kind,
+      PlanLimitKind.savedLimit,
+    );
     expect(PlanLimitHit.from(const ApiException('x', statusCode: 503)), isNull);
     expect(PlanLimitHit.from(Exception('boom')), isNull);
   });
 
-  testWidgets('plans screen: compare, yearly highlighted, trial turns on Pro', (tester) async {
+  testWidgets('plans screen: compare, yearly highlighted, trial turns on Pro', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(390, 1400) * 3;
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(_app(const PlansScreen(), repo: MockSubscriptionRepository()));
+    await tester.pumpWidget(
+      _app(const PlansScreen(), repo: MockSubscriptionRepository()),
+    );
     await tester.pump(const Duration(milliseconds: 300));
     await tester.pumpAndSettle();
 
@@ -104,19 +128,33 @@ void main() {
     expect(find.text('Start 7-day free trial'), findsNothing);
   });
 
-  testWidgets('upgrade prompt explains the limit and offers plans', (tester) async {
-    await tester.pumpWidget(_app(const Scaffold(
-      body: UpgradePrompt(hit: PlanLimitHit(PlanLimitKind.dailySets, max: 2)),
-    )));
+  testWidgets('upgrade prompt explains the limit and offers plans', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(
+        const Scaffold(
+          body: UpgradePrompt(
+            hit: PlanLimitHit(PlanLimitKind.dailySets, max: 2),
+          ),
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(find.text("You have used today's free sets"), findsOneWidget);
     expect(find.textContaining('2 practice sets per day'), findsOneWidget);
     expect(find.text('See Pro plans'), findsOneWidget);
 
     // Pro fair-use cap: no upsell.
-    await tester.pumpWidget(_app(const Scaffold(
-      body: UpgradePrompt(hit: PlanLimitHit(PlanLimitKind.dailyQuestions, max: 300)),
-    )));
+    await tester.pumpWidget(
+      _app(
+        const Scaffold(
+          body: UpgradePrompt(
+            hit: PlanLimitHit(PlanLimitKind.dailyQuestions, max: 300),
+          ),
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(find.text('See Pro plans'), findsNothing);
   });

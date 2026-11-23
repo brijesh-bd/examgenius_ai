@@ -17,10 +17,17 @@ import '../providers/dashboard_providers.dart';
 import '../widgets/exam_category_cards.dart';
 
 /// Lists the exams of one category (Railway / SSC / Banking) from the catalog.
+/// With [forNotes] an exam opens the AI Study Notes topic picker instead of
+/// Create Practice.
 class ExamSelectionScreen extends ConsumerWidget {
-  const ExamSelectionScreen({super.key, required this.categoryId});
+  const ExamSelectionScreen({
+    super.key,
+    required this.categoryId,
+    this.forNotes = false,
+  });
 
   final String categoryId;
+  final bool forNotes;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,7 +67,7 @@ class ExamSelectionScreen extends ConsumerWidget {
                   icon: Icons.school_outlined,
                   title: l10n.comingSoon,
                 )
-              : _ExamList(category: category),
+              : _ExamList(category: category, forNotes: forNotes),
         ),
       ),
     );
@@ -69,9 +76,10 @@ class ExamSelectionScreen extends ConsumerWidget {
 
 /// One card per exam in the category, same style as the Home cards.
 class _ExamList extends ConsumerWidget {
-  const _ExamList({required this.category});
+  const _ExamList({required this.category, required this.forNotes});
 
   final ExamCategory category;
+  final bool forNotes;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -101,10 +109,16 @@ class _ExamList extends ConsumerWidget {
                       title: exam.name,
                       subtitle: exam.id == targetId
                           ? l10n.currentTarget
+                          : forNotes
+                          ? l10n.notesChooseTopic
                           : l10n.syllabusTitle,
                       icon: style.icon,
                       color: style.color,
-                      onTap: () => context.push(AppRoutes.syllabusFor(exam.id)),
+                      onTap: () => context.push(
+                        forNotes
+                            ? AppRoutes.notesTopicsFor(exam.id)
+                            : AppRoutes.syllabusFor(exam.id),
+                      ),
                     ),
                 ],
               ),

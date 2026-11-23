@@ -15,13 +15,23 @@ import '../../features/practice_test/domain/practice_result.dart';
 import '../../features/practice_test/presentation/screens/answer_review_screen.dart';
 import '../../features/practice_test/presentation/screens/practice_result_screen.dart';
 import '../../features/practice_test/presentation/screens/practice_test_screen.dart';
-import '../../features/practice_test/presentation/screens/saved_practice_screen.dart';
+import '../../features/library/presentation/screens/category_library_screen.dart';
+import '../../features/library/presentation/screens/library_screen.dart';
 import '../../features/question_generator/presentation/screens/create_practice_screen.dart';
 import '../../features/shell/coming_soon_screen.dart';
 import '../../features/shell/main_shell.dart';
 import '../../features/shell/profile_screen.dart';
 import '../../features/subscription/presentation/screens/plans_screen.dart';
 import '../../features/splash/splash_screen.dart';
+import '../../features/study_notes/domain/study_note.dart';
+import '../../features/study_notes/presentation/providers/study_notes_providers.dart';
+import '../../features/study_notes/presentation/screens/category_notes_screen.dart';
+import '../../features/study_notes/presentation/screens/create_notes_screen.dart';
+import '../../features/study_notes/presentation/screens/learning_path_screen.dart';
+import '../../features/study_notes/presentation/screens/note_view_screen.dart';
+import '../../features/study_notes/presentation/screens/notes_category_screen.dart';
+import '../../features/study_notes/presentation/screens/notes_topic_screen.dart';
+import '../../features/study_notes/presentation/screens/revision_screens.dart';
 import 'app_routes.dart';
 
 final _rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -104,6 +114,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(
+        path: AppRoutes.libraryPractice,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => PracticeTestScreen(
+          source: s.extra is LibrarySetSource
+              ? s.extra as LibrarySetSource
+              : null,
+        ),
+      ),
+      GoRoute(
         path: AppRoutes.practiceResult,
         parentNavigatorKey: _rootKey,
         builder: (_, s) => PracticeResultScreen(
@@ -122,6 +141,67 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           result: s.extra is PracticeResult ? s.extra as PracticeResult : null,
         ),
       ),
+      // AI Study Notes: Category → Exam → Topic → Create → View.
+      GoRoute(
+        path: AppRoutes.notes,
+        parentNavigatorKey: _rootKey,
+        builder: (_, _) => const NotesCategoryScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.notesExams,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => ExamSelectionScreen(
+          categoryId: s.pathParameters['categoryId'] ?? '',
+          forNotes: true,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.notesTopics,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) =>
+            NotesTopicScreen(examId: s.pathParameters['examId'] ?? ''),
+      ),
+      GoRoute(
+        path: AppRoutes.notesCreate,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => CreateNotesScreen(
+          examId: s.pathParameters['examId'] ?? '',
+          topicId: s.pathParameters['topicId'] ?? '',
+          prefill: s.extra is NotesPrefill ? s.extra as NotesPrefill : null,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.noteView,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => NoteViewScreen(
+          noteId: s.pathParameters['noteId'] ?? '',
+          initial: s.extra is StudyNote ? s.extra as StudyNote : null,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.notesPath,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => LearningPathScreen(
+          examId: s.pathParameters['examId'] ?? '',
+          subjectId: s.pathParameters['subjectId'] ?? '',
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.noteRevision,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => QuickRevisionScreen(
+          noteId: s.pathParameters['noteId'] ?? '',
+          initial: s.extra is StudyNote ? s.extra as StudyNote : null,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.noteFlashcards,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => FlashcardsScreen(
+          noteId: s.pathParameters['noteId'] ?? '',
+          initial: s.extra is StudyNote ? s.extra as StudyNote : null,
+        ),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => MainShell(shell: shell),
         branches: [
@@ -130,7 +210,28 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             AppRoutes.practice,
             const PlaceholderTab(tab: ShellTab.practice),
           ),
-          _branch(AppRoutes.savedPractice, const SavedPracticeScreen()),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.savedPractice,
+                builder: (_, _) => const LibraryScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.libraryNotes,
+                    builder: (_, s) => CategoryNotesScreen(
+                      category: s.pathParameters['category'] ?? '',
+                    ),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.libraryCategory,
+                    builder: (_, s) => CategoryLibraryScreen(
+                      category: s.pathParameters['category'] ?? '',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           _branch(
             AppRoutes.analytics,
             const PlaceholderTab(tab: ShellTab.analytics),

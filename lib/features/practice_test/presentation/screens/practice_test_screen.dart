@@ -34,6 +34,7 @@ class PracticeTestScreen extends ConsumerWidget {
   static String _title(SessionSource s) => switch (s) {
     GenerateSource(:final request) => request.examName,
     RetrySource(:final result) => result.examName,
+    LibrarySetSource(:final examName) => examName,
   };
 
   @override

@@ -51,10 +51,12 @@ Future<void> _pumpDashboard(
     'theme_mode': theme,
   });
   final prefs = await SharedPreferences.getInstance();
-  await tester.pumpWidget(ProviderScope(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-    child: const ExamGeniusApp(),
-  ));
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      child: const ExamGeniusApp(),
+    ),
+  );
   await tester.pump(const Duration(seconds: 2)); // splash
   await tester.pumpAndSettle();
   await tester.pump(const Duration(seconds: 1)); // mock repository latency
@@ -83,7 +85,9 @@ void main() {
   };
 
   for (final e in sizes.entries) {
-    testWidgets('dashboard renders without overflow — ${e.key}', (tester) async {
+    testWidgets('dashboard renders without overflow — ${e.key}', (
+      tester,
+    ) async {
       await _pumpDashboard(tester, size: e.value);
       expect(find.text('Choose your exam'), findsOneWidget);
       expect(find.text('Railway'), findsOneWidget);
@@ -94,7 +98,9 @@ void main() {
     });
   }
 
-  testWidgets('Hindi + dark theme + 1.3x text on a small phone', (tester) async {
+  testWidgets('Hindi + dark theme + 1.3x text on a small phone', (
+    tester,
+  ) async {
     await _pumpDashboard(
       tester,
       size: const Size(320, 640),
@@ -114,31 +120,40 @@ void main() {
         .items
         .map((i) => i.label)
         .toList();
-    expect(labels, ['Home', 'Practice', 'Saved', 'Analytics']);
+    expect(labels, ['Home', 'Practice', 'Library', 'Analytics']);
   });
 
-  testWidgets('Saved tab opens My Saved Practice (empty state)', (tester) async {
+  testWidgets('Library tab opens My Learning Library (empty state)', (
+    tester,
+  ) async {
     await _pumpDashboard(tester, size: const Size(360, 800));
-    await tester.tap(find.text('Saved'));
+    await tester.tap(find.text('Library'));
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
-    expect(find.text('My Saved Practice'), findsOneWidget);
-    expect(find.text('No saved practice yet'), findsOneWidget);
-    expect(find.byType(CustomBottomNavigation), findsOneWidget); // still in the shell
+    expect(find.text('My Learning Library'), findsOneWidget);
+    expect(find.text('Your Library is empty'), findsOneWidget);
+    expect(find.text('Railway Library'), findsOneWidget);
+    expect(
+      find.byType(CustomBottomNavigation),
+      findsOneWidget,
+    ); // still in the shell
   });
 
-  testWidgets('shows three exam categories and three module tiles',
-      (tester) async {
+  testWidgets('shows three exam categories and three module tiles', (
+    tester,
+  ) async {
     await _pumpDashboard(tester, size: const Size(360, 800));
     expect(find.text('Railway'), findsOneWidget);
     expect(find.text('SSC'), findsOneWidget);
     expect(find.text('Banking'), findsOneWidget);
-    for (final t in ['Mock Tests', 'Daily Practice', 'Previous Year Papers']) {
+    for (final t in ['Mock Tests', 'AI Study Notes', 'Previous Year Papers']) {
       expect(find.text(t), findsOneWidget);
     }
   });
 
-  testWidgets('tapping a category opens its exam selection page', (tester) async {
+  testWidgets('tapping a category opens its exam selection page', (
+    tester,
+  ) async {
     await _pumpDashboard(tester, size: const Size(360, 800));
     await tester.tap(find.text('SSC'));
     await tester.pumpAndSettle();
@@ -155,7 +170,9 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('exam → syllabus → topic/level/count → generated questions', (tester) async {
+  testWidgets('exam → syllabus → topic/level/count → generated questions', (
+    tester,
+  ) async {
     await _pumpDashboard(tester, size: const Size(360, 800));
     await tester.tap(find.text('Railway'));
     await tester.pumpAndSettle();
@@ -168,9 +185,12 @@ void main() {
     expect(find.text('Weak topics'), findsOneWidget);
     expect(find.widgetWithText(ChoiceChip, 'Mathematics'), findsOneWidget);
     expect(find.text('Select at least 1 topic to start'), findsOneWidget);
-    FilledButton generateButton() =>
-        tester.widget<FilledButton>(find.ancestor(
-            of: find.text('Generate Questions'), matching: find.byType(FilledButton)));
+    FilledButton generateButton() => tester.widget<FilledButton>(
+      find.ancestor(
+        of: find.text('Generate Questions'),
+        matching: find.byType(FilledButton),
+      ),
+    );
     expect(generateButton().onPressed, isNull);
 
     // Subject chip → its topics appear inline (no new page, no going back).
@@ -194,7 +214,10 @@ void main() {
 
     await tester.tap(find.text('Generate Questions'));
     await tester.pump();
-    expect(find.textContaining('exam-level questions'), findsOneWidget); // loading
+    expect(
+      find.textContaining('exam-level questions'),
+      findsOneWidget,
+    ); // loading
     await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
 
@@ -202,8 +225,12 @@ void main() {
     expect(find.text('Question 1 of 5'), findsOneWidget);
     expect(find.textContaining('A can do a work in 12 days'), findsOneWidget);
     expect(find.byType(TestTimerChip), findsOneWidget);
-    FilledButton submitButton() => tester.widget<FilledButton>(find.ancestor(
-        of: find.text('Submit Test'), matching: find.byWidgetPredicate((w) => w is FilledButton)));
+    FilledButton submitButton() => tester.widget<FilledButton>(
+      find.ancestor(
+        of: find.text('Submit Test'),
+        matching: find.byWidgetPredicate((w) => w is FilledButton),
+      ),
+    );
     expect(submitButton().onPressed, isNull);
 
     await tester.ensureVisible(find.text('8'));
@@ -211,7 +238,10 @@ void main() {
     await tester.tap(find.text('8'));
     await tester.pumpAndSettle();
     expect(find.text('1/5 answered'), findsOneWidget);
-    expect(find.text('Correct!'), findsNothing); // never revealed during the test
+    expect(
+      find.text('Correct!'),
+      findsNothing,
+    ); // never revealed during the test
 
     // Change answer, clear it, answer again.
     await tester.ensureVisible(find.byType(OptionTile).first);
@@ -249,47 +279,55 @@ void main() {
     // Screen 2: confirmation dialog with the summary; Cancel keeps the test.
     await tester.tap(find.text('Submit Test'));
     await tester.pumpAndSettle();
-    expect(find.text('Are you sure you want to submit your test?'), findsOneWidget);
+    expect(
+      find.text('Are you sure you want to submit your test?'),
+      findsOneWidget,
+    );
     expect(find.text('Total Questions'), findsOneWidget);
     expect(find.text('Time Remaining'), findsOneWidget);
     await tester.tap(find.text('Cancel'));
     await tester.pumpAndSettle();
-    expect(find.text('Are you sure you want to submit your test?'), findsNothing);
+    expect(
+      find.text('Are you sure you want to submit your test?'),
+      findsNothing,
+    );
 
     // Confirm → submitting overlay → result screen with the backend score.
     await tester.tap(find.text('Submit Test'));
     await tester.pumpAndSettle();
-    await tester.tap(find.descendant(
-        of: find.byType(Dialog), matching: find.widgetWithText(FilledButton, 'Submit Test')));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(Dialog),
+        matching: find.widgetWithText(FilledButton, 'Submit Test'),
+      ),
+    );
     await tester.pump();
     expect(find.text('Submitting your test…'), findsOneWidget);
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
     // Screen 3: scorecard.
     expect(
-        find.byWidgetPredicate((w) =>
-            w is Text && (w.data == 'Test Completed' || w.data == 'Congratulations!')),
-        findsOneWidget);
+      find.byWidgetPredicate(
+        (w) =>
+            w is Text &&
+            (w.data == 'Test Completed' || w.data == 'Congratulations!'),
+      ),
+      findsOneWidget,
+    );
     expect(find.text('Total Questions'), findsOneWidget);
     expect(find.text('Correct vs Incorrect'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Back to Dashboard'), 300,
-        scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(
+      find.text('Back to Dashboard'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Performance Analysis'), findsOneWidget);
     expect(find.text('Topic-wise Accuracy'), findsOneWidget);
-    // Screen 5: save practice — success only after the (mock) backend confirms.
-    await tester.ensureVisible(find.text('Save Practice'));
+    // The set is saved to the Library automatically — no manual Save step.
+    expect(find.text('Save Practice'), findsNothing);
+    await tester.ensureVisible(find.text('Open Library'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Save Practice'));
-    await tester.pump();
-    expect(find.text('Saving…'), findsOneWidget);
-    expect(find.textContaining('Practice saved'), findsNothing);
-    await tester.pump(const Duration(seconds: 1));
-    await tester.pump();
-    expect(find.text('Saved to My Practice'), findsOneWidget);
-    expect(find.textContaining('Practice saved'), findsOneWidget);
-    await tester.pumpAndSettle(); // snackbar finishes sliding in
-    await tester.pump(const Duration(seconds: 5)); // then auto-dismisses
-    await tester.pumpAndSettle();
+    expect(find.text('Saved to your Library automatically'), findsOneWidget);
 
     // Screen 4: detailed review with filters, then back to the scorecard.
     await tester.ensureVisible(find.text('Review Answers'));
@@ -301,7 +339,10 @@ void main() {
     expect(find.text('Correct answer'), findsWidgets);
     await tester.tap(find.textContaining('Unattempted ('));
     await tester.pumpAndSettle();
-    expect(find.text('No questions in this filter.'), findsOneWidget); // all answered
+    expect(
+      find.text('No questions in this filter.'),
+      findsOneWidget,
+    ); // all answered
     await tester.tap(find.textContaining('All ('));
     await tester.pumpAndSettle();
     await tester.pageBack();

@@ -36,11 +36,11 @@ class DashboardScreen extends ConsumerWidget {
         onTap: () => context.openComingSoon(l10n.mockTests),
       ),
       ExamTile(
-        title: l10n.dailyPractice,
-        subtitle: l10n.dailyPracticeSub,
-        icon: Icons.track_changes_rounded,
-        color: AppColors.dailyPractice,
-        onTap: () => context.go(AppRoutes.practice),
+        title: l10n.aiStudyNotes,
+        subtitle: l10n.aiStudyNotesSub,
+        icon: Icons.auto_stories_rounded,
+        color: AppColors.studyNotes,
+        onTap: () => context.push(AppRoutes.notes),
       ),
       ExamTile(
         title: l10n.previousYearPapers,

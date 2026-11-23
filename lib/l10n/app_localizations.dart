@@ -959,7 +959,7 @@ abstract class AppLocalizations {
   /// No description provided for @navSaved.
   ///
   /// In en, this message translates to:
-  /// **'Saved'**
+  /// **'Library'**
   String get navSaved;
 
   /// No description provided for @navPractice.
@@ -2135,7 +2135,7 @@ abstract class AppLocalizations {
   /// No description provided for @savedEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No saved practice yet'**
+  /// **'Your Library is empty'**
   String get savedEmptyTitle;
 
   /// No description provided for @savedEmptyBody.
@@ -2189,7 +2189,7 @@ abstract class AppLocalizations {
   /// No description provided for @deletePracticeBody.
   ///
   /// In en, this message translates to:
-  /// **'This saved set and its review will be removed. Your other attempts are not affected.'**
+  /// **'This practice set, its attempt history, bookmarks and notes will be permanently removed.'**
   String get deletePracticeBody;
 
   /// No description provided for @practiceDeleted.
@@ -2233,6 +2233,894 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OR'**
   String get orUpper;
+
+  /// No description provided for @myLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'My Learning Library'**
+  String get myLibrary;
+
+  /// No description provided for @libraryStatSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice sets'**
+  String get libraryStatSets;
+
+  /// No description provided for @libraryStatQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get libraryStatQuestions;
+
+  /// No description provided for @libraryStatNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get libraryStatNotes;
+
+  /// No description provided for @libraryCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Your libraries'**
+  String get libraryCategories;
+
+  /// No description provided for @librarySetsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No sets yet} =1{1 set} other{{count} sets}}'**
+  String librarySetsCount(int count);
+
+  /// No description provided for @recentPracticeSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently generated'**
+  String get recentPracticeSets;
+
+  /// No description provided for @libraryEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Library is empty'**
+  String get libraryEmptyTitle;
+
+  /// No description provided for @libraryEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every practice set you generate is saved here automatically, with its questions, answers and explanations.'**
+  String get libraryEmptyBody;
+
+  /// No description provided for @categoryLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} Library'**
+  String categoryLibraryTitle(String category);
+
+  /// No description provided for @categoryEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No {category} practice yet'**
+  String categoryEmptyTitle(String category);
+
+  /// No description provided for @categoryEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a practice set for an exam in this category and it will appear here.'**
+  String get categoryEmptyBody;
+
+  /// No description provided for @noMatchingSets.
+  ///
+  /// In en, this message translates to:
+  /// **'No practice sets match these filters'**
+  String get noMatchingSets;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get clearFilters;
+
+  /// No description provided for @searchSetsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search exam, subject or topic'**
+  String get searchSetsHint;
+
+  /// No description provided for @filterExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam'**
+  String get filterExam;
+
+  /// No description provided for @filterSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get filterSubject;
+
+  /// No description provided for @filterTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic'**
+  String get filterTopic;
+
+  /// No description provided for @filterDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get filterDifficulty;
+
+  /// No description provided for @filterLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get filterLanguage;
+
+  /// No description provided for @filterDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get filterDate;
+
+  /// No description provided for @filterAny.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAny;
+
+  /// No description provided for @sortLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest first'**
+  String get sortLatest;
+
+  /// No description provided for @sortOldest.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get sortOldest;
+
+  /// No description provided for @dateLast7.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get dateLast7;
+
+  /// No description provided for @dateLast30.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get dateLast30;
+
+  /// No description provided for @dateCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates…'**
+  String get dateCustom;
+
+  /// No description provided for @dateAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any time'**
+  String get dateAny;
+
+  /// No description provided for @notAttempted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not attempted'**
+  String get notAttempted;
+
+  /// No description provided for @attemptsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 attempt} other{{count} attempts}}'**
+  String attemptsCount(int count);
+
+  /// No description provided for @latestScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest score'**
+  String get latestScore;
+
+  /// No description provided for @viewHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get viewHistory;
+
+  /// No description provided for @attemptFirstToReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Attempt this set first — answers and explanations unlock after you submit.'**
+  String get attemptFirstToReview;
+
+  /// No description provided for @loadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get loadMore;
+
+  /// No description provided for @savedToLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to your Library automatically'**
+  String get savedToLibrary;
+
+  /// No description provided for @openLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Library'**
+  String get openLibrary;
+
+  /// No description provided for @openingPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening practice…'**
+  String get openingPractice;
+
+  /// No description provided for @aiStudyNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Study Notes'**
+  String get aiStudyNotes;
+
+  /// No description provided for @aiStudyNotesSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand every topic with AI-powered notes.'**
+  String get aiStudyNotesSub;
+
+  /// No description provided for @notesChooseCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a category'**
+  String get notesChooseCategory;
+
+  /// No description provided for @notesChooseCategoryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your exam category, then an exam and a topic to study.'**
+  String get notesChooseCategoryBody;
+
+  /// No description provided for @notesChooseTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a topic'**
+  String get notesChooseTopic;
+
+  /// No description provided for @notesChooseTopicBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick one topic from the {exam} syllabus to create notes.'**
+  String notesChooseTopicBody(String exam);
+
+  /// No description provided for @createNotesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Notes'**
+  String get createNotesTitle;
+
+  /// No description provided for @notesExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam'**
+  String get notesExam;
+
+  /// No description provided for @notesSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get notesSubject;
+
+  /// No description provided for @notesTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic'**
+  String get notesTopic;
+
+  /// No description provided for @notesLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Explanation level'**
+  String get notesLevel;
+
+  /// No description provided for @noteLevelBasic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get noteLevelBasic;
+
+  /// No description provided for @noteLevelExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam Standard'**
+  String get noteLevelExam;
+
+  /// No description provided for @noteLevelAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get noteLevelAdvanced;
+
+  /// No description provided for @notesSections.
+  ///
+  /// In en, this message translates to:
+  /// **'Include in your notes'**
+  String get notesSections;
+
+  /// No description provided for @notesSectionsReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get notesSectionsReset;
+
+  /// No description provided for @secExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed concept explanation'**
+  String get secExplanation;
+
+  /// No description provided for @secDefinitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Definitions'**
+  String get secDefinitions;
+
+  /// No description provided for @secExamples.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-life examples'**
+  String get secExamples;
+
+  /// No description provided for @secStepByStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Step-by-step explanations'**
+  String get secStepByStep;
+
+  /// No description provided for @secDiagrams.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagrams & flowcharts'**
+  String get secDiagrams;
+
+  /// No description provided for @secGraphs.
+  ///
+  /// In en, this message translates to:
+  /// **'Graphs (where useful)'**
+  String get secGraphs;
+
+  /// No description provided for @secFormulas.
+  ///
+  /// In en, this message translates to:
+  /// **'Formulas & tables'**
+  String get secFormulas;
+
+  /// No description provided for @secTips.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam tips & tricks'**
+  String get secTips;
+
+  /// No description provided for @secMistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'Common mistakes'**
+  String get secMistakes;
+
+  /// No description provided for @secKeyPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Important exam points'**
+  String get secKeyPoints;
+
+  /// No description provided for @secRevision.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick revision notes'**
+  String get secRevision;
+
+  /// No description provided for @secMcqs.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic MCQs with explanations'**
+  String get secMcqs;
+
+  /// No description provided for @notesPickOneSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one section.'**
+  String get notesPickOneSection;
+
+  /// No description provided for @generateNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate Complete Notes'**
+  String get generateNotes;
+
+  /// No description provided for @generatingNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing your notes… this can take up to a minute.'**
+  String get generatingNotes;
+
+  /// No description provided for @notesFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes could not be generated. Nothing was saved.'**
+  String get notesFailed;
+
+  /// No description provided for @notesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to your Library'**
+  String get notesSaved;
+
+  /// No description provided for @notesContents.
+  ///
+  /// In en, this message translates to:
+  /// **'Contents'**
+  String get notesContents;
+
+  /// No description provided for @nOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic Overview'**
+  String get nOverview;
+
+  /// No description provided for @nDetailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed Explanation'**
+  String get nDetailed;
+
+  /// No description provided for @nConcepts.
+  ///
+  /// In en, this message translates to:
+  /// **'Important Concepts'**
+  String get nConcepts;
+
+  /// No description provided for @nExamples.
+  ///
+  /// In en, this message translates to:
+  /// **'Examples'**
+  String get nExamples;
+
+  /// No description provided for @nDiagrams.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagrams, Flowcharts & Graphs'**
+  String get nDiagrams;
+
+  /// No description provided for @nFormulas.
+  ///
+  /// In en, this message translates to:
+  /// **'Formulas & Tables'**
+  String get nFormulas;
+
+  /// No description provided for @nTips.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam Tips & Tricks'**
+  String get nTips;
+
+  /// No description provided for @nMistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'Common Mistakes'**
+  String get nMistakes;
+
+  /// No description provided for @nKeyPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Important Exam Points'**
+  String get nKeyPoints;
+
+  /// No description provided for @nRevision.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Revision'**
+  String get nRevision;
+
+  /// No description provided for @nMcqs.
+  ///
+  /// In en, this message translates to:
+  /// **'Important Questions & MCQs'**
+  String get nMcqs;
+
+  /// No description provided for @nNext.
+  ///
+  /// In en, this message translates to:
+  /// **'What to Study Next'**
+  String get nNext;
+
+  /// No description provided for @noteStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {n}'**
+  String noteStep(int n);
+
+  /// No description provided for @noteAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer: {answer}'**
+  String noteAnswer(String answer);
+
+  /// No description provided for @noteShowAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Show answer'**
+  String get noteShowAnswer;
+
+  /// No description provided for @noteHideAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide answer'**
+  String get noteHideAnswer;
+
+  /// No description provided for @noteNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This note could not be opened.'**
+  String get noteNotFound;
+
+  /// No description provided for @noteExpandAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand all'**
+  String get noteExpandAll;
+
+  /// No description provided for @noteCollapseAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse all'**
+  String get noteCollapseAll;
+
+  /// No description provided for @myPracticeSets.
+  ///
+  /// In en, this message translates to:
+  /// **'My Practice Sets'**
+  String get myPracticeSets;
+
+  /// No description provided for @myStudyNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'My Study Notes'**
+  String get myStudyNotes;
+
+  /// No description provided for @notesLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} Notes'**
+  String notesLibraryTitle(String category);
+
+  /// No description provided for @notesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No notes yet} =1{1 note} other{{count} notes}}'**
+  String notesCount(int count);
+
+  /// No description provided for @searchNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by topic, subject or exam'**
+  String get searchNotesHint;
+
+  /// No description provided for @notesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No {category} notes yet'**
+  String notesEmptyTitle(String category);
+
+  /// No description provided for @notesEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create AI Study Notes for any topic and they are saved here automatically.'**
+  String get notesEmptyBody;
+
+  /// No description provided for @noMatchingNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes match these filters'**
+  String get noMatchingNotes;
+
+  /// No description provided for @createNotesCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Create notes'**
+  String get createNotesCta;
+
+  /// No description provided for @noteCreatedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {date}'**
+  String noteCreatedOn(String date);
+
+  /// No description provided for @noteBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark'**
+  String get noteBookmark;
+
+  /// No description provided for @noteRemoveBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove bookmark'**
+  String get noteRemoveBookmark;
+
+  /// No description provided for @noteBookmarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Note bookmarked'**
+  String get noteBookmarked;
+
+  /// No description provided for @noteUnbookmarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark removed'**
+  String get noteUnbookmarked;
+
+  /// No description provided for @noteMoreActions.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get noteMoreActions;
+
+  /// No description provided for @personalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal note'**
+  String get personalNote;
+
+  /// No description provided for @personalNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your own points, shortcuts or doubts…'**
+  String get personalNoteHint;
+
+  /// No description provided for @personalNoteAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add personal note'**
+  String get personalNoteAdd;
+
+  /// No description provided for @personalNoteEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get personalNoteEdit;
+
+  /// No description provided for @personalNoteSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal note saved'**
+  String get personalNoteSaved;
+
+  /// No description provided for @noteSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get noteSave;
+
+  /// No description provided for @noteDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete note'**
+  String get noteDelete;
+
+  /// No description provided for @noteDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this note?'**
+  String get noteDeleteTitle;
+
+  /// No description provided for @noteDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This note and your personal note on it will be permanently removed.'**
+  String get noteDeleteBody;
+
+  /// No description provided for @noteDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Note deleted'**
+  String get noteDeleted;
+
+  /// No description provided for @quickRevision.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick revision'**
+  String get quickRevision;
+
+  /// No description provided for @flashcards.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashcards'**
+  String get flashcards;
+
+  /// No description provided for @flashcardTapToFlip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the card to see the answer'**
+  String get flashcardTapToFlip;
+
+  /// No description provided for @flashcardCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} / {total}'**
+  String flashcardCount(int n, int total);
+
+  /// No description provided for @flashcardPrev.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get flashcardPrev;
+
+  /// No description provided for @flashcardNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get flashcardNext;
+
+  /// No description provided for @noFlashcards.
+  ///
+  /// In en, this message translates to:
+  /// **'This note has no concepts or formulas to turn into flashcards.'**
+  String get noFlashcards;
+
+  /// No description provided for @noRevision.
+  ///
+  /// In en, this message translates to:
+  /// **'This note has no revision points.'**
+  String get noRevision;
+
+  /// No description provided for @notesViewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notesViewAll;
+
+  /// No description provided for @notesViewBookmarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarked'**
+  String get notesViewBookmarked;
+
+  /// No description provided for @notesViewPersonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal notes'**
+  String get notesViewPersonal;
+
+  /// No description provided for @noBookmarkedNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No bookmarked notes here yet'**
+  String get noBookmarkedNotes;
+
+  /// No description provided for @noBookmarkedNotesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the bookmark icon on a note to keep it here.'**
+  String get noBookmarkedNotesBody;
+
+  /// No description provided for @noPersonalNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No personal notes here yet'**
+  String get noPersonalNotes;
+
+  /// No description provided for @noPersonalNotesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a note and add your own points — they will appear here.'**
+  String get noPersonalNotesBody;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice history'**
+  String get historyTitle;
+
+  /// No description provided for @historyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No attempts yet. Practise this set to build its history.'**
+  String get historyEmpty;
+
+  /// No description provided for @historyAttempt.
+  ///
+  /// In en, this message translates to:
+  /// **'Attempt {n}'**
+  String historyAttempt(int n);
+
+  /// No description provided for @historyLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Score {score}/{max} · Accuracy {percent}'**
+  String historyLine(String score, String max, String percent);
+
+  /// No description provided for @learningPath.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning path'**
+  String get learningPath;
+
+  /// No description provided for @openLearningPath.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning path'**
+  String get openLearningPath;
+
+  /// No description provided for @learningPathProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} topics completed'**
+  String learningPathProgress(int done, int total);
+
+  /// No description provided for @learningTopicPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic {n} of {total}'**
+  String learningTopicPosition(int n, int total);
+
+  /// No description provided for @markCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as completed'**
+  String get markCompleted;
+
+  /// No description provided for @markedCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as completed'**
+  String get markedCompleted;
+
+  /// No description provided for @markedNotCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as not completed'**
+  String get markedNotCompleted;
+
+  /// No description provided for @continueNextTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Next Topic'**
+  String get continueNextTopic;
+
+  /// No description provided for @statusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get statusCompleted;
+
+  /// No description provided for @statusCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get statusCurrent;
+
+  /// No description provided for @statusUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get statusUpcoming;
+
+  /// No description provided for @notesReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes ready'**
+  String get notesReady;
+
+  /// No description provided for @allTopicsCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'All topics completed — great work!'**
+  String get allTopicsCompleted;
+
+  /// No description provided for @nextTopicHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a topic to create its notes'**
+  String get nextTopicHint;
 }
 
 class _AppLocalizationsDelegate

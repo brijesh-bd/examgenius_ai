@@ -53,51 +53,144 @@
   "upgradeToPro": "Upgrade to Pro",
   "maybeLater": "Maybe later",
   "startTrial": "Start {days}-day free trial",
-  "@startTrial": {"placeholders": {"days": {"type": "int"}}},
+  "@startTrial": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "trialStarted": "Your Pro trial has started. Enjoy unlimited practice!",
   "trialFailed": "Could not start the trial. Please try again.",
   "proUntil": "Pro until {date}",
-  "@proUntil": {"placeholders": {"date": {"type": "String"}}},
+  "@proUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "trialUntil": "Free trial until {date}",
-  "@trialUntil": {"placeholders": {"date": {"type": "String"}}},
+  "@trialUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "freeSetsLeft": "{left} of {total} free sets left today",
-  "@freeSetsLeft": {"placeholders": {"left": {"type": "int"}, "total": {"type": "int"}}},
+  "@freeSetsLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "perMonth": "₹{price}/month",
-  "@perMonth": {"placeholders": {"price": {"type": "int"}}},
+  "@perMonth": {
+    "placeholders": {
+      "price": {
+        "type": "int"
+      }
+    }
+  },
   "planMonths": "{months, plural, =1{1 Month} other{{months} Months}}",
-  "@planMonths": {"placeholders": {"months": {"type": "int"}}},
+  "@planMonths": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
   "priceInr": "₹{price}",
-  "@priceInr": {"placeholders": {"price": {"type": "int"}}},
+  "@priceInr": {
+    "placeholders": {
+      "price": {
+        "type": "int"
+      }
+    }
+  },
   "savePercent": "Save {percent}%",
-  "@savePercent": {"placeholders": {"percent": {"type": "int"}}},
+  "@savePercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "mostPopular": "Most Popular",
   "choosePlan": "Choose {plan}",
-  "@choosePlan": {"placeholders": {"plan": {"type": "String"}}},
+  "@choosePlan": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
   "paymentsComingSoon": "Online payment is coming soon. Start the free trial to use Pro now.",
   "featureCompare": "Free vs Pro",
   "featurePracticeSets": "Practice sets",
   "featureFreeSets": "{count} per day",
-  "@featureFreeSets": {"placeholders": {"count": {"type": "int"}}},
+  "@featureFreeSets": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "featureUnlimited": "Unlimited",
   "featureQuestionsPerSet": "Questions per set",
   "featureUpTo": "Up to {count}",
-  "@featureUpTo": {"placeholders": {"count": {"type": "int"}}},
+  "@featureUpTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "featureReview": "Scorecard & explanations",
   "featureSaved": "Saved practice",
   "featureFreshAi": "Brand-new AI questions",
   "pricesIncludeGst": "Prices include GST. Cancel anytime.",
   "limitDailySetsTitle": "You have used today's free sets",
   "limitDailySetsBody": "Free plan includes {max} practice sets per day. New sets unlock at midnight, or go Pro for unlimited practice.",
-  "@limitDailySetsBody": {"placeholders": {"max": {"type": "int"}}},
+  "@limitDailySetsBody": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "limitDailyQuestionsTitle": "Daily limit reached",
   "limitDailyQuestionsBody": "You have practised {max} questions today. Great work! More unlock at midnight.",
-  "@limitDailyQuestionsBody": {"placeholders": {"max": {"type": "int"}}},
+  "@limitDailyQuestionsBody": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "limitSetSizeTitle": "Bigger sets are a Pro feature",
   "limitSetSizeBody": "Free plan allows up to {max} questions per set. Go Pro for sets of up to 30.",
-  "@limitSetSizeBody": {"placeholders": {"max": {"type": "int"}}},
+  "@limitSetSizeBody": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "limitSavedTitle": "Saved practice is full",
   "limitSavedBody": "Free plan keeps {max} saved sets. Delete one or go Pro for unlimited saved practice.",
-  "@limitSavedBody": {"placeholders": {"max": {"type": "int"}}},
+  "@limitSavedBody": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "limitFreshTitle": "Brand-new AI questions are Pro",
   "limitFreshBody": "Free plan uses our question bank. Go Pro to get freshly generated AI questions every time.",
   "freshAiToggle": "Brand-new AI questions",
@@ -110,11 +203,41 @@
   "stepLevel": "Level",
   "stepQuestions": "Questions",
   "selectedCount": "{count} selected",
-  "@selectedCount": {"placeholders": {"count": {"type": "int"}}},
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "subjectWithCount": "{name} ({count})",
-  "@subjectWithCount": {"placeholders": {"name": {"type": "String"}, "count": {"type": "int"}}},
+  "@subjectWithCount": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "practiceSummary": "{subjects} · {topics, plural, =1{1 topic} other{{topics} topics}} · {level} · {count} Qs",
-  "@practiceSummary": {"placeholders": {"subjects": {"type": "String"}, "topics": {"type": "int"}, "level": {"type": "String"}, "count": {"type": "int"}}},
+  "@practiceSummary": {
+    "placeholders": {
+      "subjects": {
+        "type": "String"
+      },
+      "topics": {
+        "type": "int"
+      },
+      "level": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "selectAtLeastOneTopic": "Select at least 1 topic to start",
   "quick10": "Quick 10",
   "quick10Hint": "Mixed from the whole exam",
@@ -206,7 +329,7 @@
   },
   "upgrade": "Upgrade",
   "navHome": "Home",
-  "navSaved": "Saved",
+  "navSaved": "Library",
   "navPractice": "Practice",
   "navAnalytics": "Analytics",
   "navProfile": "Profile",
@@ -260,11 +383,29 @@
   "selectTopics": "Select topics",
   "clear": "Clear",
   "subjectsCount": "{count} subjects",
-  "@subjectsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@subjectsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "topicsCount": "{count} topics",
-  "@topicsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@topicsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "topicsSelected": "{count} selected",
-  "@topicsSelected": {"placeholders": {"count": {"type": "int"}}},
+  "@topicsSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "difficultyLevel": "Difficulty level",
   "difficultyEasy": "Easy",
   "difficultyMedium": "Medium",
@@ -276,20 +417,62 @@
   "noQuestionsForSelection": "No questions available for this selection yet. Try another topic or level.",
   "sampleQuestionsNote": "Preview mode: these are sample exam-level questions. Live AI generation starts once the ExamGenius server is connected.",
   "fewerQuestionsNote": "{available} of {requested} questions available for this selection",
-  "@fewerQuestionsNote": {"placeholders": {"available": {"type": "int"}, "requested": {"type": "int"}}},
+  "@fewerQuestionsNote": {
+    "placeholders": {
+      "available": {
+        "type": "int"
+      },
+      "requested": {
+        "type": "int"
+      }
+    }
+  },
   "scoreSoFar": "Score: {correct}/{attempted}",
-  "@scoreSoFar": {"placeholders": {"correct": {"type": "int"}, "attempted": {"type": "int"}}},
+  "@scoreSoFar": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "attempted": {
+        "type": "int"
+      }
+    }
+  },
   "questionNumber": "Q{number}",
-  "@questionNumber": {"placeholders": {"number": {"type": "int"}}},
+  "@questionNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "correctAnswer": "Correct!",
   "incorrectAnswer": "Incorrect",
   "explanation": "Explanation",
   "greetingMorning": "Good morning, {name}",
-  "@greetingMorning": {"placeholders": {"name": {"type": "String"}}},
+  "@greetingMorning": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "greetingAfternoon": "Good afternoon, {name}",
-  "@greetingAfternoon": {"placeholders": {"name": {"type": "String"}}},
+  "@greetingAfternoon": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "greetingEvening": "Good evening, {name}",
-  "@greetingEvening": {"placeholders": {"name": {"type": "String"}}},
+  "@greetingEvening": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "defaultStudentName": "Aspirant",
   "keepLearning": "Keep learning, keep improving!",
   "homeChooseExam": "Choose your exam",
@@ -327,15 +510,39 @@
   "rememberPassword": "Remember your password?",
   "resetSentTitle": "Check your inbox",
   "resetSentBody": "We have sent password reset instructions to {target}",
-  "@resetSentBody": {"placeholders": {"target": {"type": "String"}}},
+  "@resetSentBody": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
   "backToLogin": "Back to Login",
   "didntReceive": "Didn't receive it?",
   "resend": "Resend",
   "resetSecureNote": "For your security, the link expires in 15 minutes.",
   "questionOfTotal": "Question {current} of {total}",
-  "@questionOfTotal": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@questionOfTotal": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "answeredOfTotal": "{answered}/{total} answered",
-  "@answeredOfTotal": {"placeholders": {"answered": {"type": "int"}, "total": {"type": "int"}}},
+  "@answeredOfTotal": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "previousQuestion": "Previous",
   "nextQuestion": "Next",
   "clearAnswer": "Clear Answer",
@@ -345,10 +552,22 @@
   "paletteCurrent": "Current",
   "submitTest": "Submit Test",
   "answerAllToSubmit": "Answer all questions to enable Submit ({left} left)",
-  "@answerAllToSubmit": {"placeholders": {"left": {"type": "int"}}},
+  "@answerAllToSubmit": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
   "allAnsweredReady": "All questions answered. You can submit now.",
   "timeLeftLabel": "Time left {time}",
-  "@timeLeftLabel": {"placeholders": {"time": {"type": "String"}}},
+  "@timeLeftLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "timeUpSubmitting": "Time is up! Submitting your test…",
   "leaveTestTitle": "Leave this test?",
   "leaveTestBody": "Your answers will not be saved.",
@@ -374,11 +593,23 @@
   "autoSubmittedNote": "Time ran out, so your test was submitted automatically.",
   "congratulations": "Congratulations!",
   "completedOn": "Completed on {date}",
-  "@completedOn": {"placeholders": {"date": {"type": "String"}}},
+  "@completedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "unattempted": "Unattempted",
   "accuracyLabel": "Accuracy",
   "scoreOutOf": "out of {max}",
-  "@scoreOutOf": {"placeholders": {"max": {"type": "String"}}},
+  "@scoreOutOf": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
   "markingScheme": "+1 correct · −0.25 incorrect · 0 unattempted",
   "answerBreakdown": "Correct vs Incorrect",
   "timeTaken": "Time Taken",
@@ -389,10 +620,31 @@
   "noneYet": "None yet",
   "topicWiseAccuracy": "Topic-wise Accuracy",
   "topicScore": "{correct}/{total} correct",
-  "@topicScore": {"placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}}},
+  "@topicScore": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "recommendedPractice": "Recommended Practice",
   "recommendRevise": "Revise {topic}: you got {correct} of {total} right. Practise it again at the same level.",
-  "@recommendRevise": {"placeholders": {"topic": {"type": "String"}, "correct": {"type": "int"}, "total": {"type": "int"}}},
+  "@recommendRevise": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      },
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "recommendNextLevel": "Great work! Try the next difficulty level to keep improving.",
   "recommendKeepGoing": "Good effort! Review the explanations and practise your mistakes once more.",
   "reviewAnswers": "Review Answers",
@@ -401,7 +653,16 @@
   "reviewTitle": "Answer Review",
   "filterAll": "All",
   "filterWithCount": "{label} ({count})",
-  "@filterWithCount": {"placeholders": {"label": {"type": "String"}, "count": {"type": "int"}}},
+  "@filterWithCount": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "yourAnswer": "Your answer",
   "correctAnswerLabel": "Correct answer",
   "notAnswered": "Not answered",
@@ -411,21 +672,60 @@
   "whyCorrect": "Why this is correct",
   "whyWrong": "Why your answer was wrong",
   "wrongChoiceNote": "You chose {yours}, but the correct answer is {correct}.",
-  "@wrongChoiceNote": {"placeholders": {"yours": {"type": "String"}, "correct": {"type": "String"}}},
+  "@wrongChoiceNote": {
+    "placeholders": {
+      "yours": {
+        "type": "String"
+      },
+      "correct": {
+        "type": "String"
+      }
+    }
+  },
   "unattemptedNote": "You skipped this question. The correct answer is {correct}.",
-  "@unattemptedNote": {"placeholders": {"correct": {"type": "String"}}},
+  "@unattemptedNote": {
+    "placeholders": {
+      "correct": {
+        "type": "String"
+      }
+    }
+  },
   "explanationTitle": "Explanation",
   "stepByStep": "Step-by-step Solution",
   "formulaTitle": "Formula",
   "conceptTitle": "Short Concept",
   "tipTitle": "Learning Tip",
   "stepLabel": "Step {n}",
-  "@stepLabel": {"placeholders": {"n": {"type": "int"}}},
+  "@stepLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "noReviewItems": "No questions in this filter.",
   "optionCorrectLabel": "Option {letter}, correct answer: {text}",
-  "@optionCorrectLabel": {"placeholders": {"letter": {"type": "String"}, "text": {"type": "String"}}},
+  "@optionCorrectLabel": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      },
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "optionWrongLabel": "Option {letter}, your wrong answer: {text}",
-  "@optionWrongLabel": {"placeholders": {"letter": {"type": "String"}, "text": {"type": "String"}}},
+  "@optionWrongLabel": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      },
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "noWrongToRetry": "No wrong answers to retry. Great job!",
   "savingPractice": "Saving…",
   "practiceSaved": "Saved to My Practice",
@@ -433,25 +733,327 @@
   "saveFailed": "Could not save your practice. Check your connection and try again.",
   "mySavedPractice": "My Saved Practice",
   "viewAction": "View",
-  "savedEmptyTitle": "No saved practice yet",
+  "savedEmptyTitle": "Your Library is empty",
   "savedEmptyBody": "After a test, tap Save Practice on the scorecard to keep it here for revision.",
   "savedOn": "Saved {date}",
-  "@savedOn": {"placeholders": {"date": {"type": "String"}}},
+  "@savedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "questionsShort": "{count} Qs",
-  "@questionsShort": {"placeholders": {"count": {"type": "int"}}},
+  "@questionsShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reviewPractice": "Review",
   "practiceAgain": "Practice Again",
   "retryWrongShort": "Retry Wrong",
   "deletePractice": "Delete",
   "deletePracticeTitle": "Delete this practice?",
-  "deletePracticeBody": "This saved set and its review will be removed. Your other attempts are not affected.",
+  "deletePracticeBody": "This practice set, its attempt history, bookmarks and notes will be permanently removed.",
   "practiceDeleted": "Practice deleted.",
   "deleteFailed": "Could not delete. Check your connection and try again.",
   "scoreLabel": "Score",
   "moreActions": "More actions",
   "accuracyChartLabel": "Accuracy {percent}",
-  "@accuracyChartLabel": {"placeholders": {"percent": {"type": "String"}}},
+  "@accuracyChartLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
   "optionLabel": "Option {letter}: {text}",
-  "@optionLabel": {"placeholders": {"letter": {"type": "String"}, "text": {"type": "String"}}},
-  "orUpper": "OR"
+  "@optionLabel": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      },
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "orUpper": "OR",
+  "myLibrary": "My Learning Library",
+  "libraryStatSets": "Practice sets",
+  "libraryStatQuestions": "Questions",
+  "libraryStatNotes": "Notes",
+  "libraryCategories": "Your libraries",
+  "librarySetsCount": "{count, plural, =0{No sets yet} =1{1 set} other{{count} sets}}",
+  "@librarySetsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recentPracticeSets": "Recently generated",
+  "libraryEmptyTitle": "Your Library is empty",
+  "libraryEmptyBody": "Every practice set you generate is saved here automatically, with its questions, answers and explanations.",
+  "categoryLibraryTitle": "{category} Library",
+  "@categoryLibraryTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryEmptyTitle": "No {category} practice yet",
+  "@categoryEmptyTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryEmptyBody": "Generate a practice set for an exam in this category and it will appear here.",
+  "noMatchingSets": "No practice sets match these filters",
+  "clearFilters": "Clear filters",
+  "searchSetsHint": "Search exam, subject or topic",
+  "filterExam": "Exam",
+  "filterSubject": "Subject",
+  "filterTopic": "Topic",
+  "filterDifficulty": "Difficulty",
+  "filterLanguage": "Language",
+  "filterDate": "Date",
+  "filterAny": "All",
+  "sortLatest": "Latest first",
+  "sortOldest": "Oldest first",
+  "dateLast7": "Last 7 days",
+  "dateLast30": "Last 30 days",
+  "dateCustom": "Choose dates…",
+  "dateAny": "Any time",
+  "notAttempted": "Not attempted",
+  "attemptsCount": "{count, plural, =1{1 attempt} other{{count} attempts}}",
+  "@attemptsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "latestScore": "Latest score",
+  "viewHistory": "History",
+  "attemptFirstToReview": "Attempt this set first — answers and explanations unlock after you submit.",
+  "loadMore": "Load more",
+  "savedToLibrary": "Saved to your Library automatically",
+  "openLibrary": "Open Library",
+  "openingPractice": "Opening practice…",
+  "aiStudyNotes": "AI Study Notes",
+  "aiStudyNotesSub": "Understand every topic with AI-powered notes.",
+  "notesChooseCategory": "Choose a category",
+  "notesChooseCategoryBody": "Pick your exam category, then an exam and a topic to study.",
+  "notesChooseTopic": "Choose a topic",
+  "notesChooseTopicBody": "Pick one topic from the {exam} syllabus to create notes.",
+  "@notesChooseTopicBody": {
+    "placeholders": {
+      "exam": {
+        "type": "String"
+      }
+    }
+  },
+  "createNotesTitle": "Create Notes",
+  "notesExam": "Exam",
+  "notesSubject": "Subject",
+  "notesTopic": "Topic",
+  "notesLevel": "Explanation level",
+  "noteLevelBasic": "Basic",
+  "noteLevelExam": "Exam Standard",
+  "noteLevelAdvanced": "Advanced",
+  "notesSections": "Include in your notes",
+  "notesSectionsReset": "Reset",
+  "secExplanation": "Detailed concept explanation",
+  "secDefinitions": "Definitions",
+  "secExamples": "Real-life examples",
+  "secStepByStep": "Step-by-step explanations",
+  "secDiagrams": "Diagrams & flowcharts",
+  "secGraphs": "Graphs (where useful)",
+  "secFormulas": "Formulas & tables",
+  "secTips": "Exam tips & tricks",
+  "secMistakes": "Common mistakes",
+  "secKeyPoints": "Important exam points",
+  "secRevision": "Quick revision notes",
+  "secMcqs": "Topic MCQs with explanations",
+  "notesPickOneSection": "Select at least one section.",
+  "generateNotes": "Generate Complete Notes",
+  "generatingNotes": "Writing your notes… this can take up to a minute.",
+  "notesFailed": "Notes could not be generated. Nothing was saved.",
+  "notesSaved": "Saved to your Library",
+  "notesContents": "Contents",
+  "nOverview": "Topic Overview",
+  "nDetailed": "Detailed Explanation",
+  "nConcepts": "Important Concepts",
+  "nExamples": "Examples",
+  "nDiagrams": "Diagrams, Flowcharts & Graphs",
+  "nFormulas": "Formulas & Tables",
+  "nTips": "Exam Tips & Tricks",
+  "nMistakes": "Common Mistakes",
+  "nKeyPoints": "Important Exam Points",
+  "nRevision": "Quick Revision",
+  "nMcqs": "Important Questions & MCQs",
+  "nNext": "What to Study Next",
+  "noteStep": "Step {n}",
+  "@noteStep": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "noteAnswer": "Answer: {answer}",
+  "@noteAnswer": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "noteShowAnswer": "Show answer",
+  "noteHideAnswer": "Hide answer",
+  "noteNotFound": "This note could not be opened.",
+  "noteExpandAll": "Expand all",
+  "noteCollapseAll": "Collapse all",
+  "myPracticeSets": "My Practice Sets",
+  "myStudyNotes": "My Study Notes",
+  "notesLibraryTitle": "{category} Notes",
+  "@notesLibraryTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "notesCount": "{count, plural, =0{No notes yet} =1{1 note} other{{count} notes}}",
+  "@notesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchNotesHint": "Search by topic, subject or exam",
+  "notesEmptyTitle": "No {category} notes yet",
+  "@notesEmptyTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "notesEmptyBody": "Create AI Study Notes for any topic and they are saved here automatically.",
+  "noMatchingNotes": "No notes match these filters",
+  "createNotesCta": "Create notes",
+  "noteCreatedOn": "Created {date}",
+  "@noteCreatedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "noteBookmark": "Bookmark",
+  "noteRemoveBookmark": "Remove bookmark",
+  "noteBookmarked": "Note bookmarked",
+  "noteUnbookmarked": "Bookmark removed",
+  "noteMoreActions": "More actions",
+  "personalNote": "Personal note",
+  "personalNoteHint": "Write your own points, shortcuts or doubts…",
+  "personalNoteAdd": "Add personal note",
+  "personalNoteEdit": "Edit",
+  "personalNoteSaved": "Personal note saved",
+  "noteSave": "Save",
+  "noteDelete": "Delete note",
+  "noteDeleteTitle": "Delete this note?",
+  "noteDeleteBody": "This note and your personal note on it will be permanently removed.",
+  "noteDeleted": "Note deleted",
+  "quickRevision": "Quick revision",
+  "flashcards": "Flashcards",
+  "flashcardTapToFlip": "Tap the card to see the answer",
+  "flashcardCount": "{n} / {total}",
+  "@flashcardCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "flashcardPrev": "Previous",
+  "flashcardNext": "Next",
+  "noFlashcards": "This note has no concepts or formulas to turn into flashcards.",
+  "noRevision": "This note has no revision points.",
+  "notesViewAll": "All",
+  "notesViewBookmarked": "Bookmarked",
+  "notesViewPersonal": "Personal notes",
+  "noBookmarkedNotes": "No bookmarked notes here yet",
+  "noBookmarkedNotesBody": "Tap the bookmark icon on a note to keep it here.",
+  "noPersonalNotes": "No personal notes here yet",
+  "noPersonalNotesBody": "Open a note and add your own points — they will appear here.",
+  "historyTitle": "Practice history",
+  "historyEmpty": "No attempts yet. Practise this set to build its history.",
+  "historyAttempt": "Attempt {n}",
+  "@historyAttempt": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "historyLine": "Score {score}/{max} · Accuracy {percent}",
+  "@historyLine": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningPath": "Learning path",
+  "openLearningPath": "Learning path",
+  "learningPathProgress": "{done} of {total} topics completed",
+  "@learningPathProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "learningTopicPosition": "Topic {n} of {total}",
+  "@learningTopicPosition": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "markCompleted": "Mark as completed",
+  "markedCompleted": "Marked as completed",
+  "markedNotCompleted": "Marked as not completed",
+  "continueNextTopic": "Continue to Next Topic",
+  "statusCompleted": "Completed",
+  "statusCurrent": "Current",
+  "statusUpcoming": "Upcoming",
+  "notesReady": "Notes ready",
+  "allTopicsCompleted": "All topics completed — great work!",
+  "nextTopicHint": "Tap a topic to create its notes"
 }

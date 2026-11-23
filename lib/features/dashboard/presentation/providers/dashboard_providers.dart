@@ -13,7 +13,9 @@ final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
   return ApiDashboardRepository(ref.watch(apiClientProvider));
 });
 
-final examCatalogProvider = FutureProvider<List<ExamCategory>>(
+// autoDispose: a failed fetch (server unreachable) is retried the next time a
+// screen needs the catalog instead of staying cached for the app's lifetime.
+final examCatalogProvider = FutureProvider.autoDispose<List<ExamCategory>>(
   (ref) => ref.watch(dashboardRepositoryProvider).fetchExamCatalog(),
 );
 

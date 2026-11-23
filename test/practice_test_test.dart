@@ -12,25 +12,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 PracticeSession _session({Duration? limit, int n = 3}) => PracticeSession(
-      sessionId: 's1',
-      examId: 'rrb_ntpc',
-      examName: 'RRB NTPC',
-      subjects: const ['Mathematics'],
-      topics: const ['Time & Work'],
-      difficulty: Difficulty.medium,
-      requestedCount: n,
-      timeLimit: limit,
-      questions: [
-        for (var i = 0; i < n; i++)
-          PracticeQuestion(
-            id: 'q$i',
-            topicId: 'math.t',
-            topicName: 'Time & Work',
-            text: 'Question $i',
-            options: const ['a', 'b', 'c', 'd'],
-          ),
-      ],
-    );
+  sessionId: 's1',
+  examId: 'rrb_ntpc',
+  examName: 'RRB NTPC',
+  subjects: const ['Mathematics'],
+  topics: const ['Time & Work'],
+  difficulty: Difficulty.medium,
+  requestedCount: n,
+  timeLimit: limit,
+  questions: [
+    for (var i = 0; i < n; i++)
+      PracticeQuestion(
+        id: 'q$i',
+        topicId: 'math.t',
+        topicName: 'Time & Work',
+        text: 'Question $i',
+        options: const ['a', 'b', 'c', 'd'],
+      ),
+  ],
+);
 
 void main() {
   scoringTests();
@@ -42,17 +42,22 @@ void main() {
       MockQuestionGeneratorRepository(),
       MockSyllabusRepository(),
     );
-    final s = await repo.startSession(const GenerationRequest(
-      examId: 'rrb_ntpc',
-      examName: 'RRB NTPC',
-      topicIds: ['quant.time_work'],
-      difficulty: Difficulty.medium,
-      count: 5,
-    ));
+    final s = await repo.startSession(
+      const GenerationRequest(
+        examId: 'rrb_ntpc',
+        examName: 'RRB NTPC',
+        topicIds: ['quant.time_work'],
+        difficulty: Difficulty.medium,
+        count: 5,
+      ),
+    );
     expect(s.questions, isNotEmpty);
     expect(s.subjects, contains('Mathematics'));
     expect(s.topics, contains('Time & Work'));
-    expect(s.timeLimit, MockPracticeRepository.perQuestion * s.questions.length);
+    expect(
+      s.timeLimit,
+      MockPracticeRepository.perQuestion * s.questions.length,
+    );
     // PracticeQuestion has no answer fields at all — nothing to leak.
   });
 
@@ -106,7 +111,10 @@ void main() {
 
   test('formatCountdown', () {
     expect(formatCountdown(const Duration(seconds: 65)), '01:05');
-    expect(formatCountdown(const Duration(hours: 1, minutes: 2, seconds: 3)), '1:02:03');
+    expect(
+      formatCountdown(const Duration(hours: 1, minutes: 2, seconds: 3)),
+      '1:02:03',
+    );
   });
 }
 
@@ -117,7 +125,8 @@ class _CountingRepo implements PracticeRepository {
   PracticeSubmission? last;
 
   @override
-  Future<PracticeSession> startSession(GenerationRequest request) => throw UnimplementedError();
+  Future<PracticeSession> startSession(GenerationRequest request) =>
+      throw UnimplementedError();
 
   @override
   Future<List<TopicStat>> topicStats() async => const [];
@@ -138,14 +147,14 @@ class _CountingRepo implements PracticeRepository {
 
 void scoringTests() {
   GeneratedQuestion q(String id, int correct) => GeneratedQuestion(
-        id: id,
-        topicId: 'math.t',
-        difficulty: Difficulty.medium,
-        question: id,
-        options: const ['a', 'b', 'c', 'd'],
-        correctIndex: correct,
-        explanation: 'because',
-      );
+    id: id,
+    topicId: 'math.t',
+    difficulty: Difficulty.medium,
+    question: id,
+    options: const ['a', 'b', 'c', 'd'],
+    correctIndex: correct,
+    explanation: 'because',
+  );
 
   test('scoring: +1 correct, −0.25 incorrect, 0 unattempted; accuracy over attempted', () {
     final bank = [q('q0', 0), q('q1', 1), q('q2', 2), q('q3', 3)];
@@ -172,7 +181,9 @@ void scoringTests() {
 
   test('submit sends once even when tapped repeatedly; answers lock', () async {
     final repo = _CountingRepo();
-    final c = ProviderContainer(overrides: [practiceRepositoryProvider.overrideWithValue(repo)]);
+    final c = ProviderContainer(
+      overrides: [practiceRepositoryProvider.overrideWithValue(repo)],
+    );
     addTearDown(c.dispose);
     final p = practiceTestProvider(_session());
     c.listen(p, (_, _) {});
@@ -192,7 +203,9 @@ void scoringTests() {
 
   test('failed submit exposes the error and allows retry', () async {
     final repo = _CountingRepo(fail: true);
-    final c = ProviderContainer(overrides: [practiceRepositoryProvider.overrideWithValue(repo)]);
+    final c = ProviderContainer(
+      overrides: [practiceRepositoryProvider.overrideWithValue(repo)],
+    );
     addTearDown(c.dispose);
     final p = practiceTestProvider(_session());
     c.listen(p, (_, _) {});
@@ -207,14 +220,19 @@ void scoringTests() {
   });
 
   test('mock repository is idempotent per session', () async {
-    final repo = MockPracticeRepository(MockQuestionGeneratorRepository(), MockSyllabusRepository());
-    final s = await repo.startSession(const GenerationRequest(
-      examId: 'rrb_ntpc',
-      examName: 'RRB NTPC',
-      topicIds: ['quant.time_work'],
-      difficulty: Difficulty.medium,
-      count: 5,
-    ));
+    final repo = MockPracticeRepository(
+      MockQuestionGeneratorRepository(),
+      MockSyllabusRepository(),
+    );
+    final s = await repo.startSession(
+      const GenerationRequest(
+        examId: 'rrb_ntpc',
+        examName: 'RRB NTPC',
+        topicIds: ['quant.time_work'],
+        difficulty: Difficulty.medium,
+        count: 5,
+      ),
+    );
     final sub = PracticeSubmission(
       sessionId: s.sessionId,
       answers: const {},
@@ -231,30 +249,49 @@ void scoringTests() {
 }
 
 void resultHelpersTests() {
-  PracticeResult result(List<TopicStat> stats, {int correct = 6, int total = 10}) => PracticeResult(
-        resultId: 'r',
-        sessionId: 's',
-        examName: 'RRB NTPC',
-        subjects: const ['Mathematics'],
-        topics: const [],
-        difficulty: Difficulty.medium,
-        total: total,
-        correct: correct,
-        incorrect: 2,
-        unattempted: total - correct - 2,
-        score: correct - 0.5,
-        maxScore: total.toDouble(),
-        accuracy: correct / (correct + 2),
-        timeTaken: const Duration(minutes: 5),
-        completedAt: DateTime(2026, 11, 21),
-        reviews: const [],
-        topicStats: stats,
-      );
+  PracticeResult result(
+    List<TopicStat> stats, {
+    int correct = 6,
+    int total = 10,
+  }) => PracticeResult(
+    resultId: 'r',
+    sessionId: 's',
+    examName: 'RRB NTPC',
+    subjects: const ['Mathematics'],
+    topics: const [],
+    difficulty: Difficulty.medium,
+    total: total,
+    correct: correct,
+    incorrect: 2,
+    unattempted: total - correct - 2,
+    score: correct - 0.5,
+    maxScore: total.toDouble(),
+    accuracy: correct / (correct + 2),
+    timeTaken: const Duration(minutes: 5),
+    completedAt: DateTime(2026, 11, 21),
+    reviews: const [],
+    topicStats: stats,
+  );
 
   test('strong / weak topics and ordering', () {
-    const a = TopicStat(topicId: 'a', topicName: 'A', total: 4, correct: 4); // 100%
-    const b = TopicStat(topicId: 'b', topicName: 'B', total: 4, correct: 1); // 25%
-    const c = TopicStat(topicId: 'c', topicName: 'C', total: 4, correct: 2); // 50%
+    const a = TopicStat(
+      topicId: 'a',
+      topicName: 'A',
+      total: 4,
+      correct: 4,
+    ); // 100%
+    const b = TopicStat(
+      topicId: 'b',
+      topicName: 'B',
+      total: 4,
+      correct: 1,
+    ); // 25%
+    const c = TopicStat(
+      topicId: 'c',
+      topicName: 'C',
+      total: 4,
+      correct: 2,
+    ); // 50%
     final r = result([a, b, c]);
     expect(r.topicsByAccuracy.map((t) => t.topicId), ['a', 'c', 'b']);
     expect(r.strongTopics.map((t) => t.topicId), ['a']);
@@ -275,15 +312,15 @@ void resultHelpersTests() {
 
 void reviewTests() {
   QuestionReview rev(String id, int? selected) => QuestionReview(
-        questionId: id,
-        topicId: 'quant.t',
-        topicName: 'T',
-        question: id,
-        options: const ['a', 'b', 'c', 'd'],
-        correctIndex: 0,
-        selectedIndex: selected,
-        explanation: 'x',
-      );
+    questionId: id,
+    topicId: 'quant.t',
+    topicName: 'T',
+    question: id,
+    options: const ['a', 'b', 'c', 'd'],
+    correctIndex: 0,
+    selectedIndex: selected,
+    explanation: 'x',
+  );
 
   test('review filters keep original question numbers', () {
     final reviews = [rev('q1', 0), rev('q2', 1), rev('q3', null), rev('q4', 2)];
@@ -295,74 +332,131 @@ void reviewTests() {
 
   test('mock maths steps split sentences; non-maths stays a paragraph', () {
     GeneratedQuestion g(String topic, String exp) => GeneratedQuestion(
-          id: 'g',
-          topicId: topic,
-          difficulty: Difficulty.easy,
-          question: 'q',
-          options: const ['a', 'b'],
-          correctIndex: 0,
-          explanation: exp,
-        );
-    expect(mockSteps(g('quant.pct', 'Number = 45 ÷ 0.20 = 225. 35% of 225 = 78.75.')),
-        ['Number = 45 ÷ 0.20 = 225.', '35% of 225 = 78.75.']);
+      id: 'g',
+      topicId: topic,
+      difficulty: Difficulty.easy,
+      question: 'q',
+      options: const ['a', 'b'],
+      correctIndex: 0,
+      explanation: exp,
+    );
+    expect(
+      mockSteps(
+        g('quant.pct', 'Number = 45 ÷ 0.20 = 225. 35% of 225 = 78.75.'),
+      ),
+      ['Number = 45 ÷ 0.20 = 225.', '35% of 225 = 78.75.'],
+    );
     expect(mockSteps(g('gk.history', 'Fact one. Fact two.')), isEmpty);
     expect(mockSteps(g('quant.pct', 'Single step.')), isEmpty);
   });
 
   test('retry opens a new session with only the chosen questions', () async {
-    final repo = MockPracticeRepository(MockQuestionGeneratorRepository(), MockSyllabusRepository());
-    final s = await repo.startSession(const GenerationRequest(
-      examId: 'rrb_ntpc',
-      examName: 'RRB NTPC',
-      topicIds: ['quant.time_work'],
-      difficulty: Difficulty.medium,
-      count: 5,
-    ));
+    final repo = MockPracticeRepository(
+      MockQuestionGeneratorRepository(),
+      MockSyllabusRepository(),
+    );
+    final s = await repo.startSession(
+      const GenerationRequest(
+        examId: 'rrb_ntpc',
+        examName: 'RRB NTPC',
+        topicIds: ['quant.time_work'],
+        difficulty: Difficulty.medium,
+        count: 5,
+      ),
+    );
     final wrong = {for (final q in s.questions) q.id: 3}; // option D for all
-    final result = await repo.submit(PracticeSubmission(
-      sessionId: s.sessionId,
-      answers: wrong,
-      timeTaken: const Duration(seconds: 30),
-      autoSubmitted: false,
-    ));
+    final result = await repo.submit(
+      PracticeSubmission(
+        sessionId: s.sessionId,
+        answers: wrong,
+        timeTaken: const Duration(seconds: 30),
+        autoSubmitted: false,
+      ),
+    );
     final ids = result.wrongReviews.map((w) => w.questionId).toList();
     expect(ids, isNotEmpty);
     final retry = await repo.retrySession(result, ids);
     expect(retry.sessionId, isNot(s.sessionId));
     expect(retry.questions.map((q) => q.id), ids);
     // The retry can be submitted and scored on its own; original unchanged.
-    final r2 = await repo.submit(PracticeSubmission(
-      sessionId: retry.sessionId,
-      answers: const {},
-      timeTaken: const Duration(seconds: 5),
-      autoSubmitted: false,
-    ));
+    final r2 = await repo.submit(
+      PracticeSubmission(
+        sessionId: retry.sessionId,
+        answers: const {},
+        timeTaken: const Duration(seconds: 5),
+        autoSubmitted: false,
+      ),
+    );
     expect(r2.total, ids.length);
-    expect(identical(await repo.submit(PracticeSubmission(
-      sessionId: s.sessionId, answers: wrong,
-      timeTaken: const Duration(seconds: 30), autoSubmitted: false)), result), isTrue);
+    expect(
+      identical(
+        await repo.submit(
+          PracticeSubmission(
+            sessionId: s.sessionId,
+            answers: wrong,
+            timeTaken: const Duration(seconds: 30),
+            autoSubmitted: false,
+          ),
+        ),
+        result,
+      ),
+      isTrue,
+    );
   });
 
   test('session sources compare by value', () {
     const req = GenerationRequest(
-        examId: 'e', examName: 'E', topicIds: ['a'], difficulty: Difficulty.easy, count: 5);
+      examId: 'e',
+      examName: 'E',
+      topicIds: ['a'],
+      difficulty: Difficulty.easy,
+      count: 5,
+    );
     expect(const GenerateSource(req), const GenerateSource(req));
   });
 }
 
 void weakTopicTests() {
-  test('weak topics: below 60%, at least 2 attempts, this exam only, worst first', () {
-    const stats = [
-      TopicStat(topicId: 'quant.a', topicName: 'A', total: 4, correct: 1), // 25%
-      TopicStat(topicId: 'quant.b', topicName: 'B', total: 5, correct: 2), // 40%
-      TopicStat(topicId: 'quant.c', topicName: 'C', total: 4, correct: 4), // strong
-      TopicStat(topicId: 'quant.d', topicName: 'D', total: 1, correct: 0), // too few
-      TopicStat(topicId: 'gk.e', topicName: 'E', total: 6, correct: 0), // other exam
-    ];
-    expect(
-      pickWeakTopics(stats, {'quant.a', 'quant.b', 'quant.c', 'quant.d'}),
-      ['quant.a', 'quant.b'],
-    );
-    expect(pickWeakTopics(const [], {'quant.a'}), isEmpty);
-  });
+  test(
+    'weak topics: below 60%, at least 2 attempts, this exam only, worst first',
+    () {
+      const stats = [
+        TopicStat(
+          topicId: 'quant.a',
+          topicName: 'A',
+          total: 4,
+          correct: 1,
+        ), // 25%
+        TopicStat(
+          topicId: 'quant.b',
+          topicName: 'B',
+          total: 5,
+          correct: 2,
+        ), // 40%
+        TopicStat(
+          topicId: 'quant.c',
+          topicName: 'C',
+          total: 4,
+          correct: 4,
+        ), // strong
+        TopicStat(
+          topicId: 'quant.d',
+          topicName: 'D',
+          total: 1,
+          correct: 0,
+        ), // too few
+        TopicStat(
+          topicId: 'gk.e',
+          topicName: 'E',
+          total: 6,
+          correct: 0,
+        ), // other exam
+      ];
+      expect(
+        pickWeakTopics(stats, {'quant.a', 'quant.b', 'quant.c', 'quant.d'}),
+        ['quant.a', 'quant.b'],
+      );
+      expect(pickWeakTopics(const [], {'quant.a'}), isEmpty);
+    },
+  );
 }

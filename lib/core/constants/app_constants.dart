@@ -13,7 +13,4 @@ abstract final class PrefKeys {
   // NOTE: auth tokens must NOT live here. Use flutter_secure_storage when the
   // real backend is wired in (Phase 3 backend integration).
   static const String sessionUser = 'session_user';
-
-  /// Mock-only cache of saved practice sets until the backend is live.
-  static const String savedPractice = 'saved_practice_v1';
 }
