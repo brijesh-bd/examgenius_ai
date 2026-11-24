@@ -20,6 +20,16 @@ import '../../domain/subscription_models.dart';
       body: l10n.limitDailySetsBody(max),
       icon: Icons.hourglass_bottom_rounded,
     ),
+    PlanLimitKind.dailyAiSets => (
+      title: l10n.limitDailyAiTitle,
+      body: l10n.limitDailyAiBody(max),
+      icon: Icons.auto_awesome_rounded,
+    ),
+    PlanLimitKind.aiNotInPlan => (
+      title: l10n.limitAiNotInPlanTitle,
+      body: l10n.limitAiNotInPlanBody,
+      icon: Icons.auto_awesome_rounded,
+    ),
     PlanLimitKind.dailyQuestions => (
       title: l10n.limitDailyQuestionsTitle,
       body: l10n.limitDailyQuestionsBody(max),

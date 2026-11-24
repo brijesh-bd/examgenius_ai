@@ -247,7 +247,10 @@ class _Comparison extends StatelessWidget {
     final freeSize = status.isPro ? 10 : status.limits.maxQuestionsPerSet;
     // null = unlimited (every generated set is kept in the Library).
     final freeSaved = status.isPro ? null : status.limits.maxSaved;
-    const proSize = 30;
+    final proSize = status.isPro ? status.limits.maxQuestionsPerSet : 40;
+    // AI sets per day: Free allowance (null = no separate cap, 0 = none).
+    final freeAi = status.isPro ? 1 : status.limits.aiSetsPerDay;
+    final proAi = status.isPro ? status.limits.aiSetsPerDay : null;
 
     Widget cell(String text, {bool strong = false, Color? color}) => Expanded(
       child: Text(
@@ -267,6 +270,12 @@ class _Comparison extends StatelessWidget {
     Widget no() => Expanded(
       child: Icon(Icons.remove_rounded, color: scheme.outline, size: 20),
     );
+    Widget aiCell(int? n, {bool strong = false}) => n == 0
+        ? no()
+        : cell(
+            n == null ? l10n.featureUnlimited : l10n.featureFreeSets(n),
+            strong: strong,
+          );
     Widget row(String label, Widget free, Widget pro) => Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
@@ -319,7 +328,7 @@ class _Comparison extends StatelessWidget {
                 : cell('$freeSaved'),
             cell(l10n.featureUnlimited, strong: true),
           ),
-          row(l10n.featureFreshAi, no(), yes()),
+          row(l10n.featureFreshAi, aiCell(freeAi), aiCell(proAi, strong: true)),
         ],
       ),
     );

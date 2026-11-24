@@ -17,7 +17,7 @@ import '../../features/practice_test/presentation/screens/practice_result_screen
 import '../../features/practice_test/presentation/screens/practice_test_screen.dart';
 import '../../features/library/presentation/screens/category_library_screen.dart';
 import '../../features/library/presentation/screens/library_screen.dart';
-import '../../features/question_generator/presentation/screens/create_practice_screen.dart';
+import '../../features/question_generator/presentation/screens/preparation_screen.dart';
 import '../../features/shell/coming_soon_screen.dart';
 import '../../features/shell/main_shell.dart';
 import '../../features/shell/profile_screen.dart';
@@ -32,6 +32,9 @@ import '../../features/study_notes/presentation/screens/note_view_screen.dart';
 import '../../features/study_notes/presentation/screens/notes_category_screen.dart';
 import '../../features/study_notes/presentation/screens/notes_topic_screen.dart';
 import '../../features/study_notes/presentation/screens/revision_screens.dart';
+import '../../features/study_notes/presentation/screens/outline_screen.dart';
+import '../../features/study_notes/presentation/screens/section_reader_screen.dart';
+import '../../features/study_notes/domain/note_outline.dart';
 import 'app_routes.dart';
 
 final _rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -95,7 +98,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.syllabus,
         parentNavigatorKey: _rootKey,
         builder: (_, s) =>
-            CreatePracticeScreen(examId: s.pathParameters['examId'] ?? ''),
+            PreparationScreen(examId: s.pathParameters['examId'] ?? ''),
+      ),
+      GoRoute(
+        path: AppRoutes.prepare,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) =>
+            PreparationScreen(categoryId: s.pathParameters['categoryId'] ?? ''),
       ),
       GoRoute(
         path: AppRoutes.generatedQuestions,
@@ -177,6 +186,36 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           noteId: s.pathParameters['noteId'] ?? '',
           initial: s.extra is StudyNote ? s.extra as StudyNote : null,
         ),
+      ),
+      GoRoute(
+        path: AppRoutes.notesOutline,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => OutlineScreen(
+          examId: s.pathParameters['examId'] ?? '',
+          unitId: s.pathParameters['unitId'] ?? '',
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.notesSection,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) {
+          final q = s.uri.queryParameters;
+          return SectionReaderScreen(
+            outlineKey: (
+              examId: s.pathParameters['examId'] ?? '',
+              unitId: s.pathParameters['unitId'] ?? '',
+              language: q['language'] == 'hi' ? 'hi' : 'en',
+              mode: LearningMode.values.firstWhere(
+                (m) => m.wire == q['mode'],
+                orElse: () => LearningMode.complete,
+              ),
+            ),
+            section: (
+              chapterId: s.pathParameters['chapterId'] ?? '',
+              sectionId: s.pathParameters['sectionId'] ?? '',
+            ),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.notesPath,

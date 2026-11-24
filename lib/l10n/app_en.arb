@@ -1055,5 +1055,291 @@
   "statusUpcoming": "Upcoming",
   "notesReady": "Notes ready",
   "allTopicsCompleted": "All topics completed — great work!",
-  "nextTopicHint": "Tap a topic to create its notes"
+  "nextTopicHint": "Tap a topic to create its notes",
+  "errorAiQuota": "Today's AI limit has been reached. Your selection is kept — please try again later.",
+  "sampleContentLabel": "Development sample — placeholder content. Not AI-generated, not verified study material.",
+  "outlineDraft": "Draft outline — under review",
+  "outlineProgress": "{done} of {total} sections completed",
+  "@outlineProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "outlineContinue": "Continue",
+  "outlineCoverageComplete": "All sections completed",
+  "learningModeQuick": "Quick revision",
+  "learningModeDetailed": "Detailed",
+  "learningModeComplete": "Complete prep",
+  "sectionStatePending": "Not started",
+  "sectionStateGenerated": "Ready to read",
+  "sectionStateCompleted": "Completed",
+  "sectionStateFailed": "Could not load — tap to retry",
+  "sectionRecommended": "Recommended",
+  "sectionAiSuggested": "AI-suggested",
+  "sectionOftenTested": "Often tested",
+  "sectionPreparing": "Preparing this section…",
+  "sectionMarkComplete": "Mark complete",
+  "sectionMarkedComplete": "Completed",
+  "sectionPrevious": "Previous",
+  "sectionNext": "Next",
+  "sectionOf": "Section {index} of {total}",
+  "@sectionOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "limitDailyAiTitle": "Today's AI set is used",
+  "limitDailyAiBody": "Your plan includes {max} AI-generated practice set(s) per day. You can still practise from the Question Bank, or go Premium for more AI sets.",
+  "@limitDailyAiBody": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "limitAiNotInPlanTitle": "AI questions are a Premium feature",
+  "limitAiNotInPlanBody": "Your plan uses the Question Bank. Go Premium for freshly generated AI questions.",
+  "planBadgeFree": "FREE",
+  "planBadgePro": "PREMIUM",
+  "practiceTypeTitle": "Practice type",
+  "practiceTypeQuick": "Quick Practice",
+  "practiceTypeQuickHint": "Mixed questions across this exam's subjects",
+  "practiceTypeTopics": "Topic-wise",
+  "practiceTypeTopicsHint": "Choose subjects and topics",
+  "questionSourceTitle": "Question source",
+  "sourceBank": "Question Bank",
+  "sourceBankHint": "Stored practice questions",
+  "sourceAi": "AI-Generated",
+  "sourceAiHint": "Fresh questions for you",
+  "sourceAiNote": "AI-generated practice questions — not previous-year papers.",
+  "usageSetsLeft": "{left} of {total} practice sets left today",
+  "@usageSetsLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "usageQuestionsLeft": "{left} questions left today (fair use)",
+  "@usageQuestionsLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCreditsLeft": "AI sets left today: {left}",
+  "@aiCreditsLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCreditsIncluded": "AI sets included",
+  "startPracticeCount": "Start Practice – {count} Questions",
+  "@startPracticeCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "generateAiCount": "Generate AI Questions – {count} Questions",
+  "@generateAiCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchTopics": "Search topics",
+  "noTopicsMatch": "No topics match your search",
+  "customCount": "Custom",
+  "customCountTitle": "Number of questions",
+  "customCountHint": "Between 1 and {max}",
+  "@customCountHint": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "apply": "Apply",
+  "bankInsufficientTitle": "Not enough stored questions",
+  "bankInsufficientBody": "Only {available} stored questions match your selection. You asked for {requested}.",
+  "@bankInsufficientBody": {
+    "placeholders": {
+      "available": {
+        "type": "int"
+      },
+      "requested": {
+        "type": "int"
+      }
+    }
+  },
+  "bankNoneBody": "No stored questions match your selection yet.",
+  "bankUseAvailable": "Practise {available} questions",
+  "@bankUseAvailable": {
+    "placeholders": {
+      "available": {
+        "type": "int"
+      }
+    }
+  },
+  "bankUseAi": "Use AI-generated questions",
+  "changeSelection": "Change selection",
+  "lastPracticeDetails": "{count} questions · {level}",
+  "@lastPracticeDetails": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "questionsLabel": "Questions",
+  "aiQuestionsBadge": "AI-generated",
+  "bankQuestionsBadge": "Question Bank",
+  "nObjectives": "Learning Objectives",
+  "nTimeline": "Timeline",
+  "nSql": "SQL Examples",
+  "nSqlOutput": "Expected output",
+  "nDerivations": "Derivations",
+  "nKeyFacts": "Important Facts",
+  "nPractice": "Practice Exercises",
+  "nRelated": "Related Concepts",
+  "nFurther": "Further learning",
+  "showAnswer": "Show answer",
+  "treeNextRecommended": "Next recommended",
+  "treeSectionsProgress": "{done} of {total} sections studied",
+  "@treeSectionsProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "treeContentReady": "Content ready: {ready} of {total}",
+  "@treeContentReady": {
+    "placeholders": {
+      "ready": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "contentReady": "Content ready",
+  "contentNotGenerated": "Not prepared yet",
+  "contentGenerating": "Being prepared",
+  "contentIncomplete": "Incomplete — retry",
+  "contentFailed": "Could not be prepared",
+  "progressStudied": "Studied",
+  "outlineContentCoverage": "Content coverage: {ready} of {total} sections ready",
+  "@outlineContentCoverage": {
+    "placeholders": {
+      "ready": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "outlineYourProgress": "Your progress: {done} of {total} sections studied",
+  "@outlineYourProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sectionGeneratingTitle": "This section is being prepared",
+  "sectionGeneratingBody": "It is being prepared right now. Check again in a few seconds.",
+  "checkAgain": "Check again",
+  "errorContentIncomplete": "This section could not be completed to our quality standard yet. Nothing was saved — please try again.",
+  "sectionMissingList": "Still missing: {items}",
+  "@sectionMissingList": {
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "statusAiChecked": "AI-checked · not human-reviewed",
+  "statusReviewed": "Reviewed by an expert",
+  "statusUnderReview": "Preview — awaiting review",
+  "statusFactsUnverified": "Facts not independently verified",
+  "statusStructureOnly": "Checked for structure only (no coverage list yet)",
+  "draftLabel": "Draft",
+  "recContinue": "Continue where you left off",
+  "recRevise": "Revise these topics",
+  "recAccuracy": "{pct}% accuracy in practice ({attempted} questions)",
+  "@recAccuracy": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      },
+      "attempted": {
+        "type": "int"
+      }
+    }
+  },
+  "recStudyFirst": "Study the notes",
+  "recReviseNotes": "Revise the notes",
+  "progressTopicsDone": "{done} of {total} topics completed",
+  "@progressTopicsDone": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "prepTitle": "{category} Preparation",
+  "@prepTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "stepExam": "Examination",
+  "chooseSubjectFirst": "Choose a subject to see its topics",
+  "clearTopics": "Clear",
+  "showAllTopics": "Show all ({count})",
+  "@showAllTopics": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "showFewer": "Show fewer",
+  "moreQuestionsPremium": "20, 30 and 40 questions per set are available with Premium."
 }

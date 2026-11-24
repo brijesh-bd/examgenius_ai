@@ -29,9 +29,18 @@ class MockPracticeRepository implements PracticeRepository {
   static const submitLatency = Duration(milliseconds: 800);
 
   @override
-  Future<PracticeSession> startSession(GenerationRequest request) async {
+  Future<PracticeSession> startSession(GenerationRequest original) async {
+    final syllabus = await _syllabus.fetchSyllabus(original.examId);
+    // Quick Practice: the server mixes topics across subjects; so does the mock.
+    final request = original.mode == PracticeMode.quick
+        ? original.copyWith(
+            topicIds: [
+              for (final s in syllabus.subjects)
+                for (final t in s.topics) t.id,
+            ],
+          )
+        : original;
     final set = await _generator.generate(request);
-    final syllabus = await _syllabus.fetchSyllabus(request.examId);
 
     final subjectNames = {for (final s in syllabus.subjects) s.id: s.name};
     String topicName(String id) => syllabus.topicName(id) ?? id;
@@ -61,6 +70,7 @@ class MockPracticeRepository implements PracticeRepository {
           ? null
           : perQuestion * set.questions.length,
       isPreview: set.isPreview,
+      questionSource: request.source,
     );
     _sessions[session.sessionId] = _ServerSession(session, set.questions);
     return session;

@@ -1732,4 +1732,374 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get nextTopicHint => 'नोट्स बनाने के लिए टॉपिक पर टैप करें';
+
+  @override
+  String get errorAiQuota =>
+      'आज की AI सीमा पूरी हो गई है। आपका चयन सुरक्षित है — कृपया बाद में फिर प्रयास करें।';
+
+  @override
+  String get sampleContentLabel =>
+      'डेवलपमेंट सैंपल — प्लेसहोल्डर सामग्री। AI से बनी नहीं, सत्यापित अध्ययन सामग्री नहीं।';
+
+  @override
+  String get outlineDraft => 'ड्राफ्ट रूपरेखा — समीक्षा में';
+
+  @override
+  String outlineProgress(int done, int total) {
+    return '$total में से $done सेक्शन पूरे';
+  }
+
+  @override
+  String get outlineContinue => 'जारी रखें';
+
+  @override
+  String get outlineCoverageComplete => 'सभी सेक्शन पूरे';
+
+  @override
+  String get learningModeQuick => 'त्वरित रिवीजन';
+
+  @override
+  String get learningModeDetailed => 'विस्तृत';
+
+  @override
+  String get learningModeComplete => 'पूर्ण तैयारी';
+
+  @override
+  String get sectionStatePending => 'शुरू नहीं';
+
+  @override
+  String get sectionStateGenerated => 'पढ़ने के लिए तैयार';
+
+  @override
+  String get sectionStateCompleted => 'पूरा';
+
+  @override
+  String get sectionStateFailed => 'लोड नहीं हुआ — फिर से टैप करें';
+
+  @override
+  String get sectionRecommended => 'अनुशंसित';
+
+  @override
+  String get sectionAiSuggested => 'AI-सुझाया';
+
+  @override
+  String get sectionOftenTested => 'अक्सर पूछा जाता है';
+
+  @override
+  String get sectionPreparing => 'यह सेक्शन तैयार हो रहा है…';
+
+  @override
+  String get sectionMarkComplete => 'पूरा करें';
+
+  @override
+  String get sectionMarkedComplete => 'पूरा';
+
+  @override
+  String get sectionPrevious => 'पिछला';
+
+  @override
+  String get sectionNext => 'अगला';
+
+  @override
+  String sectionOf(int index, int total) {
+    return 'सेक्शन $index / $total';
+  }
+
+  @override
+  String get limitDailyAiTitle => 'आज का AI सेट इस्तेमाल हो गया';
+
+  @override
+  String limitDailyAiBody(int max) {
+    return 'आपके प्लान में प्रतिदिन $max AI-जनित प्रैक्टिस सेट शामिल हैं। आप अभी भी प्रश्न बैंक से अभ्यास कर सकते हैं, या अधिक AI सेट के लिए Premium लें।';
+  }
+
+  @override
+  String get limitAiNotInPlanTitle => 'AI प्रश्न Premium सुविधा है';
+
+  @override
+  String get limitAiNotInPlanBody =>
+      'आपका प्लान प्रश्न बैंक का उपयोग करता है। नए AI प्रश्नों के लिए Premium लें।';
+
+  @override
+  String get planBadgeFree => 'FREE';
+
+  @override
+  String get planBadgePro => 'PREMIUM';
+
+  @override
+  String get practiceTypeTitle => 'अभ्यास का प्रकार';
+
+  @override
+  String get practiceTypeQuick => 'त्वरित अभ्यास';
+
+  @override
+  String get practiceTypeQuickHint =>
+      'इस परीक्षा के सभी विषयों से मिले-जुले प्रश्न';
+
+  @override
+  String get practiceTypeTopics => 'टॉपिक-वार';
+
+  @override
+  String get practiceTypeTopicsHint => 'विषय और टॉपिक चुनें';
+
+  @override
+  String get questionSourceTitle => 'प्रश्नों का स्रोत';
+
+  @override
+  String get sourceBank => 'प्रश्न बैंक';
+
+  @override
+  String get sourceBankHint => 'संग्रहीत अभ्यास प्रश्न';
+
+  @override
+  String get sourceAi => 'AI-जनित';
+
+  @override
+  String get sourceAiHint => 'आपके लिए नए प्रश्न';
+
+  @override
+  String get sourceAiNote =>
+      'AI-जनित अभ्यास प्रश्न — पिछले वर्ष के प्रश्नपत्र नहीं।';
+
+  @override
+  String usageSetsLeft(int left, int total) {
+    return 'आज $total में से $left प्रैक्टिस सेट बाकी';
+  }
+
+  @override
+  String usageQuestionsLeft(int left) {
+    return 'आज $left प्रश्न बाकी (फेयर यूज़)';
+  }
+
+  @override
+  String aiCreditsLeft(int left) {
+    return 'आज बचे AI सेट: $left';
+  }
+
+  @override
+  String get aiCreditsIncluded => 'AI सेट शामिल';
+
+  @override
+  String startPracticeCount(int count) {
+    return 'अभ्यास शुरू करें – $count प्रश्न';
+  }
+
+  @override
+  String generateAiCount(int count) {
+    return 'AI प्रश्न बनाएँ – $count प्रश्न';
+  }
+
+  @override
+  String get searchTopics => 'टॉपिक खोजें';
+
+  @override
+  String get noTopicsMatch => 'कोई टॉपिक नहीं मिला';
+
+  @override
+  String get customCount => 'कस्टम';
+
+  @override
+  String get customCountTitle => 'प्रश्नों की संख्या';
+
+  @override
+  String customCountHint(int max) {
+    return '1 से $max के बीच';
+  }
+
+  @override
+  String get apply => 'लागू करें';
+
+  @override
+  String get bankInsufficientTitle => 'पर्याप्त संग्रहीत प्रश्न नहीं';
+
+  @override
+  String bankInsufficientBody(int available, int requested) {
+    return 'आपके चयन से केवल $available संग्रहीत प्रश्न मेल खाते हैं। आपने $requested माँगे।';
+  }
+
+  @override
+  String get bankNoneBody =>
+      'आपके चयन से अभी कोई संग्रहीत प्रश्न मेल नहीं खाता।';
+
+  @override
+  String bankUseAvailable(int available) {
+    return '$available प्रश्नों का अभ्यास करें';
+  }
+
+  @override
+  String get bankUseAi => 'AI-जनित प्रश्न उपयोग करें';
+
+  @override
+  String get changeSelection => 'चयन बदलें';
+
+  @override
+  String lastPracticeDetails(int count, String level) {
+    return '$count प्रश्न · $level';
+  }
+
+  @override
+  String get questionsLabel => 'प्रश्न';
+
+  @override
+  String get aiQuestionsBadge => 'AI-जनित';
+
+  @override
+  String get bankQuestionsBadge => 'प्रश्न बैंक';
+
+  @override
+  String get nObjectives => 'सीखने के उद्देश्य';
+
+  @override
+  String get nTimeline => 'समयरेखा';
+
+  @override
+  String get nSql => 'SQL उदाहरण';
+
+  @override
+  String get nSqlOutput => 'अपेक्षित आउटपुट';
+
+  @override
+  String get nDerivations => 'व्युत्पत्ति';
+
+  @override
+  String get nKeyFacts => 'महत्वपूर्ण तथ्य';
+
+  @override
+  String get nPractice => 'अभ्यास प्रश्न';
+
+  @override
+  String get nRelated => 'संबंधित अवधारणाएँ';
+
+  @override
+  String get nFurther => 'आगे क्या पढ़ें';
+
+  @override
+  String get showAnswer => 'उत्तर देखें';
+
+  @override
+  String get treeNextRecommended => 'अगला सुझाया गया';
+
+  @override
+  String treeSectionsProgress(int done, int total) {
+    return '$total में से $done सेक्शन पढ़े';
+  }
+
+  @override
+  String treeContentReady(int ready, int total) {
+    return 'सामग्री तैयार: $total में से $ready';
+  }
+
+  @override
+  String get contentReady => 'सामग्री तैयार';
+
+  @override
+  String get contentNotGenerated => 'अभी तैयार नहीं';
+
+  @override
+  String get contentGenerating => 'तैयार हो रही है';
+
+  @override
+  String get contentIncomplete => 'अधूरी — फिर से प्रयास करें';
+
+  @override
+  String get contentFailed => 'तैयार नहीं हो सकी';
+
+  @override
+  String get progressStudied => 'पढ़ लिया';
+
+  @override
+  String outlineContentCoverage(int ready, int total) {
+    return 'सामग्री कवरेज: $total में से $ready सेक्शन तैयार';
+  }
+
+  @override
+  String outlineYourProgress(int done, int total) {
+    return 'आपकी प्रगति: $total में से $done सेक्शन पढ़े';
+  }
+
+  @override
+  String get sectionGeneratingTitle => 'यह सेक्शन तैयार हो रहा है';
+
+  @override
+  String get sectionGeneratingBody =>
+      'यह अभी तैयार किया जा रहा है। कुछ सेकंड बाद फिर देखें।';
+
+  @override
+  String get checkAgain => 'फिर देखें';
+
+  @override
+  String get errorContentIncomplete =>
+      'यह सेक्शन अभी हमारे गुणवत्ता मानक तक पूरा नहीं हो सका। कुछ भी सहेजा नहीं गया — कृपया फिर से प्रयास करें।';
+
+  @override
+  String sectionMissingList(String items) {
+    return 'अभी बाकी: $items';
+  }
+
+  @override
+  String get statusAiChecked => 'AI द्वारा जाँचा गया · विशेषज्ञ समीक्षा नहीं';
+
+  @override
+  String get statusReviewed => 'विशेषज्ञ द्वारा समीक्षित';
+
+  @override
+  String get statusUnderReview => 'प्रीव्यू — समीक्षा बाकी';
+
+  @override
+  String get statusFactsUnverified => 'तथ्य स्वतंत्र रूप से सत्यापित नहीं';
+
+  @override
+  String get statusStructureOnly =>
+      'केवल संरचना जाँची गई (कवरेज सूची अभी नहीं)';
+
+  @override
+  String get draftLabel => 'ड्राफ्ट';
+
+  @override
+  String get recContinue => 'जहाँ छोड़ा था वहीं से जारी रखें';
+
+  @override
+  String get recRevise => 'इन टॉपिक्स को दोहराएँ';
+
+  @override
+  String recAccuracy(int pct, int attempted) {
+    return 'अभ्यास में $pct% सटीकता ($attempted प्रश्न)';
+  }
+
+  @override
+  String get recStudyFirst => 'नोट्स पढ़ें';
+
+  @override
+  String get recReviseNotes => 'नोट्स दोहराएँ';
+
+  @override
+  String progressTopicsDone(int done, int total) {
+    return '$total में से $done टॉपिक पूरे';
+  }
+
+  @override
+  String prepTitle(String category) {
+    return '$category तैयारी';
+  }
+
+  @override
+  String get stepExam => 'परीक्षा';
+
+  @override
+  String get chooseSubjectFirst => 'टॉपिक देखने के लिए विषय चुनें';
+
+  @override
+  String get clearTopics => 'हटाएँ';
+
+  @override
+  String showAllTopics(int count) {
+    return 'सभी देखें ($count)';
+  }
+
+  @override
+  String get showFewer => 'कम देखें';
+
+  @override
+  String get moreQuestionsPremium =>
+      'प्रति सेट 20, 30 और 40 प्रश्न Premium में उपलब्ध हैं।';
 }

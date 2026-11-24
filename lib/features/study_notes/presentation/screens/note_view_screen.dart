@@ -18,18 +18,32 @@ import 'create_notes_screen.dart';
 /// Generated / saved notes: header, table of contents, collapsible sections.
 /// [initial] (passed right after generation) avoids a second fetch.
 class NoteViewScreen extends ConsumerWidget {
-  const NoteViewScreen({super.key, required this.noteId, this.initial});
+  const NoteViewScreen({
+    super.key,
+    required this.noteId,
+    this.initial,
+    this.banner,
+    this.bottomBar,
+  });
 
   final String noteId;
   final StudyNote? initial;
 
+  /// Shown under the header (e.g. the development-sample label).
+  final Widget? banner;
+
+  /// e.g. section navigation (previous / mark complete / next).
+  final Widget? bottomBar;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    if (initial?.content != null) return _NoteView(note: initial!);
+    if (initial?.content != null) {
+      return _NoteView(note: initial!, banner: banner, bottomBar: bottomBar);
+    }
     final note = ref.watch(studyNoteProvider(noteId));
     return note.when(
-      data: (n) => _NoteView(note: n),
+      data: (n) => _NoteView(note: n, banner: banner, bottomBar: bottomBar),
       loading: () => Scaffold(
         appBar: AppBar(),
         body: ResponsiveCenter(
@@ -88,6 +102,14 @@ List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
     AppColors.primary,
     [if (c.overview.isNotEmpty) NoteText(c.overview)],
   );
+  add('objectives', l10n.nObjectives, Icons.flag_outlined, AppColors.primary, [
+    if (c.objectives.isNotEmpty)
+      NoteBullets(
+        c.objectives,
+        icon: Icons.flag_rounded,
+        color: AppColors.primary,
+      ),
+  ]);
   add('detailed', l10n.nDetailed, Icons.menu_book_rounded, AppColors.primary, [
     for (final p in c.explanation)
       Padding(
@@ -101,12 +123,18 @@ List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
         ),
       ),
   ]);
+  add('timeline', l10n.nTimeline, Icons.timeline_rounded, AppColors.accent, [
+    if (c.timeline.isNotEmpty) NoteTimelineView(c.timeline),
+  ]);
   add('concepts', l10n.nConcepts, Icons.hub_outlined, AppColors.accent, [
     for (final k in c.concepts) NoteConceptTile(k),
   ]);
   add('examples', l10n.nExamples, Icons.science_outlined, AppColors.railway, [
     for (final e in c.examples) NoteExampleCard(e),
     for (final code in c.codeExamples) NoteCodeBlock(code),
+  ]);
+  add('sql', l10n.nSql, Icons.storage_rounded, AppColors.primary, [
+    for (final q in c.sqlExamples) NoteSqlCard(q),
   ]);
   add(
     'diagrams',
@@ -122,6 +150,13 @@ List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
     for (final f in c.formulas) NoteFormulaCard(f),
     for (final t in c.tables) NoteTableView(t),
   ]);
+  add(
+    'derivations',
+    l10n.nDerivations,
+    Icons.calculate_outlined,
+    AppColors.accent,
+    [for (final d in c.derivations) NoteDerivationCard(d)],
+  );
   add(
     'tips',
     l10n.nTips,
@@ -165,6 +200,20 @@ List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
     ],
   );
   add(
+    'keyFacts',
+    l10n.nKeyFacts,
+    Icons.fact_check_outlined,
+    AppColors.banking,
+    [
+      if (c.keyFacts.isNotEmpty)
+        NoteBullets(
+          c.keyFacts,
+          icon: Icons.push_pin_outlined,
+          color: AppColors.banking,
+        ),
+    ],
+  );
+  add(
     'revision',
     l10n.nRevision,
     Icons.flash_on_rounded,
@@ -173,6 +222,16 @@ List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
   );
   add('mcqs', l10n.nMcqs, Icons.quiz_outlined, AppColors.mockTests, [
     for (final (i, q) in c.mcqs.indexed) NoteMcqCard(q, number: i + 1),
+  ]);
+  add('practice', l10n.nPractice, Icons.edit_note_rounded, AppColors.success, [
+    for (final (i, x) in c.practice.indexed) NotePracticeCard(x, number: i + 1),
+  ]);
+  add('related', l10n.nRelated, Icons.link_rounded, AppColors.previousYear, [
+    if (c.relatedConcepts.isNotEmpty) NoteBullets(c.relatedConcepts),
+    if (c.furtherLearning.isNotEmpty) ...[
+      NoteSubheading(l10n.nFurther),
+      NoteBullets(c.furtherLearning, icon: Icons.arrow_forward_rounded),
+    ],
   ]);
   add('next', l10n.nNext, Icons.arrow_forward_rounded, AppColors.primary, [
     // Syllabus topics: each row opens Create Notes for it (prefilled).
@@ -183,8 +242,10 @@ List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
 }
 
 class _NoteView extends ConsumerStatefulWidget {
-  const _NoteView({required this.note});
+  const _NoteView({required this.note, this.banner, this.bottomBar});
   final StudyNote note;
+  final Widget? banner;
+  final Widget? bottomBar;
 
   @override
   ConsumerState<_NoteView> createState() => _NoteViewState();
@@ -397,6 +458,7 @@ class _NoteViewState extends ConsumerState<_NoteView> {
               )
             : null,
       ),
+      bottomNavigationBar: widget.bottomBar,
       body: SafeArea(
         top: false,
         child: SingleChildScrollView(
@@ -431,6 +493,10 @@ class _NoteViewState extends ConsumerState<_NoteView> {
                     ),
                   ],
                 ),
+                if (widget.banner case final banner?) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  banner,
+                ],
                 const SizedBox(height: AppSpacing.sm),
                 // Revision tools (built from this saved note, no AI call).
                 Wrap(

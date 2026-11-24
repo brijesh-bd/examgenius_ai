@@ -94,13 +94,24 @@ void main() {
     expect(_req(['quant.average'], Difficulty.hard, 10).toJson(), {
       'examId': 'ssc_cgl',
       'examName': 'SSC CGL',
+      'mode': 'topics',
       'topicIds': ['quant.average'],
       'difficulty': 'hard',
       'count': 10,
-      'fresh': false,
+      'source': 'bank',
       'level': 'exam',
     });
   });
+
+  test(
+    'quick practice is complete without topics; source defaults to bank',
+    () {
+      const quick = GeneratorForm(mode: PracticeMode.quick);
+      expect(quick.isComplete, isTrue);
+      expect(quick.source, QuestionSource.bank);
+      expect(kQuestionCountOptions, [5, 10, 20, 30, 40]);
+    },
+  );
 
   group('create practice form', () {
     const subject = SyllabusSubject(
@@ -142,24 +153,21 @@ void main() {
       expect(form().topicIds, {'gk.x'});
     });
 
-    test('fresh flag and active subject survive other edits', () {
-      ctl().setFresh(true);
+    test('source, mode and active subject survive other edits', () {
+      ctl().setSource(QuestionSource.ai);
       ctl().setActiveSubject('math');
       ctl().setCount(5);
-      expect(form().fresh, isTrue);
+      ctl().setMode(PracticeMode.quick);
+      expect(form().source, QuestionSource.ai);
+      expect(form().mode, PracticeMode.quick);
       expect(form().activeSubjectId, 'math');
     });
 
-    test('presets fill the form and jump to the first topic\'s subject', () {
-      ctl().applyPreset(
-        topicIds: {'math.b', 'math.c'},
-        difficulty: Difficulty.hard,
-        count: 5,
-      );
-      expect(form().topicIds, {'math.b', 'math.c'});
-      expect(form().difficulty, Difficulty.hard);
-      expect(form().count, 5);
-      expect(form().activeSubjectId, 'math');
+    test('select all only adds the topics visible in a search', () {
+      ctl().selectAllIn(subject, visible: ['math.b']);
+      expect(form().topicIds, {'math.b'});
+      ctl().clearTopics();
+      expect(form().topicIds, isEmpty);
     });
   });
 
@@ -168,12 +176,22 @@ void main() {
     final store = LastPracticeStore(await SharedPreferences.getInstance());
     expect(store.read('rrb_ntpc'), isNull);
     await store.save(
-      _req(['quant.percentage', 'quant.average'], Difficulty.hard, 20),
+      LastPracticeConfig.fromRequest(
+        _req(
+          ['quant.percentage', 'quant.average'],
+          Difficulty.hard,
+          20,
+        ).copyWith(source: QuestionSource.ai),
+        language: 'hi',
+      ),
     );
     final last = store.read('ssc_cgl');
-    expect(last?.topicIds, {'quant.percentage', 'quant.average'});
+    expect(last?.topicIds, ['quant.percentage', 'quant.average']);
+    expect(last?.subjectIds, ['quant']);
     expect(last?.difficulty, Difficulty.hard);
     expect(last?.count, 20);
+    expect(last?.source, QuestionSource.ai);
+    expect(last?.language, 'hi');
     expect(store.read('rrb_ntpc'), isNull);
   });
 }

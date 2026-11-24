@@ -539,3 +539,159 @@ class _NoteMcqCardState extends State<NoteMcqCard> {
     );
   }
 }
+
+/// Vertical timeline: period on the left, event on the right.
+class NoteTimelineView extends StatelessWidget {
+  const NoteTimelineView(this.events, {super.key});
+  final List<NoteTimelineEvent> events;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        for (final (i, e) in events.indexed)
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  width: 96,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2, right: 8),
+                    child: Text(
+                      e.period,
+                      textAlign: TextAlign.right,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: AppColors.accent,
+                      ),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    const Icon(Icons.circle, size: 10, color: AppColors.accent),
+                    if (i < events.length - 1)
+                      Expanded(
+                        child: Container(
+                          width: 2,
+                          color: AppColors.accent.withValues(alpha: 0.3),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                    child: SelectableText(
+                      e.event,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// SQL query, its sample input, and the exact expected output table.
+class NoteSqlCard extends StatelessWidget {
+  const NoteSqlCard(this.sql, {super.key});
+  final NoteSql sql;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    return NoteBox(
+      color: AppColors.primary,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          NoteCodeBlock(NoteCode('sql', sql.query, sql.input)),
+          if (sql.headers.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.xs),
+            Text(l10n.nSqlOutput, style: theme.textTheme.labelLarge),
+            const SizedBox(height: 4),
+            NoteTableView(NoteTable('', sql.headers, sql.rows)),
+          ],
+          if (sql.explanation.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.xs),
+            NoteText(sql.explanation),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// A formula with its numbered derivation steps.
+class NoteDerivationCard extends StatelessWidget {
+  const NoteDerivationCard(this.derivation, {super.key});
+  final NoteDerivation derivation;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return NoteBox(
+      color: AppColors.accent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SelectableText(
+            derivation.formula,
+            style: _mono(context)?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 6),
+          for (final (i, s) in derivation.steps.indexed)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text('${i + 1}. $s', style: theme.textTheme.bodyMedium),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Practice exercise: the answer is revealed on tap.
+class NotePracticeCard extends StatefulWidget {
+  const NotePracticeCard(this.practice, {super.key, required this.number});
+  final NotePractice practice;
+  final int number;
+
+  @override
+  State<NotePracticeCard> createState() => _NotePracticeCardState();
+}
+
+class _NotePracticeCardState extends State<NotePracticeCard> {
+  bool _shown = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return NoteBox(
+      color: AppColors.success,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          NoteText('${widget.number}. ${widget.practice.question}'),
+          if (_shown)
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: NoteText(widget.practice.answer),
+            )
+          else
+            TextButton(
+              onPressed: () => setState(() => _shown = true),
+              child: Text(l10n.showAnswer),
+            ),
+        ],
+      ),
+    );
+  }
+}

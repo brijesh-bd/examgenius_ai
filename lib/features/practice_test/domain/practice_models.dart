@@ -49,7 +49,11 @@ class PracticeSession {
     this.timeLimit,
     this.isPreview = false,
     this.setId,
+    this.questionSource,
   });
+
+  /// Where the questions came from (null for retries / older sets).
+  final QuestionSource? questionSource;
 
   final String sessionId;
 
@@ -86,6 +90,9 @@ class PracticeSession {
             ? null
             : Duration(seconds: json['timeLimitSeconds'] as int),
         isPreview: json['isPreview'] as bool? ?? false,
+        questionSource: json['questionSource'] == null
+            ? null
+            : QuestionSource.fromJson(json['questionSource'] as String),
       );
 }
 

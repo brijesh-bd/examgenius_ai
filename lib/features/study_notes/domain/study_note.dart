@@ -187,6 +187,42 @@ class NoteNextTopic {
   };
 }
 
+/// Dated event (history / GK timelines).
+class NoteTimelineEvent {
+  const NoteTimelineEvent(this.period, this.event);
+  final String period;
+  final String event;
+}
+
+/// SQL query with sample input and its exact expected output.
+class NoteSql {
+  const NoteSql({
+    required this.query,
+    this.input = '',
+    this.headers = const [],
+    this.rows = const [],
+    this.explanation = '',
+  });
+  final String query;
+  final String input;
+  final List<String> headers;
+  final List<List<String>> rows;
+  final String explanation;
+}
+
+class NoteDerivation {
+  const NoteDerivation(this.formula, this.steps);
+  final String formula;
+  final List<String> steps;
+}
+
+/// Practice exercise (English and similar) with its answer.
+class NotePractice {
+  const NotePractice(this.question, this.answer);
+  final String question;
+  final String answer;
+}
+
 class NoteContent {
   const NoteContent({
     required this.overview,
@@ -204,9 +240,27 @@ class NoteContent {
     this.quickRevision = const [],
     this.mcqs = const [],
     this.nextTopics = const [],
+    this.objectives = const [],
+    this.timeline = const [],
+    this.keyFacts = const [],
+    this.relatedConcepts = const [],
+    this.furtherLearning = const [],
+    this.sqlExamples = const [],
+    this.derivations = const [],
+    this.practice = const [],
   });
 
   final String overview;
+
+  // Section notes (schema v2); empty for older notes.
+  final List<String> objectives;
+  final List<NoteTimelineEvent> timeline;
+  final List<String> keyFacts;
+  final List<String> relatedConcepts;
+  final List<String> furtherLearning;
+  final List<NoteSql> sqlExamples;
+  final List<NoteDerivation> derivations;
+  final List<NotePractice> practice;
   final List<NoteParagraph> explanation;
   final List<NoteConcept> concepts;
   final List<NoteExample> examples;
@@ -294,6 +348,36 @@ class NoteContent {
       for (final v in j['nextTopics'] as List<dynamic>? ?? const [])
         ?NoteNextTopic.fromJson(v),
     ],
+    objectives: _strings(j['objectives']),
+    timeline: _list(
+      j['timeline'],
+      (m) => NoteTimelineEvent(_s(m['period']), _s(m['event'])),
+    ),
+    keyFacts: _strings(j['keyFacts']),
+    relatedConcepts: _strings(j['relatedConcepts']),
+    furtherLearning: _strings(j['furtherLearning']),
+    sqlExamples: _list(j['sqlExamples'], (m) {
+      final out = m['output'] is Map<String, dynamic>
+          ? m['output'] as Map<String, dynamic>
+          : const <String, dynamic>{};
+      return NoteSql(
+        query: _s(m['query']),
+        input: _s(m['input']),
+        headers: _strings(out['headers']),
+        rows: (out['rows'] as List<dynamic>? ?? const [])
+            .map(_strings)
+            .toList(),
+        explanation: _s(m['explanation']),
+      );
+    }),
+    derivations: _list(
+      j['derivations'],
+      (m) => NoteDerivation(_s(m['formula']), _strings(m['steps'])),
+    ),
+    practice: _list(
+      j['practice'],
+      (m) => NotePractice(_s(m['question']), _s(m['answer'])),
+    ),
   );
 }
 

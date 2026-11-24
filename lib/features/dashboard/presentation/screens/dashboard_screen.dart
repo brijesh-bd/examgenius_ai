@@ -70,7 +70,7 @@ class DashboardScreen extends ConsumerWidget {
                   .join(", "),
               icon: style.icon,
               color: style.color,
-              onTap: () => context.push(AppRoutes.examsFor(c.id)),
+              onTap: () => context.push(AppRoutes.prepareFor(c.id)),
             );
           }(),
       ],
@@ -120,7 +120,7 @@ class DashboardScreen extends ConsumerWidget {
                               if (firstCategoryId != null)
                                 TextButton(
                                   onPressed: () => context.push(
-                                    AppRoutes.examsFor(firstCategoryId),
+                                    AppRoutes.prepareFor(firstCategoryId),
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,

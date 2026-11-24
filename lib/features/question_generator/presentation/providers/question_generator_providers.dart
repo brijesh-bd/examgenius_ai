@@ -9,6 +9,7 @@ import '../../../../core/services/preferences_service.dart';
 import '../../data/api_syllabus_repository.dart';
 import '../../data/mock_question_generator_repository.dart';
 import '../../data/mock_syllabus_repository.dart';
+import '../../data/practice_setup_repositories.dart';
 import '../../domain/generated_question.dart';
 import '../../domain/question_generator_repository.dart';
 import '../../domain/syllabus.dart';
@@ -23,11 +24,18 @@ final questionGeneratorRepositoryProvider =
       (ref) => MockQuestionGeneratorRepository(),
     );
 
+final practiceSetupRepositoryProvider = Provider<PracticeSetupRepository>((
+  ref,
+) {
+  if (ref.watch(useMockBackendProvider)) return MockPracticeSetupRepository();
+  return ApiPracticeSetupRepository(ref.watch(apiClientProvider));
+});
+
 final syllabusProvider = FutureProvider.autoDispose.family<Syllabus, String>(
   (ref, examId) => ref.watch(syllabusRepositoryProvider).fetchSyllabus(examId),
 );
 
-/// Topic / difficulty / count chosen on the syllabus screen, per exam.
+/// Practice type / topics / level / count / source on Create Practice, per exam.
 class GeneratorFormController extends Notifier<GeneratorForm> {
   GeneratorFormController(this.examId);
 
@@ -35,6 +43,8 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
 
   @override
   GeneratorForm build() => const GeneratorForm();
+
+  void setMode(PracticeMode mode) => state = state.copyWith(mode: mode);
 
   void toggleTopic(String topicId) {
     final next = {...state.topicIds};
@@ -46,27 +56,18 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
   void setActiveSubject(String subjectId) =>
       state = state.copyWith(activeSubjectId: subjectId);
 
-  /// Selects every topic of [subject].
-  void selectAllIn(SyllabusSubject subject) {
-    state = state.copyWith(
-      topicIds: {...state.topicIds, ...subject.topics.map((t) => t.id)},
-    );
-  }
+  /// Preparation screen: one subject at a time, so switching subject clears
+  /// the topics picked in the previous one.
+  void selectSubject(String subjectId) =>
+      state = state.copyWith(activeSubjectId: subjectId, topicIds: const {});
 
-  /// Fills the whole form at once (quick-start shortcuts).
-  void applyPreset({
-    required Set<String> topicIds,
-    Difficulty? difficulty,
-    int? count,
-  }) {
-    state = GeneratorForm(
-      topicIds: topicIds,
-      difficulty: difficulty ?? state.difficulty,
-      count: count ?? state.count,
-      fresh: state.fresh,
-      activeSubjectId: topicIds.isEmpty
-          ? state.activeSubjectId
-          : subjectIdOf(topicIds.first),
+  /// Selects every topic of [subject] (or only [visible] ones while searching).
+  void selectAllIn(SyllabusSubject subject, {Iterable<String>? visible}) {
+    state = state.copyWith(
+      topicIds: {
+        ...state.topicIds,
+        ...(visible ?? subject.topics.map((t) => t.id)),
+      },
     );
   }
 
@@ -84,7 +85,8 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
 
   void setCount(int count) => state = state.copyWith(count: count);
 
-  void setFresh(bool fresh) => state = state.copyWith(fresh: fresh);
+  void setSource(QuestionSource source) =>
+      state = state.copyWith(source: source);
 
   /// Builds the request, or `null` while the form is incomplete.
   GenerationRequest? buildRequest({
@@ -93,18 +95,21 @@ class GeneratorFormController extends Notifier<GeneratorForm> {
   }) {
     if (!state.isComplete) return null;
     // Keep syllabus order so identical selections produce equal requests.
-    final ordered = [
-      for (final s in syllabus.subjects)
-        for (final t in s.topics)
-          if (state.topicIds.contains(t.id)) t.id,
-    ];
+    final ordered = state.mode == PracticeMode.quick
+        ? <String>[]
+        : [
+            for (final s in syllabus.subjects)
+              for (final t in s.topics)
+                if (state.topicIds.contains(t.id)) t.id,
+          ];
     return GenerationRequest(
       examId: examId,
       examName: examName,
       topicIds: ordered,
       difficulty: state.difficulty,
       count: state.count,
-      fresh: state.fresh,
+      source: state.source,
+      mode: state.mode,
     );
   }
 }
@@ -114,41 +119,46 @@ final generatorFormProvider = NotifierProvider.autoDispose
       GeneratorFormController.new,
     );
 
-/// The student's last practice setup per exam ("Last practice" shortcut).
-/// Topic ids / level / count only — nothing sensitive.
+/// Local cache of the Last Practice configuration per exam: instant display
+/// and offline fallback. The account copy on the server is the source of truth.
 class LastPracticeStore {
   LastPracticeStore(this._prefs);
 
   final SharedPreferences _prefs;
-  static String _key(String examId) => 'last_practice_v1_$examId';
+  static String _key(String examId) => 'last_practice_v2_$examId';
 
-  ({Set<String> topicIds, Difficulty difficulty, int count})? read(
-    String examId,
-  ) {
+  LastPracticeConfig? read(String examId) {
     final raw = _prefs.getString(_key(examId));
     if (raw == null) return null;
     try {
-      final j = jsonDecode(raw) as Map<String, dynamic>;
-      return (
-        topicIds: (j['topicIds'] as List<dynamic>).cast<String>().toSet(),
-        difficulty: Difficulty.fromJson(j['difficulty'] as String),
-        count: (j['count'] as num).toInt(),
+      return LastPracticeConfig.fromJson(
+        jsonDecode(raw) as Map<String, dynamic>,
       );
     } on Object {
       return null;
     }
   }
 
-  Future<void> save(GenerationRequest r) => _prefs.setString(
-    _key(r.examId),
-    jsonEncode({
-      'topicIds': r.topicIds,
-      'difficulty': r.difficulty.name,
-      'count': r.count,
-    }),
-  );
+  Future<void> save(LastPracticeConfig c) =>
+      _prefs.setString(_key(c.examId), jsonEncode(c.toJson()));
 }
 
 final lastPracticeStoreProvider = Provider<LastPracticeStore>(
   (ref) => LastPracticeStore(ref.watch(sharedPreferencesProvider)),
 );
+
+/// Last Practice for an exam: the server's copy (cross-device), cached
+/// locally; the cache is used when the server cannot be reached.
+final lastPracticeProvider = FutureProvider.autoDispose
+    .family<LastPracticeConfig?, String>((ref, examId) async {
+      final store = ref.read(lastPracticeStoreProvider);
+      try {
+        final remote = await ref
+            .read(practiceSetupRepositoryProvider)
+            .lastConfig(examId);
+        if (remote != null) await store.save(remote);
+        return remote ?? store.read(examId);
+      } on Object {
+        return store.read(examId);
+      }
+    });

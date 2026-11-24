@@ -30,6 +30,12 @@ void openLearningItem(
   required LearningItem item,
   NotesPrefill? prefill,
 }) {
+  // Curated outline → section-by-section notes.
+  if (item.hasOutline) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    context.push(AppRoutes.notesOutlineFor(examId, item.id));
+    return;
+  }
   if (item.latestNoteId case final id?) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     context.push(AppRoutes.noteViewFor(id));

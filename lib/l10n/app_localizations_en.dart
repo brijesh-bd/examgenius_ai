@@ -1733,4 +1733,373 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextTopicHint => 'Tap a topic to create its notes';
+
+  @override
+  String get errorAiQuota =>
+      'Today\'s AI limit has been reached. Your selection is kept — please try again later.';
+
+  @override
+  String get sampleContentLabel =>
+      'Development sample — placeholder content. Not AI-generated, not verified study material.';
+
+  @override
+  String get outlineDraft => 'Draft outline — under review';
+
+  @override
+  String outlineProgress(int done, int total) {
+    return '$done of $total sections completed';
+  }
+
+  @override
+  String get outlineContinue => 'Continue';
+
+  @override
+  String get outlineCoverageComplete => 'All sections completed';
+
+  @override
+  String get learningModeQuick => 'Quick revision';
+
+  @override
+  String get learningModeDetailed => 'Detailed';
+
+  @override
+  String get learningModeComplete => 'Complete prep';
+
+  @override
+  String get sectionStatePending => 'Not started';
+
+  @override
+  String get sectionStateGenerated => 'Ready to read';
+
+  @override
+  String get sectionStateCompleted => 'Completed';
+
+  @override
+  String get sectionStateFailed => 'Could not load — tap to retry';
+
+  @override
+  String get sectionRecommended => 'Recommended';
+
+  @override
+  String get sectionAiSuggested => 'AI-suggested';
+
+  @override
+  String get sectionOftenTested => 'Often tested';
+
+  @override
+  String get sectionPreparing => 'Preparing this section…';
+
+  @override
+  String get sectionMarkComplete => 'Mark complete';
+
+  @override
+  String get sectionMarkedComplete => 'Completed';
+
+  @override
+  String get sectionPrevious => 'Previous';
+
+  @override
+  String get sectionNext => 'Next';
+
+  @override
+  String sectionOf(int index, int total) {
+    return 'Section $index of $total';
+  }
+
+  @override
+  String get limitDailyAiTitle => 'Today\'s AI set is used';
+
+  @override
+  String limitDailyAiBody(int max) {
+    return 'Your plan includes $max AI-generated practice set(s) per day. You can still practise from the Question Bank, or go Premium for more AI sets.';
+  }
+
+  @override
+  String get limitAiNotInPlanTitle => 'AI questions are a Premium feature';
+
+  @override
+  String get limitAiNotInPlanBody =>
+      'Your plan uses the Question Bank. Go Premium for freshly generated AI questions.';
+
+  @override
+  String get planBadgeFree => 'FREE';
+
+  @override
+  String get planBadgePro => 'PREMIUM';
+
+  @override
+  String get practiceTypeTitle => 'Practice type';
+
+  @override
+  String get practiceTypeQuick => 'Quick Practice';
+
+  @override
+  String get practiceTypeQuickHint =>
+      'Mixed questions across this exam\'s subjects';
+
+  @override
+  String get practiceTypeTopics => 'Topic-wise';
+
+  @override
+  String get practiceTypeTopicsHint => 'Choose subjects and topics';
+
+  @override
+  String get questionSourceTitle => 'Question source';
+
+  @override
+  String get sourceBank => 'Question Bank';
+
+  @override
+  String get sourceBankHint => 'Stored practice questions';
+
+  @override
+  String get sourceAi => 'AI-Generated';
+
+  @override
+  String get sourceAiHint => 'Fresh questions for you';
+
+  @override
+  String get sourceAiNote =>
+      'AI-generated practice questions — not previous-year papers.';
+
+  @override
+  String usageSetsLeft(int left, int total) {
+    return '$left of $total practice sets left today';
+  }
+
+  @override
+  String usageQuestionsLeft(int left) {
+    return '$left questions left today (fair use)';
+  }
+
+  @override
+  String aiCreditsLeft(int left) {
+    return 'AI sets left today: $left';
+  }
+
+  @override
+  String get aiCreditsIncluded => 'AI sets included';
+
+  @override
+  String startPracticeCount(int count) {
+    return 'Start Practice – $count Questions';
+  }
+
+  @override
+  String generateAiCount(int count) {
+    return 'Generate AI Questions – $count Questions';
+  }
+
+  @override
+  String get searchTopics => 'Search topics';
+
+  @override
+  String get noTopicsMatch => 'No topics match your search';
+
+  @override
+  String get customCount => 'Custom';
+
+  @override
+  String get customCountTitle => 'Number of questions';
+
+  @override
+  String customCountHint(int max) {
+    return 'Between 1 and $max';
+  }
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get bankInsufficientTitle => 'Not enough stored questions';
+
+  @override
+  String bankInsufficientBody(int available, int requested) {
+    return 'Only $available stored questions match your selection. You asked for $requested.';
+  }
+
+  @override
+  String get bankNoneBody => 'No stored questions match your selection yet.';
+
+  @override
+  String bankUseAvailable(int available) {
+    return 'Practise $available questions';
+  }
+
+  @override
+  String get bankUseAi => 'Use AI-generated questions';
+
+  @override
+  String get changeSelection => 'Change selection';
+
+  @override
+  String lastPracticeDetails(int count, String level) {
+    return '$count questions · $level';
+  }
+
+  @override
+  String get questionsLabel => 'Questions';
+
+  @override
+  String get aiQuestionsBadge => 'AI-generated';
+
+  @override
+  String get bankQuestionsBadge => 'Question Bank';
+
+  @override
+  String get nObjectives => 'Learning Objectives';
+
+  @override
+  String get nTimeline => 'Timeline';
+
+  @override
+  String get nSql => 'SQL Examples';
+
+  @override
+  String get nSqlOutput => 'Expected output';
+
+  @override
+  String get nDerivations => 'Derivations';
+
+  @override
+  String get nKeyFacts => 'Important Facts';
+
+  @override
+  String get nPractice => 'Practice Exercises';
+
+  @override
+  String get nRelated => 'Related Concepts';
+
+  @override
+  String get nFurther => 'Further learning';
+
+  @override
+  String get showAnswer => 'Show answer';
+
+  @override
+  String get treeNextRecommended => 'Next recommended';
+
+  @override
+  String treeSectionsProgress(int done, int total) {
+    return '$done of $total sections studied';
+  }
+
+  @override
+  String treeContentReady(int ready, int total) {
+    return 'Content ready: $ready of $total';
+  }
+
+  @override
+  String get contentReady => 'Content ready';
+
+  @override
+  String get contentNotGenerated => 'Not prepared yet';
+
+  @override
+  String get contentGenerating => 'Being prepared';
+
+  @override
+  String get contentIncomplete => 'Incomplete — retry';
+
+  @override
+  String get contentFailed => 'Could not be prepared';
+
+  @override
+  String get progressStudied => 'Studied';
+
+  @override
+  String outlineContentCoverage(int ready, int total) {
+    return 'Content coverage: $ready of $total sections ready';
+  }
+
+  @override
+  String outlineYourProgress(int done, int total) {
+    return 'Your progress: $done of $total sections studied';
+  }
+
+  @override
+  String get sectionGeneratingTitle => 'This section is being prepared';
+
+  @override
+  String get sectionGeneratingBody =>
+      'It is being prepared right now. Check again in a few seconds.';
+
+  @override
+  String get checkAgain => 'Check again';
+
+  @override
+  String get errorContentIncomplete =>
+      'This section could not be completed to our quality standard yet. Nothing was saved — please try again.';
+
+  @override
+  String sectionMissingList(String items) {
+    return 'Still missing: $items';
+  }
+
+  @override
+  String get statusAiChecked => 'AI-checked · not human-reviewed';
+
+  @override
+  String get statusReviewed => 'Reviewed by an expert';
+
+  @override
+  String get statusUnderReview => 'Preview — awaiting review';
+
+  @override
+  String get statusFactsUnverified => 'Facts not independently verified';
+
+  @override
+  String get statusStructureOnly =>
+      'Checked for structure only (no coverage list yet)';
+
+  @override
+  String get draftLabel => 'Draft';
+
+  @override
+  String get recContinue => 'Continue where you left off';
+
+  @override
+  String get recRevise => 'Revise these topics';
+
+  @override
+  String recAccuracy(int pct, int attempted) {
+    return '$pct% accuracy in practice ($attempted questions)';
+  }
+
+  @override
+  String get recStudyFirst => 'Study the notes';
+
+  @override
+  String get recReviseNotes => 'Revise the notes';
+
+  @override
+  String progressTopicsDone(int done, int total) {
+    return '$done of $total topics completed';
+  }
+
+  @override
+  String prepTitle(String category) {
+    return '$category Preparation';
+  }
+
+  @override
+  String get stepExam => 'Examination';
+
+  @override
+  String get chooseSubjectFirst => 'Choose a subject to see its topics';
+
+  @override
+  String get clearTopics => 'Clear';
+
+  @override
+  String showAllTopics(int count) {
+    return 'Show all ($count)';
+  }
+
+  @override
+  String get showFewer => 'Show fewer';
+
+  @override
+  String get moreQuestionsPremium =>
+      '20, 30 and 40 questions per set are available with Premium.';
 }

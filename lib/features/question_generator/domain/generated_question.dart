@@ -11,6 +11,27 @@ enum Difficulty {
   );
 }
 
+/// Where a practice set's questions come from.
+/// bank: stored questions only (never AI). ai: a fresh AI-generated set
+/// (counts as one AI set; not previous-year questions).
+enum QuestionSource {
+  bank,
+  ai;
+
+  static QuestionSource fromJson(String? v) =>
+      v == 'ai' ? QuestionSource.ai : QuestionSource.bank;
+}
+
+/// quick: mixed set across the exam's subjects (no topics picked).
+/// topics: the student's chosen subjects/topics.
+enum PracticeMode {
+  quick,
+  topics;
+
+  static PracticeMode fromJson(String? v) =>
+      v == 'quick' ? PracticeMode.quick : PracticeMode.topics;
+}
+
 /// Body of `POST /api/v1/questions/generate`. The backend builds the AI prompt
 /// from this (exam pattern + topics + level) — the app never talks to the AI
 /// provider directly.
@@ -22,25 +43,42 @@ class GenerationRequest {
     required this.topicIds,
     required this.difficulty,
     required this.count,
-    this.fresh = false,
+    this.source = QuestionSource.bank,
+    this.mode = PracticeMode.topics,
   });
 
   final String examId;
   final String examName;
+
+  /// Empty in [PracticeMode.quick] (the server picks across subjects).
   final List<String> topicIds;
   final Difficulty difficulty;
   final int count;
+  final QuestionSource source;
+  final PracticeMode mode;
 
-  /// Pro: skip the question bank and generate brand-new questions.
-  final bool fresh;
+  GenerationRequest copyWith({
+    List<String>? topicIds,
+    int? count,
+    QuestionSource? source,
+  }) => GenerationRequest(
+    examId: examId,
+    examName: examName,
+    topicIds: topicIds ?? this.topicIds,
+    difficulty: difficulty,
+    count: count ?? this.count,
+    source: source ?? this.source,
+    mode: mode,
+  );
 
   Map<String, dynamic> toJson() => {
     'examId': examId,
     'examName': examName,
+    'mode': mode.name,
     'topicIds': topicIds,
     'difficulty': difficulty.name,
     'count': count,
-    'fresh': fresh,
+    'source': source.name,
     // Asks the backend for questions matching the real exam's standard.
     'level': 'exam',
   };
@@ -51,12 +89,19 @@ class GenerationRequest {
       other.examId == examId &&
       other.difficulty == difficulty &&
       other.count == count &&
-      other.fresh == fresh &&
+      other.source == source &&
+      other.mode == mode &&
       listEquals(other.topicIds, topicIds);
 
   @override
-  int get hashCode =>
-      Object.hash(examId, difficulty, count, fresh, Object.hashAll(topicIds));
+  int get hashCode => Object.hash(
+    examId,
+    difficulty,
+    count,
+    source,
+    mode,
+    Object.hashAll(topicIds),
+  );
 }
 
 @immutable
@@ -106,5 +151,5 @@ class GeneratedQuestionSet {
   final bool isPreview;
 }
 
-/// Choices offered for "number of questions".
-const kQuestionCountOptions = [5, 10, 20, 30];
+/// Choices offered for "number of questions" (plan limits come from the server).
+const kQuestionCountOptions = [5, 10, 20, 30, 40];

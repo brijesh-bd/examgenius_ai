@@ -264,6 +264,8 @@ class MockStudyNotesRepository implements StudyNotesRepository {
               : null,
           latestNoteId: notes.firstOrNull?.id,
           notesCount: notes.length,
+          // Dev fixture: the first topic opens the sample outline.
+          hasOutline: i == 0,
         ),
       );
     }

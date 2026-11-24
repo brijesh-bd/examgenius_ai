@@ -151,68 +151,78 @@ void main() {
     }
   });
 
-  testWidgets('tapping a category opens its exam selection page', (
+  testWidgets('tapping a category opens its preparation screen', (
     tester,
   ) async {
     await _pumpDashboard(tester, size: const Size(360, 800));
     await tester.tap(find.text('SSC'));
     await tester.pumpAndSettle();
-    expect(find.text('Select the exam you are preparing for'), findsOneWidget);
-    expect(find.text('SSC CGL'), findsOneWidget);
+    expect(find.text('SSC Preparation'), findsOneWidget);
+    expect(find.widgetWithText(ChoiceChip, 'SSC CGL'), findsOneWidget);
     expect(find.text('RRB NTPC'), findsNothing);
     await tester.pageBack();
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Railway'));
     await tester.pumpAndSettle();
-    expect(find.text('RRB NTPC'), findsOneWidget);
-    expect(find.text('Current target'), findsOneWidget);
+    expect(find.text('Railway Preparation'), findsOneWidget);
+    // The target exam is preselected.
+    expect(
+      tester
+          .widget<ChoiceChip>(find.widgetWithText(ChoiceChip, 'RRB NTPC'))
+          .selected,
+      isTrue,
+    );
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('exam → syllabus → topic/level/count → generated questions', (
+  testWidgets('category → exam → subject → topic → count → practice set', (
     tester,
   ) async {
     await _pumpDashboard(tester, size: const Size(360, 800));
     await tester.tap(find.text('Railway'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('RRB NTPC'));
-    await tester.pumpAndSettle();
 
-    // Create Practice: one screen, quick-start shortcuts, defaults preselected.
-    expect(find.text('Create Practice'), findsOneWidget);
-    expect(find.text('Quick 10'), findsOneWidget);
-    expect(find.text('Weak topics'), findsOneWidget);
+    // One preparation screen: exam chips, subjects, no shortcuts.
+    expect(find.text('Railway Preparation'), findsOneWidget);
+    expect(find.text('Quick 10'), findsNothing);
+    expect(find.text('Weak topics'), findsNothing);
     expect(find.widgetWithText(ChoiceChip, 'Mathematics'), findsOneWidget);
-    expect(find.text('Select at least 1 topic to start'), findsOneWidget);
-    FilledButton generateButton() => tester.widget<FilledButton>(
-      find.ancestor(
-        of: find.text('Generate Questions'),
-        matching: find.byType(FilledButton),
-      ),
+    expect(find.text('Choose a subject to see its topics'), findsOneWidget);
+    FilledButton generateButton(String label) => tester.widget<FilledButton>(
+      find.ancestor(of: find.text(label), matching: find.byType(FilledButton)),
     );
-    expect(generateButton().onPressed, isNull);
+    // 10 questions by default, Question Bank source, nothing picked yet.
+    expect(generateButton('Start Practice – 10 Questions').onPressed, isNull);
 
     // Subject chip → its topics appear inline (no new page, no going back).
     await tester.tap(find.widgetWithText(ChoiceChip, 'Mathematics'));
+    await tester.pumpAndSettle();
+    expect(find.text('Select at least 1 topic to start'), findsOneWidget);
+    await tester.ensureVisible(find.textContaining('Show all'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.textContaining('Show all'));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.widgetWithText(FilterChip, 'Time & Work'));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(FilterChip, 'Time & Work'));
     await tester.pumpAndSettle();
-    expect(find.text('Mathematics · 1 topic · Medium · 10 Qs'), findsOneWidget);
-    expect(find.widgetWithText(ChoiceChip, 'Mathematics (1)'), findsOneWidget);
-    expect(generateButton().onPressed, isNotNull); // level + count preselected
+    expect(find.text('Topics · 1 selected'), findsOneWidget);
+    expect(find.text('Select at least 1 topic to start'), findsNothing);
+    expect(
+      generateButton('Start Practice – 10 Questions').onPressed,
+      isNotNull,
+    );
 
     await tester.ensureVisible(find.widgetWithText(ChoiceChip, '5'));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(ChoiceChip, '5'));
     await tester.pumpAndSettle();
-    expect(find.text('Mathematics · 1 topic · Medium · 5 Qs'), findsOneWidget);
-    // 20 / 30 are Pro on the Free plan (mock plan is Free).
+    // 20 / 30 / 40 are above the Free maximum of 10 (mock plan is Free).
     expect(find.widgetWithText(ActionChip, '20'), findsOneWidget);
+    expect(find.widgetWithText(ActionChip, '40'), findsOneWidget);
 
-    await tester.tap(find.text('Generate Questions'));
+    await tester.tap(find.text('Start Practice – 5 Questions'));
     await tester.pump();
     expect(
       find.textContaining('exam-level questions'),

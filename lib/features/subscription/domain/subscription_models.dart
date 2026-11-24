@@ -34,11 +34,22 @@ class PlanLimits {
     required this.maxQuestionsPerSet,
     required this.freshAi,
     this.setsPerDay,
+    this.aiSetsPerDay,
     this.questionsPerDay,
     this.maxSaved,
+    this.customCount = false,
   });
 
+  /// Practice sets per day (bank + AI together); null = not limited.
   final int? setsPerDay;
+
+  /// AI-generated sets per day; 0 = AI not in the plan, null = no separate cap.
+  final int? aiSetsPerDay;
+
+  /// May choose any question count up to [maxQuestionsPerSet].
+  final bool customCount;
+
+  bool get aiIncluded => aiSetsPerDay != 0;
   final int? questionsPerDay;
   final int maxQuestionsPerSet;
   final int? maxSaved;
@@ -46,6 +57,8 @@ class PlanLimits {
 
   factory PlanLimits.fromJson(Map<String, dynamic> j) => PlanLimits(
     setsPerDay: (j['setsPerDay'] as num?)?.toInt(),
+    aiSetsPerDay: (j['aiSetsPerDay'] as num?)?.toInt(),
+    customCount: j['customCount'] as bool? ?? false,
     questionsPerDay: (j['questionsPerDay'] as num?)?.toInt(),
     maxQuestionsPerSet: (j['maxQuestionsPerSet'] as num).toInt(),
     maxSaved: (j['maxSaved'] as num?)?.toInt(),
@@ -64,6 +77,7 @@ class SubscriptionStatus {
     required this.setsUsedToday,
     required this.questionsUsedToday,
     required this.resetsAt,
+    this.aiSetsUsedToday = 0,
     required this.offers,
     this.source,
     this.expiresAt,
@@ -79,6 +93,7 @@ class SubscriptionStatus {
   final PlanLimits limits;
   final int setsUsedToday;
   final int questionsUsedToday;
+  final int aiSetsUsedToday;
   final DateTime resetsAt;
   final List<PlanOffer> offers;
 
@@ -88,6 +103,26 @@ class SubscriptionStatus {
   int? get setsLeftToday => limits.setsPerDay == null
       ? null
       : (limits.setsPerDay! - setsUsedToday).clamp(0, limits.setsPerDay!);
+
+  /// AI sets left today, or null when not separately capped.
+  int? get aiSetsLeftToday => limits.aiSetsPerDay == null
+      ? null
+      : (limits.aiSetsPerDay! - aiSetsUsedToday).clamp(0, limits.aiSetsPerDay!);
+
+  /// Questions left today under a daily question cap (Pro fair use).
+  int? get questionsLeftToday => limits.questionsPerDay == null
+      ? null
+      : (limits.questionsPerDay! - questionsUsedToday).clamp(
+          0,
+          limits.questionsPerDay!,
+        );
+
+  /// Can start any set today (display only — the server enforces).
+  bool get canStartSet => setsLeftToday != 0 && questionsLeftToday != 0;
+
+  /// Can start an AI set today (display only — the server enforces).
+  bool get canStartAiSet =>
+      limits.aiIncluded && canStartSet && aiSetsLeftToday != 0;
 
   factory SubscriptionStatus.fromJson(Map<String, dynamic> j) {
     final usage = j['usageToday'] as Map<String, dynamic>? ?? const {};
@@ -102,6 +137,7 @@ class SubscriptionStatus {
       limits: PlanLimits.fromJson(j['limits'] as Map<String, dynamic>),
       setsUsedToday: (usage['sets'] as num?)?.toInt() ?? 0,
       questionsUsedToday: (usage['questions'] as num?)?.toInt() ?? 0,
+      aiSetsUsedToday: (usage['aiSets'] as num?)?.toInt() ?? 0,
       resetsAt: DateTime.parse(j['resetsAt'] as String),
       offers: [
         for (final o in (j['offers'] as List<dynamic>? ?? const []))
@@ -114,6 +150,8 @@ class SubscriptionStatus {
 /// Why the server refused a request on the current plan.
 enum PlanLimitKind {
   dailySets,
+  dailyAiSets,
+  aiNotInPlan,
   dailyQuestions,
   setSize,
   savedLimit,
@@ -134,6 +172,8 @@ class PlanLimitHit {
     if (error is! ApiException || error.statusCode != 403) return null;
     final kind = switch (error.code) {
       'DAILY_SETS' => PlanLimitKind.dailySets,
+      'DAILY_AI_SETS' => PlanLimitKind.dailyAiSets,
+      'AI_NOT_IN_PLAN' => PlanLimitKind.aiNotInPlan,
       'DAILY_QUESTIONS' => PlanLimitKind.dailyQuestions,
       'SET_SIZE' => PlanLimitKind.setSize,
       'SAVED_LIMIT' => PlanLimitKind.savedLimit,

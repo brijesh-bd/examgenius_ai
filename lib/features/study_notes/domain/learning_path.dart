@@ -24,7 +24,11 @@ class LearningItem {
     this.completedAt,
     this.latestNoteId,
     this.notesCount = 0,
+    this.hasOutline = false,
   });
+
+  /// A curated chapter → section outline exists: open it section by section.
+  final bool hasOutline;
 
   /// Topic id, or `<topicId>.<unit>` for a unit of a broad topic.
   final String id;
@@ -59,6 +63,7 @@ class LearningItem {
     completedAt: DateTime.tryParse(j['completedAt'] as String? ?? ''),
     latestNoteId: j['latestNoteId'] as String?,
     notesCount: (j['notesCount'] as num? ?? 0).toInt(),
+    hasOutline: j['hasOutline'] == true,
   );
 }
 

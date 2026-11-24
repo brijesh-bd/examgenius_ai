@@ -24,6 +24,11 @@ abstract final class AppRoutes {
   static const syllabus = '/syllabus/:examId';
   static String syllabusFor(String examId) => '/syllabus/$examId';
 
+  /// One-screen preparation for a category: exam chips → subject → topics
+  /// → count → Start Practice.
+  static const prepare = '/prepare/:categoryId';
+  static String prepareFor(String categoryId) => '/prepare/$categoryId';
+
   /// Generated questions; the GenerationRequest is passed as `extra`.
   static const generatedQuestions = '/generate/questions';
 
@@ -71,6 +76,28 @@ abstract final class AppRoutes {
   static const noteView = '/notes/view/:noteId';
   static String noteViewFor(String noteId) =>
       '/notes/view/${Uri.encodeComponent(noteId)}';
+
+  /// Curated outline (chapters → sections) of one unit.
+  static const notesOutline = '/notes/outline/:examId/:unitId';
+  static String notesOutlineFor(String examId, String unitId) =>
+      '/notes/outline/${Uri.encodeComponent(examId)}/${Uri.encodeComponent(unitId)}';
+
+  /// One outline section; language and learning mode as query parameters.
+  static const notesSection =
+      '/notes/outline/:examId/:unitId/:chapterId/:sectionId';
+  static String notesSectionPath(
+    String examId,
+    String unitId,
+    String chapterId,
+    String sectionId, {
+    required String language,
+    required String mode,
+  }) => Uri(
+    path:
+        '${notesOutlineFor(examId, unitId)}/'
+        '${Uri.encodeComponent(chapterId)}/${Uri.encodeComponent(sectionId)}',
+    queryParameters: {'language': language, 'mode': mode},
+  ).toString();
 
   /// Syllabus learning path of one subject, e.g. `/notes/path/ibps_so_it/professional_it`.
   static const notesPath = '/notes/path/:examId/:subjectId';

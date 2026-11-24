@@ -9,6 +9,9 @@ import '../../../library/domain/library_models.dart' show LibraryFacets;
 import '../../domain/learning_path.dart';
 import '../../domain/notes_library.dart';
 import '../../domain/study_note.dart';
+import '../../domain/note_outline.dart';
+import '../../data/api_outline_repository.dart';
+import '../../data/sample_outline_repository.dart';
 
 /// Real backend by default; in-app mock under `flutter test` or USE_MOCK_BACKEND.
 final studyNotesRepositoryProvider = Provider<StudyNotesRepository>((ref) {
@@ -326,3 +329,68 @@ Future<void> setLearningItemCompleted(
       .setCompleted(examId, itemId, completed: completed);
   ref.read(notesRevisionProvider.notifier).bump();
 }
+
+// ── Curated outlines: chapter → section notes ──────────────────────────────
+
+/// Real backend by default; the labelled development fixture under
+/// `flutter test` or USE_MOCK_BACKEND (never saved anywhere).
+final outlineRepositoryProvider = Provider<OutlineRepository>((ref) {
+  if (ref.watch(useMockBackendProvider)) return SampleOutlineRepository();
+  return ApiOutlineRepository(ref.watch(apiClientProvider));
+});
+
+final outlineProvider = FutureProvider.autoDispose
+    .family<NoteOutline, OutlineKey>(
+      (ref, key) => ref.watch(outlineRepositoryProvider).outline(key),
+    );
+
+typedef SectionKey = ({OutlineKey outline, SectionRef section});
+
+/// Opening a section: saved copy / shared cache / AI (server decides).
+final openSectionProvider = FutureProvider.autoDispose
+    .family<OpenedSection, SectionKey>(
+      // No automatic retry: a failed open (e.g. Gemini quota exhausted) must
+      // not be re-sent behind the student's back. They tap Retry.
+      retry: (_, _) => null,
+      (ref, k) => ref
+          .watch(outlineRepositoryProvider)
+          .openSection(k.outline, k.section),
+    );
+
+typedef TreeKey = ({
+  String examId,
+  String subjectId,
+  String language,
+  LearningMode mode,
+});
+
+/// Nested syllabus tree of one subject (content readiness + own progress).
+final syllabusTreeProvider = FutureProvider.autoDispose
+    .family<SyllabusTree, TreeKey>(
+      (ref, k) => ref
+          .watch(outlineRepositoryProvider)
+          .tree(
+            examId: k.examId,
+            subjectId: k.subjectId,
+            language: k.language,
+            mode: k.mode,
+          ),
+    );
+
+typedef RecommendationsKey = ({
+  String examId,
+  String subjectId,
+  String language,
+});
+
+/// Subject progress, sections to continue and topics to revise.
+final learningRecommendationsProvider = FutureProvider.autoDispose
+    .family<LearningRecommendations, RecommendationsKey>(
+      (ref, k) => ref
+          .watch(outlineRepositoryProvider)
+          .recommendations(
+            examId: k.examId,
+            subjectId: k.subjectId,
+            language: k.language,
+          ),
+    );

@@ -6,9 +6,16 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/l10n_ext.dart';
 import '../../../../core/widgets/app_widgets.dart';
+
+import 'package:go_router/go_router.dart';
+
+import '../../../../localization/settings_providers.dart';
 import '../../domain/learning_path.dart';
+import '../../domain/note_outline.dart';
 import '../providers/study_notes_providers.dart';
+import '../widgets/hierarchy_tree.dart';
 import '../widgets/learning_path_widgets.dart';
+import 'outline_screen.dart';
 
 /// Ordered learning path of one subject: every topic (broad topics split into
 /// units) with completed / current / upcoming status and saved notes.
@@ -28,6 +35,20 @@ class LearningPathScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final key = (examId: examId, subjectId: subjectId);
     final path = ref.watch(learningPathProvider(key));
+    // Nested chapters/sections under each item (optional: the list works without it).
+    final treeKey = (
+      examId: examId,
+      subjectId: subjectId,
+      language: ref.watch(localeProvider).languageCode == 'hi' ? 'hi' : 'en',
+      mode: LearningMode.complete,
+    );
+    final tree = ref.watch(syllabusTreeProvider(treeKey)).value;
+    final recsKey = (
+      examId: examId,
+      subjectId: subjectId,
+      language: treeKey.language,
+    );
+    final recs = ref.watch(learningRecommendationsProvider(recsKey)).value;
     return Scaffold(
       appBar: AppBar(title: Text(path.value?.subjectName ?? l10n.learningPath)),
       body: SafeArea(
@@ -56,9 +77,17 @@ class LearningPathScreen extends ConsumerWidget {
           data: (p) => p.items.isEmpty
               ? StateMessage(icon: Icons.route_outlined, title: l10n.comingSoon)
               : RefreshIndicator(
-                  onRefresh: () =>
-                      ref.refresh(learningPathProvider(key).future),
-                  child: _PathList(path: p),
+                  onRefresh: () {
+                    ref.invalidate(syllabusTreeProvider(treeKey));
+                    ref.invalidate(learningRecommendationsProvider(recsKey));
+                    return ref.refresh(learningPathProvider(key).future);
+                  },
+                  child: _PathList(
+                    path: p,
+                    tree: tree,
+                    treeKey: treeKey,
+                    recs: recs,
+                  ),
                 ),
         ),
       ),
@@ -66,12 +95,38 @@ class LearningPathScreen extends ConsumerWidget {
   }
 }
 
-class _PathList extends StatelessWidget {
-  const _PathList({required this.path});
+class _PathList extends ConsumerWidget {
+  const _PathList({
+    required this.path,
+    required this.tree,
+    required this.treeKey,
+    this.recs,
+  });
+  final LearningRecommendations? recs;
   final LearningPath path;
+  final SyllabusTree? tree;
+  final TreeKey treeKey;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Future<void> openSection(TreeSectionRef r) async {
+      await context.push(
+        notesSectionRoute(
+          (
+            examId: path.examId,
+            unitId: r.unitId,
+            language: treeKey.language,
+            mode: treeKey.mode,
+          ),
+          r.chapterId,
+          r.sectionId,
+        ),
+      );
+      ref.invalidate(syllabusTreeProvider(treeKey));
+      ref.invalidate(learningRecommendationsProvider);
+    }
+
+    final next = tree?.next;
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final current = path.currentId == null ? null : path.item(path.currentId!);
@@ -93,7 +148,19 @@ class _PathList extends StatelessWidget {
                       Text(path.subjectName, style: theme.textTheme.titleLarge),
                       const SizedBox(height: AppSpacing.sm),
                       LearningProgressBar(path: path),
-                      if (current != null) ...[
+                      // Next recommended SECTION (from the nested tree).
+                      if (next?.ref case final r?) ...[
+                        const SizedBox(height: AppSpacing.sm),
+                        FilledButton.icon(
+                          onPressed: () => openSection(r),
+                          icon: const Icon(Icons.play_arrow_rounded),
+                          label: Text(
+                            '${l10n.treeNextRecommended}: ${next!.name}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ] else if (current != null) ...[
                         const SizedBox(height: AppSpacing.sm),
                         FilledButton.icon(
                           onPressed: () => openLearningItem(
@@ -113,6 +180,56 @@ class _PathList extends StatelessWidget {
                   ),
                 ),
               ),
+              // Sections opened but not finished.
+              if (recs?.continueSections case final cont?
+                  when cont.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.md),
+                _RecCard(
+                  title: l10n.recContinue,
+                  icon: Icons.play_circle_outline_rounded,
+                  children: [
+                    for (final c in cont)
+                      ListTile(
+                        dense: true,
+                        title: Text(c.name),
+                        trailing: const Icon(Icons.chevron_right_rounded),
+                        onTap: () => openSection(c.ref),
+                      ),
+                  ],
+                ),
+              ],
+              // Weak topics from the student's real practice results.
+              if (recs?.revise case final revise? when revise.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.md),
+                _RecCard(
+                  title: l10n.recRevise,
+                  icon: Icons.replay_rounded,
+                  children: [
+                    for (final r in revise)
+                      ListTile(
+                        dense: true,
+                        title: Text(r.name),
+                        subtitle: Text(
+                          '${l10n.recAccuracy((r.accuracy * 100).round(), r.attempted)} · '
+                          '${r.studied ? l10n.recReviseNotes : l10n.recStudyFirst}',
+                        ),
+                        trailing: const Icon(Icons.chevron_right_rounded),
+                        onTap: () {
+                          final item = path.items
+                              .where((i) => i.topicId == r.topicId)
+                              .firstOrNull;
+                          if (item != null) {
+                            openLearningItem(
+                              context,
+                              examId: path.examId,
+                              item: item,
+                            );
+                          }
+                        },
+                      ),
+                  ],
+                ),
+              ],
               const SizedBox(height: AppSpacing.md),
               for (final (i, item) in path.items.indexed) ...[
                 // Group header when a broad topic's units start.
@@ -135,7 +252,12 @@ class _PathList extends StatelessWidget {
                       ),
                     ),
                   ),
-                _PathTile(examId: path.examId, item: item),
+                _PathTile(
+                  examId: path.examId,
+                  item: item,
+                  node: tree?.subject.find(item.id),
+                  onOpenSection: openSection,
+                ),
               ],
             ],
           ),
@@ -146,15 +268,59 @@ class _PathList extends StatelessWidget {
 }
 
 class _PathTile extends StatelessWidget {
-  const _PathTile({required this.examId, required this.item});
+  const _PathTile({
+    required this.examId,
+    required this.item,
+    this.node,
+    required this.onOpenSection,
+  });
   final String examId;
   final LearningItem item;
+
+  /// This item in the syllabus tree (chapters/sections when it has an outline).
+  final SyllabusTreeNode? node;
+  final void Function(TreeSectionRef) onOpenSection;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final isCurrent = item.status == LearningStatus.current;
+    final n = node;
+    if (n != null && n.hasSections) {
+      return Card(
+        margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.tileRadius),
+          side: isCurrent
+              ? BorderSide(color: theme.colorScheme.primary, width: 1.5)
+              : BorderSide.none,
+        ),
+        child: ExpansionTile(
+          key: PageStorageKey('path-${item.id}'),
+          leading: LearningStatusIcon(item.status, order: item.order),
+          title: Text(item.name, style: theme.textTheme.titleSmall),
+          subtitle: Text(
+            '${l10n.treeSectionsProgress(n.stats.completed, n.stats.sections)} · '
+            '${l10n.treeContentReady(n.stats.ready, n.stats.sections)}',
+          ),
+          childrenPadding: const EdgeInsets.only(bottom: AppSpacing.xs),
+          children: [
+            HierarchyTree(
+              nodes: n.children,
+              onOpenSection: (s) => onOpenSection(s.ref!),
+            ),
+            TextButton.icon(
+              onPressed: () =>
+                  openLearningItem(context, examId: examId, item: item),
+              icon: const Icon(Icons.list_alt_rounded),
+              label: Text(l10n.outlineContinue),
+            ),
+          ],
+        ),
+      );
+    }
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.xs),
       clipBehavior: Clip.antiAlias,
@@ -190,6 +356,49 @@ class _PathTile extends StatelessWidget {
           color: item.hasNotes ? AppColors.success : theme.colorScheme.primary,
         ),
         onTap: () => openLearningItem(context, examId: examId, item: item),
+      ),
+    );
+  }
+}
+
+class _RecCard extends StatelessWidget {
+  const _RecCard({
+    required this.title,
+    required this.icon,
+    required this.children,
+  });
+  final String title;
+  final IconData icon;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: Row(
+                children: [
+                  Icon(icon, size: 18, color: AppColors.accent),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Semantics(
+                      header: true,
+                      child: Text(title, style: theme.textTheme.titleSmall),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ...children,
+          ],
+        ),
       ),
     );
   }

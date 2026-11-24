@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_error_text.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,6 +63,23 @@ class PracticeTestScreen extends ConsumerWidget {
       ),
       error: (e, _) {
         final limit = PlanLimitHit.from(e);
+        // Not enough stored questions (normally caught on Create Practice).
+        if (e is ApiException && e.code == 'BANK_INSUFFICIENT') {
+          final available = (e.details['available'] as num? ?? 0).toInt();
+          final requested = (e.details['requested'] as num? ?? 0).toInt();
+          return Scaffold(
+            appBar: AppBar(title: Text(_title(src))),
+            body: StateMessage(
+              icon: Icons.inventory_2_outlined,
+              title: l10n.bankInsufficientTitle,
+              body: available == 0
+                  ? l10n.bankNoneBody
+                  : l10n.bankInsufficientBody(available, requested),
+              actionLabel: l10n.changeSelection,
+              onAction: () => context.pop(),
+            ),
+          );
+        }
         return Scaffold(
           appBar: AppBar(title: Text(_title(src))),
           body: limit != null

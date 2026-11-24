@@ -3121,6 +3121,642 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap a topic to create its notes'**
   String get nextTopicHint;
+
+  /// No description provided for @errorAiQuota.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s AI limit has been reached. Your selection is kept — please try again later.'**
+  String get errorAiQuota;
+
+  /// No description provided for @sampleContentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Development sample — placeholder content. Not AI-generated, not verified study material.'**
+  String get sampleContentLabel;
+
+  /// No description provided for @outlineDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft outline — under review'**
+  String get outlineDraft;
+
+  /// No description provided for @outlineProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} sections completed'**
+  String outlineProgress(int done, int total);
+
+  /// No description provided for @outlineContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get outlineContinue;
+
+  /// No description provided for @outlineCoverageComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'All sections completed'**
+  String get outlineCoverageComplete;
+
+  /// No description provided for @learningModeQuick.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick revision'**
+  String get learningModeQuick;
+
+  /// No description provided for @learningModeDetailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed'**
+  String get learningModeDetailed;
+
+  /// No description provided for @learningModeComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete prep'**
+  String get learningModeComplete;
+
+  /// No description provided for @sectionStatePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Not started'**
+  String get sectionStatePending;
+
+  /// No description provided for @sectionStateGenerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to read'**
+  String get sectionStateGenerated;
+
+  /// No description provided for @sectionStateCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get sectionStateCompleted;
+
+  /// No description provided for @sectionStateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load — tap to retry'**
+  String get sectionStateFailed;
+
+  /// No description provided for @sectionRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get sectionRecommended;
+
+  /// No description provided for @sectionAiSuggested.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-suggested'**
+  String get sectionAiSuggested;
+
+  /// No description provided for @sectionOftenTested.
+  ///
+  /// In en, this message translates to:
+  /// **'Often tested'**
+  String get sectionOftenTested;
+
+  /// No description provided for @sectionPreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing this section…'**
+  String get sectionPreparing;
+
+  /// No description provided for @sectionMarkComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark complete'**
+  String get sectionMarkComplete;
+
+  /// No description provided for @sectionMarkedComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get sectionMarkedComplete;
+
+  /// No description provided for @sectionPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get sectionPrevious;
+
+  /// No description provided for @sectionNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get sectionNext;
+
+  /// No description provided for @sectionOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Section {index} of {total}'**
+  String sectionOf(int index, int total);
+
+  /// No description provided for @limitDailyAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s AI set is used'**
+  String get limitDailyAiTitle;
+
+  /// No description provided for @limitDailyAiBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan includes {max} AI-generated practice set(s) per day. You can still practise from the Question Bank, or go Premium for more AI sets.'**
+  String limitDailyAiBody(int max);
+
+  /// No description provided for @limitAiNotInPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI questions are a Premium feature'**
+  String get limitAiNotInPlanTitle;
+
+  /// No description provided for @limitAiNotInPlanBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan uses the Question Bank. Go Premium for freshly generated AI questions.'**
+  String get limitAiNotInPlanBody;
+
+  /// No description provided for @planBadgeFree.
+  ///
+  /// In en, this message translates to:
+  /// **'FREE'**
+  String get planBadgeFree;
+
+  /// No description provided for @planBadgePro.
+  ///
+  /// In en, this message translates to:
+  /// **'PREMIUM'**
+  String get planBadgePro;
+
+  /// No description provided for @practiceTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice type'**
+  String get practiceTypeTitle;
+
+  /// No description provided for @practiceTypeQuick.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Practice'**
+  String get practiceTypeQuick;
+
+  /// No description provided for @practiceTypeQuickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed questions across this exam\'s subjects'**
+  String get practiceTypeQuickHint;
+
+  /// No description provided for @practiceTypeTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic-wise'**
+  String get practiceTypeTopics;
+
+  /// No description provided for @practiceTypeTopicsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose subjects and topics'**
+  String get practiceTypeTopicsHint;
+
+  /// No description provided for @questionSourceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Question source'**
+  String get questionSourceTitle;
+
+  /// No description provided for @sourceBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Question Bank'**
+  String get sourceBank;
+
+  /// No description provided for @sourceBankHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored practice questions'**
+  String get sourceBankHint;
+
+  /// No description provided for @sourceAi.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-Generated'**
+  String get sourceAi;
+
+  /// No description provided for @sourceAiHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh questions for you'**
+  String get sourceAiHint;
+
+  /// No description provided for @sourceAiNote.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated practice questions — not previous-year papers.'**
+  String get sourceAiNote;
+
+  /// No description provided for @usageSetsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{left} of {total} practice sets left today'**
+  String usageSetsLeft(int left, int total);
+
+  /// No description provided for @usageQuestionsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{left} questions left today (fair use)'**
+  String usageQuestionsLeft(int left);
+
+  /// No description provided for @aiCreditsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'AI sets left today: {left}'**
+  String aiCreditsLeft(int left);
+
+  /// No description provided for @aiCreditsIncluded.
+  ///
+  /// In en, this message translates to:
+  /// **'AI sets included'**
+  String get aiCreditsIncluded;
+
+  /// No description provided for @startPracticeCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Practice – {count} Questions'**
+  String startPracticeCount(int count);
+
+  /// No description provided for @generateAiCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate AI Questions – {count} Questions'**
+  String generateAiCount(int count);
+
+  /// No description provided for @searchTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Search topics'**
+  String get searchTopics;
+
+  /// No description provided for @noTopicsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No topics match your search'**
+  String get noTopicsMatch;
+
+  /// No description provided for @customCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get customCount;
+
+  /// No description provided for @customCountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of questions'**
+  String get customCountTitle;
+
+  /// No description provided for @customCountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Between 1 and {max}'**
+  String customCountHint(int max);
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @bankInsufficientTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough stored questions'**
+  String get bankInsufficientTitle;
+
+  /// No description provided for @bankInsufficientBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Only {available} stored questions match your selection. You asked for {requested}.'**
+  String bankInsufficientBody(int available, int requested);
+
+  /// No description provided for @bankNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No stored questions match your selection yet.'**
+  String get bankNoneBody;
+
+  /// No description provided for @bankUseAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise {available} questions'**
+  String bankUseAvailable(int available);
+
+  /// No description provided for @bankUseAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Use AI-generated questions'**
+  String get bankUseAi;
+
+  /// No description provided for @changeSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Change selection'**
+  String get changeSelection;
+
+  /// No description provided for @lastPracticeDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} questions · {level}'**
+  String lastPracticeDetails(int count, String level);
+
+  /// No description provided for @questionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get questionsLabel;
+
+  /// No description provided for @aiQuestionsBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated'**
+  String get aiQuestionsBadge;
+
+  /// No description provided for @bankQuestionsBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Question Bank'**
+  String get bankQuestionsBadge;
+
+  /// No description provided for @nObjectives.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning Objectives'**
+  String get nObjectives;
+
+  /// No description provided for @nTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get nTimeline;
+
+  /// No description provided for @nSql.
+  ///
+  /// In en, this message translates to:
+  /// **'SQL Examples'**
+  String get nSql;
+
+  /// No description provided for @nSqlOutput.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected output'**
+  String get nSqlOutput;
+
+  /// No description provided for @nDerivations.
+  ///
+  /// In en, this message translates to:
+  /// **'Derivations'**
+  String get nDerivations;
+
+  /// No description provided for @nKeyFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Important Facts'**
+  String get nKeyFacts;
+
+  /// No description provided for @nPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice Exercises'**
+  String get nPractice;
+
+  /// No description provided for @nRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Concepts'**
+  String get nRelated;
+
+  /// No description provided for @nFurther.
+  ///
+  /// In en, this message translates to:
+  /// **'Further learning'**
+  String get nFurther;
+
+  /// No description provided for @showAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Show answer'**
+  String get showAnswer;
+
+  /// No description provided for @treeNextRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Next recommended'**
+  String get treeNextRecommended;
+
+  /// No description provided for @treeSectionsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} sections studied'**
+  String treeSectionsProgress(int done, int total);
+
+  /// No description provided for @treeContentReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Content ready: {ready} of {total}'**
+  String treeContentReady(int ready, int total);
+
+  /// No description provided for @contentReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Content ready'**
+  String get contentReady;
+
+  /// No description provided for @contentNotGenerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not prepared yet'**
+  String get contentNotGenerated;
+
+  /// No description provided for @contentGenerating.
+  ///
+  /// In en, this message translates to:
+  /// **'Being prepared'**
+  String get contentGenerating;
+
+  /// No description provided for @contentIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete — retry'**
+  String get contentIncomplete;
+
+  /// No description provided for @contentFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not be prepared'**
+  String get contentFailed;
+
+  /// No description provided for @progressStudied.
+  ///
+  /// In en, this message translates to:
+  /// **'Studied'**
+  String get progressStudied;
+
+  /// No description provided for @outlineContentCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Content coverage: {ready} of {total} sections ready'**
+  String outlineContentCoverage(int ready, int total);
+
+  /// No description provided for @outlineYourProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Your progress: {done} of {total} sections studied'**
+  String outlineYourProgress(int done, int total);
+
+  /// No description provided for @sectionGeneratingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This section is being prepared'**
+  String get sectionGeneratingTitle;
+
+  /// No description provided for @sectionGeneratingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It is being prepared right now. Check again in a few seconds.'**
+  String get sectionGeneratingBody;
+
+  /// No description provided for @checkAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get checkAgain;
+
+  /// No description provided for @errorContentIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'This section could not be completed to our quality standard yet. Nothing was saved — please try again.'**
+  String get errorContentIncomplete;
+
+  /// No description provided for @sectionMissingList.
+  ///
+  /// In en, this message translates to:
+  /// **'Still missing: {items}'**
+  String sectionMissingList(String items);
+
+  /// No description provided for @statusAiChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-checked · not human-reviewed'**
+  String get statusAiChecked;
+
+  /// No description provided for @statusReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed by an expert'**
+  String get statusReviewed;
+
+  /// No description provided for @statusUnderReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview — awaiting review'**
+  String get statusUnderReview;
+
+  /// No description provided for @statusFactsUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Facts not independently verified'**
+  String get statusFactsUnverified;
+
+  /// No description provided for @statusStructureOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked for structure only (no coverage list yet)'**
+  String get statusStructureOnly;
+
+  /// No description provided for @draftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get draftLabel;
+
+  /// No description provided for @recContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue where you left off'**
+  String get recContinue;
+
+  /// No description provided for @recRevise.
+  ///
+  /// In en, this message translates to:
+  /// **'Revise these topics'**
+  String get recRevise;
+
+  /// No description provided for @recAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% accuracy in practice ({attempted} questions)'**
+  String recAccuracy(int pct, int attempted);
+
+  /// No description provided for @recStudyFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Study the notes'**
+  String get recStudyFirst;
+
+  /// No description provided for @recReviseNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Revise the notes'**
+  String get recReviseNotes;
+
+  /// No description provided for @progressTopicsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} topics completed'**
+  String progressTopicsDone(int done, int total);
+
+  /// No description provided for @prepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} Preparation'**
+  String prepTitle(String category);
+
+  /// No description provided for @stepExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Examination'**
+  String get stepExam;
+
+  /// No description provided for @chooseSubjectFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a subject to see its topics'**
+  String get chooseSubjectFirst;
+
+  /// No description provided for @clearTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearTopics;
+
+  /// No description provided for @showAllTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all ({count})'**
+  String showAllTopics(int count);
+
+  /// No description provided for @showFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Show fewer'**
+  String get showFewer;
+
+  /// No description provided for @moreQuestionsPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'20, 30 and 40 questions per set are available with Premium.'**
+  String get moreQuestionsPremium;
 }
 
 class _AppLocalizationsDelegate
