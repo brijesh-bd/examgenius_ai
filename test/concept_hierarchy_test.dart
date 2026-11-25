@@ -403,4 +403,73 @@ void main() {
       expect(find.text('Analogy (all) · Number Series (1)'), findsOneWidget);
     });
   });
+
+  test("Station Master node ids map to the CEN 08/2026 sections", () {
+    expect(
+      conceptSubjectOf("smb.basic_science_math.mathematics.probability"),
+      "sm_science_math",
+    );
+    expect(
+      conceptSubjectOf("sml.reading_comprehension.main_idea"),
+      "sm_logical",
+    );
+    expect(conceptSubjectOf("smr.analogy"), "sm_mental");
+    expect(isConceptNode("smr.analogy"), isTrue);
+  });
+
+  group("SSC", () {
+    test("SSC node ids map to their subjects", () {
+      expect(conceptSubjectOf("sq.arithmetic.discount"), "quant");
+      expect(conceptSubjectOf("sr.address_matching"), "reasoning");
+      expect(conceptSubjectOf("en.grammar.voice"), "english");
+      expect(conceptSubjectOf("jc.surveying"), "je_civil");
+      expect(conceptSubjectOf("jl.machines"), "je_electrical");
+      expect(conceptSubjectOf("jm.thermal"), "je_mechanical");
+      expect(conceptSubjectOf("ck.software"), "computer");
+    });
+
+    test(
+      "SSC CGL reasoning tree: official chapters, leaf chapters selectable",
+      () async {
+        final t = (await MockConceptHierarchyRepository().fetchTree(
+          "ssc_cgl",
+          "reasoning",
+        ))!;
+        expect(t.hasOfficial, isTrue);
+        expect(t.node("sr.semantic_analogy")!.status, NodeStatus.official);
+        expect(
+          t.node("sr.number_series.question_type.missing_term")!.status,
+          NodeStatus.supplementary,
+        );
+        // A chapter without children is itself a selectable concept.
+        final s = t.toggle("sr.address_matching", {});
+        expect(t.conceptsOf(s), {"sr.address_matching"});
+        final r = t.toggle("sr.number_series", s);
+        expect(t.ordered(r), ["sr.number_series", "sr.address_matching"]);
+      },
+    );
+
+    test(
+      "SSC practice request carries the exam subject and node ids",
+      () async {
+        final t = (await MockConceptHierarchyRepository().fetchTree(
+          "ssc_cgl",
+          "reasoning",
+        ))!;
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
+        final c = container.read(generatorFormProvider("ssc_cgl").notifier);
+        c.selectSubject("reasoning");
+        c.toggleNode(t, "sr.number_series.question_type.missing_term");
+        final r = c.buildRequest(
+          examName: "SSC CGL",
+          syllabus: const Syllabus(examId: "ssc_cgl", subjects: []),
+          mathTree: t,
+        )!;
+        expect(r.toJson()["subjectId"], "reasoning");
+        // Its only concept → normalised to the whole chapter (no duplicate child id).
+        expect(r.selectedNodeIds, ["sr.number_series"]);
+      },
+    );
+  });
 }

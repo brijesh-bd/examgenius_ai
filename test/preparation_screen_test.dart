@@ -249,4 +249,56 @@ void main() {
     expect(find.text('SSC Preparation'), findsOneWidget);
     expect(_chipSelected(tester, 'SSC CGL'), isTrue);
   });
+
+  testWidgets("SSC: exam → subject → concept tree → start practice", (
+    tester,
+  ) async {
+    await _open(tester, route: AppRoutes.prepareFor("ssc"), targetExamId: null);
+    expect(find.text("SSC Preparation"), findsOneWidget);
+    for (final n in [
+      "SSC CGL",
+      "SSC JE (Civil, Electrical, Mechanical)",
+      "SSC Selection Post (Graduation)",
+    ]) {
+      expect(find.widgetWithText(ChoiceChip, n), findsOneWidget);
+    }
+    // JE shows its three engineering disciplines as separate subjects.
+    await _tap(
+      tester,
+      find.widgetWithText(ChoiceChip, "SSC JE (Civil, Electrical, Mechanical)"),
+    );
+    expect(
+      find.widgetWithText(
+        ChoiceChip,
+        "General Engineering (Civil & Structural)",
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(ChoiceChip, "General Engineering (Electrical)"),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(ChoiceChip, "Quantitative Aptitude"),
+      findsNothing,
+    );
+
+    await _tap(tester, find.widgetWithText(ChoiceChip, "SSC CGL"));
+    await _tap(
+      tester,
+      find.widgetWithText(ChoiceChip, "General Intelligence & Reasoning"),
+    );
+    expect(find.byType(ConceptTree), findsOneWidget);
+    expect(find.textContaining("official verification pending"), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey("check_sr.semantic_analogy")));
+    expect(find.text("Chapters & concepts · 1 concept"), findsOneWidget);
+    await _tap(tester, find.text("Start Practice – 10 Questions"));
+    await _settleTest(tester);
+    expect(
+      find.text("SSC Preparation"),
+      findsNothing,
+      reason: "practice opened",
+    );
+    expect(_startedSource("ssc_cgl"), isNotNull);
+  });
 }

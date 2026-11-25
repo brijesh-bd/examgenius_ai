@@ -247,6 +247,26 @@ final Map<String, List<Map<String, dynamic>>> _examSubjects = {
     _technicalJe,
   ],
   'rrb_tech_gr1_signal': [_quantRailway, _reasoningGeneral, _generalAwareness],
+  'rrb_station_master': [
+    _subject(
+      'sm_science_math',
+      'Basic Science, Mathematical and Analytical Capability',
+      {
+        'basic_science_math': 'Basic Science & Mathematics',
+        'data_analysis': 'Data Analysis & Interpretation',
+      },
+    ),
+    _subject('sm_logical', 'Logical Capability', {
+      'logical_reasoning': 'Logical Reasoning',
+      'reading_comprehension': 'Reading Comprehension (English)',
+    }),
+    _subject('sm_mental', 'Mental Reasoning', {
+      'analogy': 'Analogy',
+      'series_completion': 'Series Completion',
+      'coding_decoding': 'Coding-Decoding',
+      'ranking_arrangement': 'Ranking and Arrangements',
+    }),
+  ],
   'rrb_tech_gr3': [
     _quantRailway,
     _reasoningGeneral,
@@ -258,6 +278,29 @@ final Map<String, List<Map<String, dynamic>>> _examSubjects = {
   'ssc_mts': _sscBasic,
   'ssc_gd': _sscBasic,
   'ssc_cpo': _sscStandard,
+  // Mirrors the backend's SSC subject lists (official SSC notices).
+  'ssc_je': [
+    _reasoningGeneral,
+    _generalAwareness,
+    _subject('je_civil', 'General Engineering (Civil & Structural)', {
+      'surveying': 'Surveying',
+    }),
+    _subject('je_electrical', 'General Engineering (Electrical)', {
+      'machines': 'Electrical Machines',
+    }),
+    _subject('je_mechanical', 'General Engineering (Mechanical)', {
+      'thermal': 'Thermal Engineering',
+    }),
+  ],
+  'ssc_steno': [_reasoningGeneral, _generalAwareness, _english],
+  'ssc_sp_matric': [
+    _reasoningGeneral,
+    _generalAwareness,
+    _quantBasic,
+    _english,
+  ],
+  'ssc_sp_hsc': [_reasoningGeneral, _generalAwareness, _quantSsc, _english],
+  'ssc_sp_grad': [_reasoningGeneral, _generalAwareness, _quantSsc, _english],
   'ibps_po': _bankStandard,
   'ibps_clerk': _bankStandard,
   'ibps_rrb_po': _bankStandard,

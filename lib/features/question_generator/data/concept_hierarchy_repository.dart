@@ -48,6 +48,7 @@ class MockConceptHierarchyRepository implements ConceptHierarchyRepository {
   Future<ConceptHierarchy?> fetchTree(String examId, String subjectId) async {
     await Future<void>.delayed(const Duration(milliseconds: 150));
     if (fail) throw const ApiException('offline');
+    if (examId == 'ssc_cgl' && subjectId == 'reasoning') return _sscReasoning();
     if (!railwayExams.contains(examId)) return null;
     if (subjectId == 'reasoning') return _reasoning(examId);
     if (subjectId != kMathSubjectId) return null;
@@ -281,6 +282,57 @@ class MockConceptHierarchyRepository implements ConceptHierarchyRepository {
               ),
             ],
           ),
+      ],
+    );
+  }
+
+  /// SSC CGL reasoning slice (official SSC wording; figure items are hidden).
+  ConceptHierarchy _sscReasoning() {
+    ConceptNode n(
+      String id,
+      String type,
+      String en,
+      String hi, [
+      List<ConceptNode> children = const [],
+    ]) => ConceptNode(
+      id: id,
+      parentId: id.contains('.') ? id.substring(0, id.lastIndexOf('.')) : 'sr',
+      type: ConceptNodeType.fromJson(type),
+      titleEn: en,
+      titleHi: hi,
+      status: type == 'chapter'
+          ? NodeStatus.official
+          : NodeStatus.supplementary,
+      children: children,
+    );
+    return ConceptHierarchy(
+      examId: 'ssc_cgl',
+      subjectId: 'reasoning',
+      hasOfficial: true,
+      chapters: [
+        n(
+          'sr.semantic_analogy',
+          'chapter',
+          'Semantic Analogy',
+          'शाब्दिक सादृश्यता',
+        ),
+        n('sr.number_series', 'chapter', 'Number Series', 'संख्या श्रृंखला', [
+          n(
+            'sr.number_series.question_type',
+            'topic',
+            'Question Type',
+            'प्रश्न प्रकार',
+            [
+              n(
+                'sr.number_series.question_type.missing_term',
+                'concept',
+                'Missing Term',
+                'लुप्त पद',
+              ),
+            ],
+          ),
+        ]),
+        n('sr.address_matching', 'chapter', 'Address Matching', 'पता मिलान'),
       ],
     );
   }

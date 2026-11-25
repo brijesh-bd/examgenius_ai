@@ -15,6 +15,20 @@ const kConceptPrefixes = {
   'rr': 'reasoning',
   'ga': 'general_awareness',
   'gs': 'general_science',
+  // RRB Station Master (CEN 08/2026 sections).
+  'smb': 'sm_science_math',
+  'sml': 'sm_logical',
+  'smr': 'sm_mental',
+  // SSC (official SSC notices).
+  'sq': 'quant',
+  'sr': 'reasoning',
+  'en': 'english',
+  'ck': 'computer',
+  'st': 'statistics',
+  'fe': 'finance_economics',
+  'jc': 'je_civil',
+  'jl': 'je_electrical',
+  'jm': 'je_mechanical',
 };
 
 String? conceptSubjectOf(String id) {
@@ -28,6 +42,7 @@ bool isConceptNode(String id) => conceptSubjectOf(id) != null;
 /// Verification of a node for the selected exam.
 enum NodeStatus {
   official,
+  supplementary,
   unverified,
   draft;
 

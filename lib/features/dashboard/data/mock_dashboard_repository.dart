@@ -22,6 +22,11 @@ const kExamCatalogJson = <Map<String, dynamic>>[
         'name': 'RRB Technician Grade III',
         'categoryId': 'railway',
       },
+      {
+        'id': 'rrb_station_master',
+        'name': 'RRB Station Master',
+        'categoryId': 'railway',
+      },
     ],
   },
   {
@@ -33,6 +38,31 @@ const kExamCatalogJson = <Map<String, dynamic>>[
       {'id': 'ssc_mts', 'name': 'SSC MTS', 'categoryId': 'ssc'},
       {'id': 'ssc_gd', 'name': 'SSC GD', 'categoryId': 'ssc'},
       {'id': 'ssc_cpo', 'name': 'SSC CPO', 'categoryId': 'ssc'},
+      {
+        'id': 'ssc_je',
+        'name': 'SSC JE (Civil, Electrical, Mechanical)',
+        'categoryId': 'ssc',
+      },
+      {
+        'id': 'ssc_steno',
+        'name': "SSC Stenographer Grade 'C' & 'D'",
+        'categoryId': 'ssc',
+      },
+      {
+        'id': 'ssc_sp_matric',
+        'name': 'SSC Selection Post (Matriculation)',
+        'categoryId': 'ssc',
+      },
+      {
+        'id': 'ssc_sp_hsc',
+        'name': 'SSC Selection Post (Higher Secondary)',
+        'categoryId': 'ssc',
+      },
+      {
+        'id': 'ssc_sp_grad',
+        'name': 'SSC Selection Post (Graduation)',
+        'categoryId': 'ssc',
+      },
     ],
   },
   {
