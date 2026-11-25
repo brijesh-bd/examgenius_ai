@@ -9,6 +9,7 @@ import '../../../../core/utils/l10n_ext.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../dashboard/presentation/providers/dashboard_providers.dart';
+import '../../../question_generator/domain/concept_hierarchy.dart';
 import '../../../question_generator/domain/syllabus.dart';
 import '../../../question_generator/presentation/providers/question_generator_providers.dart';
 import '../../domain/study_note.dart';
@@ -56,6 +57,7 @@ class CreateNotesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    if (isConceptNode(topicId)) return _conceptForm(context, ref);
     final syllabus = ref.watch(syllabusProvider(examId));
     // Units are not in the syllabus model; the learning path knows them.
     final path = ref.watch(
@@ -100,6 +102,62 @@ class CreateNotesScreen extends ConsumerWidget {
               ),
               subjectName: subject.name,
               topicName: topicName,
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+extension on CreateNotesScreen {
+  /// A hierarchical-syllabus node: names come from that subject's tree.
+  ConceptKey get _conceptKey =>
+      (examId: examId, subjectId: conceptSubjectOf(topicId) ?? kMathSubjectId);
+
+  Widget _conceptForm(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    // Subject display name from the exam's catalogue (localised by backend).
+    final subjects =
+        ref.watch(syllabusProvider(examId)).value?.subjects ??
+        const <SyllabusSubject>[];
+    final tree = ref.watch(conceptHierarchyProvider(_conceptKey));
+    final hi = Localizations.localeOf(context).languageCode == 'hi';
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.createNotesTitle)),
+      body: SafeArea(
+        top: false,
+        child: tree.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => StateMessage(
+            icon: Icons.wifi_off_rounded,
+            title: apiErrorText(l10n, e),
+            actionLabel: l10n.retry,
+            onAction: () =>
+                ref.invalidate(conceptHierarchyProvider(_conceptKey)),
+          ),
+          data: (t) {
+            final path = t?.pathOf(topicId) ?? const <ConceptNode>[];
+            if (path.isEmpty) {
+              return StateMessage(
+                icon: Icons.search_off_rounded,
+                title: l10n.noteNotFound,
+              );
+            }
+            return _Form(
+              target: (
+                examId: examId,
+                topicId: topicId,
+                language: prefill?.language,
+                level: prefill?.level,
+              ),
+              subjectName:
+                  subjects
+                      .where((x) => x.id == _conceptKey.subjectId)
+                      .firstOrNull
+                      ?.name ??
+                  _conceptKey.subjectId,
+              topicName: path.map((n) => n.title(hi ? 'hi' : 'en')).join(' › '),
             );
           },
         ),

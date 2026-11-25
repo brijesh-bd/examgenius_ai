@@ -45,10 +45,17 @@ class GenerationRequest {
     required this.count,
     this.source = QuestionSource.bank,
     this.mode = PracticeMode.topics,
+    this.subjectId,
+    this.selectedNodeIds = const [],
   });
 
   final String examId;
   final String examName;
+
+  /// Railway Mathematics: exact syllabus node ids (parents are expanded to
+  /// their concepts on the server). Empty for topic-level practice.
+  final String? subjectId;
+  final List<String> selectedNodeIds;
 
   /// Empty in [PracticeMode.quick] (the server picks across subjects).
   final List<String> topicIds;
@@ -69,6 +76,8 @@ class GenerationRequest {
     count: count ?? this.count,
     source: source ?? this.source,
     mode: mode,
+    subjectId: subjectId,
+    selectedNodeIds: selectedNodeIds,
   );
 
   Map<String, dynamic> toJson() => {
@@ -76,6 +85,8 @@ class GenerationRequest {
     'examName': examName,
     'mode': mode.name,
     'topicIds': topicIds,
+    if (subjectId != null) 'subjectId': subjectId,
+    if (selectedNodeIds.isNotEmpty) 'selectedNodeIds': selectedNodeIds,
     'difficulty': difficulty.name,
     'count': count,
     'source': source.name,
@@ -91,7 +102,8 @@ class GenerationRequest {
       other.count == count &&
       other.source == source &&
       other.mode == mode &&
-      listEquals(other.topicIds, topicIds);
+      listEquals(other.topicIds, topicIds) &&
+      listEquals(other.selectedNodeIds, selectedNodeIds);
 
   @override
   int get hashCode => Object.hash(
@@ -101,6 +113,7 @@ class GenerationRequest {
     source,
     mode,
     Object.hashAll(topicIds),
+    Object.hashAll(selectedNodeIds),
   );
 }
 

@@ -2102,4 +2102,52 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get moreQuestionsPremium =>
       'प्रति सेट 20, 30 और 40 प्रश्न Premium में उपलब्ध हैं।';
+
+  @override
+  String get conceptSearchHint => 'अध्याय और अवधारणाएँ खोजें';
+
+  @override
+  String get clearSearch => 'खोज साफ़ करें';
+
+  @override
+  String get conceptNoMatch => 'आपकी खोज से कोई अध्याय या अवधारणा नहीं मिली।';
+
+  @override
+  String get expand => 'खोलें';
+
+  @override
+  String get collapse => 'बंद करें';
+
+  @override
+  String get stepConcepts => 'अध्याय और अवधारणाएँ';
+
+  @override
+  String conceptsSelected(int count) {
+    return '$count अवधारणाएँ';
+  }
+
+  @override
+  String get selectConceptHint => 'कम से कम एक अध्याय या अवधारणा चुनें';
+
+  @override
+  String get notesExactConcept => 'सटीक अवधारणा चुनें';
+
+  @override
+  String get notesExactConceptBody =>
+      'रेलवे गणित के किसी एक अध्याय, विषय या अवधारणा के नोट्स';
+
+  @override
+  String get notesConceptPickerTitle => 'गणित की अवधारणाएँ';
+
+  @override
+  String get syllabusUnverifiedNote =>
+      'पाठ्यक्रम परीक्षा-तैयारी स्रोतों पर आधारित; आधिकारिक सत्यापन बाकी है।';
+
+  @override
+  String get summaryAll => 'सभी';
+
+  @override
+  String summaryMore(int count) {
+    return '+$count और';
+  }
 }

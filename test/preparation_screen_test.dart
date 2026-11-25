@@ -5,6 +5,7 @@ import 'package:examgenius_ai/core/routes/app_routes.dart';
 import 'package:examgenius_ai/core/services/preferences_service.dart';
 import 'package:examgenius_ai/features/question_generator/data/practice_setup_repositories.dart';
 import 'package:examgenius_ai/features/question_generator/presentation/providers/question_generator_providers.dart';
+import 'package:examgenius_ai/features/question_generator/presentation/widgets/concept_tree.dart';
 import 'package:examgenius_ai/features/subscription/data/subscription_repositories.dart';
 import 'package:examgenius_ai/features/subscription/presentation/providers/subscription_providers.dart';
 import 'package:flutter/material.dart';
@@ -71,11 +72,9 @@ Future<void> _tap(WidgetTester tester, Finder f) async {
 }
 
 Future<void> _pickTopic(WidgetTester tester) async {
+  // Railway Mathematics uses the concept tree: pick one chapter.
   await _tap(tester, find.widgetWithText(ChoiceChip, 'Mathematics'));
-  // Long topic lists start collapsed.
-  final more = find.textContaining('Show all');
-  if (more.evaluate().isNotEmpty) await _tap(tester, more);
-  await _tap(tester, find.widgetWithText(FilterChip, 'Time & Work'));
+  await _tap(tester, find.byKey(const ValueKey('check_rm.percentage')));
 }
 
 /// Lets the mock test generation and timers finish.
@@ -142,7 +141,7 @@ void main() {
     await _tap(tester, find.widgetWithText(ChoiceChip, 'RRB ALP'));
     expect(_chipSelected(tester, 'RRB ALP'), isTrue);
     expect(find.widgetWithText(ChoiceChip, technical), findsOneWidget);
-    expect(find.byType(FilterChip), findsNothing, reason: 'subject cleared');
+    expect(find.byType(ConceptTree), findsNothing, reason: 'subject cleared');
     expect(_startEnabled(tester), isFalse);
   });
 
@@ -151,10 +150,11 @@ void main() {
   ) async {
     await _open(tester);
     await _pickTopic(tester);
-    expect(find.text('Topics · 1 selected'), findsOneWidget);
+    expect(find.text('Chapters & concepts · 1 concept'), findsOneWidget);
 
-    await _tap(tester, find.widgetWithText(ChoiceChip, 'General Science'));
+    await _tap(tester, find.widgetWithText(ChoiceChip, 'General Awareness'));
     expect(find.textContaining('selected'), findsNothing);
+    expect(find.textContaining('concept'), findsNothing);
     expect(_startEnabled(tester), isFalse);
 
     await _tap(tester, find.text('Select all'));

@@ -78,6 +78,7 @@ abstract interface class PracticeSetupRepository {
     required String examId,
     required PracticeMode mode,
     required List<String> topicIds,
+    List<String> nodeIds = const [],
     required Difficulty difficulty,
     required String language,
   });
@@ -101,6 +102,7 @@ class GeneratorForm {
     this.count = kDefaultQuestionCount,
     this.source = QuestionSource.bank,
     this.activeSubjectId,
+    this.nodeIds = const {},
   });
 
   final PracticeMode mode;
@@ -112,7 +114,12 @@ class GeneratorForm {
   /// Subject whose topics are shown (null = first subject).
   final String? activeSubjectId;
 
-  bool get isComplete => mode == PracticeMode.quick || topicIds.isNotEmpty;
+  /// Railway Mathematics concept selection (normalised node ids, see
+  /// [ConceptHierarchy]); used instead of [topicIds] when the subject has a tree.
+  final Set<String> nodeIds;
+
+  bool get isComplete =>
+      mode == PracticeMode.quick || topicIds.isNotEmpty || nodeIds.isNotEmpty;
 
   GeneratorForm copyWith({
     PracticeMode? mode,
@@ -121,6 +128,7 @@ class GeneratorForm {
     int? count,
     QuestionSource? source,
     String? activeSubjectId,
+    Set<String>? nodeIds,
   }) => GeneratorForm(
     mode: mode ?? this.mode,
     topicIds: topicIds ?? this.topicIds,
@@ -128,5 +136,6 @@ class GeneratorForm {
     count: count ?? this.count,
     source: source ?? this.source,
     activeSubjectId: activeSubjectId ?? this.activeSubjectId,
+    nodeIds: nodeIds ?? this.nodeIds,
   );
 }

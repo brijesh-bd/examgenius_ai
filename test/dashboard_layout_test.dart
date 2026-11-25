@@ -198,17 +198,15 @@ void main() {
     // Subject chip → its topics appear inline (no new page, no going back).
     await tester.tap(find.widgetWithText(ChoiceChip, 'Mathematics'));
     await tester.pumpAndSettle();
-    expect(find.text('Select at least 1 topic to start'), findsOneWidget);
-    await tester.ensureVisible(find.textContaining('Show all'));
+    // Railway Mathematics: the concept tree replaces topic chips.
+    expect(find.text('Select at least one chapter or concept'), findsOneWidget);
+    final check = find.byKey(const ValueKey('check_rm.time_work'));
+    await tester.ensureVisible(check);
     await tester.pumpAndSettle();
-    await tester.tap(find.textContaining('Show all'));
+    await tester.tap(check);
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.widgetWithText(FilterChip, 'Time & Work'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilterChip, 'Time & Work'));
-    await tester.pumpAndSettle();
-    expect(find.text('Topics · 1 selected'), findsOneWidget);
-    expect(find.text('Select at least 1 topic to start'), findsNothing);
+    expect(find.text('Chapters & concepts · 1 concept'), findsOneWidget);
+    expect(find.text('Select at least one chapter or concept'), findsNothing);
     expect(
       generateButton('Start Practice – 10 Questions').onPressed,
       isNotNull,

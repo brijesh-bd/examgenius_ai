@@ -19,8 +19,10 @@ import '../../../subscription/presentation/providers/subscription_providers.dart
 import '../../../subscription/presentation/widgets/upgrade_sheet.dart';
 import '../../domain/generated_question.dart';
 import '../../domain/question_generator_repository.dart';
+import '../../domain/concept_hierarchy.dart';
 import '../../domain/syllabus.dart';
 import '../providers/question_generator_providers.dart';
+import '../widgets/concept_tree.dart';
 import '../widgets/practice_setup_widgets.dart';
 
 /// Topics shown before "Show all" on a subject with many topics.
@@ -196,6 +198,7 @@ class _ExamPrepState extends ConsumerState<_ExamPrep> {
             examId: r.examId,
             mode: r.mode,
             topicIds: r.topicIds,
+            nodeIds: r.selectedNodeIds,
             difficulty: r.difficulty,
             language: _language,
           );
@@ -288,14 +291,25 @@ class _ExamPrepState extends ConsumerState<_ExamPrep> {
     final subject = s?.subjects
         .where((x) => x.id == form.activeSubjectId)
         .firstOrNull;
+    // Any subject with a hierarchical syllabus shows the tree.
+    final mathAsync = subject == null
+        ? null
+        : ref.watch(
+            conceptHierarchyProvider((examId: examId, subjectId: subject.id)),
+          );
+    final mathTree = mathAsync?.value;
     final count = form.count <= max ? form.count : kDefaultQuestionCount;
     final selected = subject == null
         ? 0
+        : mathTree != null
+        ? mathTree.conceptsOf(form.nodeIds).length
         : subject.topics.where((t) => form.topicIds.contains(t.id)).length;
     final hint = subject == null
         ? l10n.chooseSubjectFirst
         : selected == 0
-        ? l10n.selectAtLeastOneTopic
+        ? (mathTree != null
+              ? l10n.selectConceptHint
+              : l10n.selectAtLeastOneTopic)
         : null;
 
     return Column(
@@ -348,6 +362,7 @@ class _ExamPrepState extends ConsumerState<_ExamPrep> {
                         count,
                         max,
                         plan,
+                        mathAsync,
                       ),
                       AsyncError(:final error) => [
                         StateMessage(
@@ -383,6 +398,7 @@ class _ExamPrepState extends ConsumerState<_ExamPrep> {
             final request = controller.buildRequest(
               examName: exam.name,
               syllabus: s,
+              mathTree: mathTree,
             );
             if (request != null) _start(request.copyWith(count: count));
           },
@@ -401,8 +417,10 @@ class _ExamPrepState extends ConsumerState<_ExamPrep> {
     int count,
     int max,
     SubscriptionStatus? plan,
+    AsyncValue<ConceptHierarchy?>? mathAsync,
   ) {
     final l10n = context.l10n;
+    final mathTree = mathAsync?.value;
     final scheme = Theme.of(context).colorScheme;
     final topics = subject?.topics ?? const <SyllabusTopic>[];
     final collapsed = !_showAllTopics && topics.length > kCollapsedTopicCount;
@@ -430,8 +448,79 @@ class _ExamPrepState extends ConsumerState<_ExamPrep> {
       ),
       const SizedBox(height: AppSpacing.lg),
 
+      // 3a. Hierarchical syllabus (any subject that has one): loading / error.
+      if (subject != null && mathAsync != null && mathTree == null)
+        ...switch (mathAsync) {
+          AsyncError(:final error) => [
+            StateMessage(
+              icon: Icons.wifi_off_rounded,
+              title: apiErrorText(l10n, error),
+              actionLabel: l10n.retry,
+              onAction: () => ref.invalidate(
+                conceptHierarchyProvider((
+                  examId: examId,
+                  subjectId: subject.id,
+                )),
+              ),
+            ),
+          ],
+          AsyncData() =>
+            const <Widget>[], // no tree for this subject: topic chips
+          _ => [
+            for (var i = 0; i < 3; i++) ...[
+              const Skeleton(height: 48, radius: AppSpacing.tileRadius),
+              const SizedBox(height: AppSpacing.sm),
+            ],
+          ],
+        },
+      if (subject != null && mathTree != null) ...[
+        SetupLabel(
+          selected == 0
+              ? l10n.stepConcepts
+              : '${l10n.stepConcepts} · ${l10n.conceptsSelected(selected)}',
+          // Whole subject at once (parents include their descendants).
+          trailing: TextButton(
+            key: const Key('wholeSubject'),
+            onPressed: _busy
+                ? null
+                : () => controller.toggleWholeSubject(mathTree),
+            child: Text(
+              selected == mathTree.conceptCount
+                  ? l10n.clearTopics
+                  : l10n.selectAll,
+            ),
+          ),
+        ),
+        if (!mathTree.hasOfficial)
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+            child: Text(
+              l10n.syllabusUnverifiedNote,
+              style: AppTextStyles.tiny.copyWith(
+                color: scheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+        ConceptTree(
+          tree: mathTree,
+          languageCode: _language,
+          selection: form.nodeIds,
+          enabled: !_busy,
+          onToggle: (id) => controller.toggleNode(mathTree, id),
+        ),
+        if (form.nodeIds.isNotEmpty)
+          SelectionSummary(
+            tree: mathTree,
+            selection: form.nodeIds,
+            languageCode: _language,
+          ),
+        const SizedBox(height: AppSpacing.lg),
+      ],
+
       // 3. Topics of the selected subject (multi-select)
-      if (subject != null) ...[
+      if (subject != null &&
+          (mathAsync == null || mathAsync is AsyncData<ConceptHierarchy?>) &&
+          mathTree == null) ...[
         SetupLabel(
           selected == 0
               ? l10n.stepTopics

@@ -230,31 +230,28 @@ final _bankStandard = [
 ];
 
 final Map<String, List<Map<String, dynamic>>> _examSubjects = {
-  'rrb_ntpc': [
-    _quantRailway,
-    _reasoningGeneral,
-    _generalAwareness,
-    _generalScience,
-  ],
+  // Mirrors the backend's exam-wise subject lists.
+  'rrb_ntpc': [_quantRailway, _reasoningGeneral, _generalAwareness],
   'rrb_group_d': [
     _quantRailway,
     _reasoningGeneral,
     _generalScience,
     _generalAwareness,
   ],
-  'rrb_alp': [
-    _quantRailway,
-    _reasoningGeneral,
-    _generalScience,
-    _generalAwareness,
-    _technicalAlp,
-  ],
+  'rrb_alp': [_quantRailway, _reasoningGeneral, _generalScience, _technicalAlp],
   'rrb_je': [
     _quantRailway,
     _reasoningGeneral,
     _generalAwareness,
     _generalScience,
     _technicalJe,
+  ],
+  'rrb_tech_gr1_signal': [_quantRailway, _reasoningGeneral, _generalAwareness],
+  'rrb_tech_gr3': [
+    _quantRailway,
+    _reasoningGeneral,
+    _generalAwareness,
+    _generalScience,
   ],
   'ssc_cgl': [..._sscStandard, _computer],
   'ssc_chsl': [..._sscStandard, _computer],

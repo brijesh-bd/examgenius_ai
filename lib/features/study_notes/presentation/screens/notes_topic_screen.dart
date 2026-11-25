@@ -102,6 +102,39 @@ class NotesTopicScreen extends ConsumerWidget {
                                       ),
                                     ),
                                   ),
+                                  if (ref
+                                          .watch(
+                                            conceptHierarchyProvider((
+                                              examId: examId,
+                                              subjectId: subject.id,
+                                            )),
+                                          )
+                                          .value !=
+                                      null)
+                                    ListTile(
+                                      key: const Key('notesExactConcept'),
+                                      leading: const Icon(
+                                        Icons.account_tree_outlined,
+                                        color: AppColors.accent,
+                                      ),
+                                      title: Text(
+                                        l10n.notesExactConcept,
+                                        style: theme.textTheme.titleSmall
+                                            ?.copyWith(color: AppColors.accent),
+                                      ),
+                                      subtitle: Text(
+                                        l10n.notesExactConceptBody,
+                                      ),
+                                      trailing: const Icon(
+                                        Icons.chevron_right_rounded,
+                                      ),
+                                      onTap: () => context.push(
+                                        AppRoutes.notesConceptsFor(
+                                          examId,
+                                          subject.id,
+                                        ),
+                                      ),
+                                    ),
                                   for (final t in subject.topics)
                                     ListTile(
                                       title: Text(t.name),

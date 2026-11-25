@@ -3757,6 +3757,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'20, 30 and 40 questions per set are available with Premium.'**
   String get moreQuestionsPremium;
+
+  /// No description provided for @conceptSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search chapters and concepts'**
+  String get conceptSearchHint;
+
+  /// No description provided for @clearSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get clearSearch;
+
+  /// No description provided for @conceptNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No chapter or concept matches your search.'**
+  String get conceptNoMatch;
+
+  /// No description provided for @expand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get expand;
+
+  /// No description provided for @collapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get collapse;
+
+  /// No description provided for @stepConcepts.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapters & concepts'**
+  String get stepConcepts;
+
+  /// No description provided for @conceptsSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 concept} other{{count} concepts}}'**
+  String conceptsSelected(int count);
+
+  /// No description provided for @selectConceptHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one chapter or concept'**
+  String get selectConceptHint;
+
+  /// No description provided for @notesExactConcept.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an exact concept'**
+  String get notesExactConcept;
+
+  /// No description provided for @notesExactConceptBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes for one chapter, topic or concept of Railway Mathematics'**
+  String get notesExactConceptBody;
+
+  /// No description provided for @notesConceptPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mathematics concepts'**
+  String get notesConceptPickerTitle;
+
+  /// No description provided for @syllabusUnverifiedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Syllabus built from exam-preparation sources; official verification pending.'**
+  String get syllabusUnverifiedNote;
+
+  /// No description provided for @summaryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'all'**
+  String get summaryAll;
+
+  /// No description provided for @summaryMore.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more'**
+  String summaryMore(int count);
 }
 
 class _AppLocalizationsDelegate

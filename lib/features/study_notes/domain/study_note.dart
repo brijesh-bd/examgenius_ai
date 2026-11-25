@@ -1,6 +1,7 @@
 /// AI Study Notes — matches the backend contract (`/api/v1/notes…`).
 library;
 
+import '../../question_generator/domain/concept_hierarchy.dart';
 import '../../library/domain/library_models.dart' show LibraryFacets;
 import 'learning_path.dart';
 import 'notes_library.dart';
@@ -59,7 +60,8 @@ class NotesRequest {
 
   Map<String, dynamic> toJson() => {
     'examId': examId,
-    'topicId': topicId,
+    // Hierarchical-syllabus nodes (any subject) go by their exact node id.
+    if (isConceptNode(topicId)) 'nodeId': topicId else 'topicId': topicId,
     'language': language,
     'level': level.wire,
     'sections': [

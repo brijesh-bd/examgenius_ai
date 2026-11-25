@@ -1,3 +1,4 @@
+import '../domain/concept_hierarchy.dart';
 import '../domain/generated_question.dart';
 import '../domain/question_generator_repository.dart';
 import '../domain/syllabus.dart';
@@ -28,7 +29,13 @@ List<GeneratedQuestion> selectQuestions(
   GenerationRequest request,
   List<GeneratedQuestion> bank,
 ) {
-  final topics = request.topicIds.toSet();
+  // Concept selections (Railway Mathematics, `rm.<chapter>…`) map to the
+  // chapter's practice topic in this offline bank.
+  final topics = {
+    ...request.topicIds,
+    for (final id in request.selectedNodeIds)
+      '${conceptSubjectOf(id) ?? 'quant'}.${id.split('.')[1]}',
+  };
   final subjects = topics.map(subjectIdOf).toSet();
   final atLevel = bank.where((q) => q.difficulty == request.difficulty);
   final exact = atLevel.where((q) => topics.contains(q.topicId));

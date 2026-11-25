@@ -67,6 +67,11 @@ abstract final class AppRoutes {
   static const notesTopics = '/notes/topics/:examId';
   static String notesTopicsFor(String examId) => '/notes/topics/$examId';
 
+  /// Hierarchical syllabus picker of one subject (AI Study Notes).
+  static const notesConcepts = '/notes/concepts/:examId/:subjectId';
+  static String notesConceptsFor(String examId, String subjectId) =>
+      '/notes/concepts/$examId/$subjectId';
+
   /// Create Notes configuration for one topic.
   static const notesCreate = '/notes/create/:examId/:topicId';
   static String notesCreateFor(String examId, String topicId) =>

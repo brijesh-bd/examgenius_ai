@@ -13,6 +13,7 @@ class ApiPracticeSetupRepository implements PracticeSetupRepository {
     required String examId,
     required PracticeMode mode,
     required List<String> topicIds,
+    List<String> nodeIds = const [],
     required Difficulty difficulty,
     required String language,
   }) async {
@@ -23,6 +24,7 @@ class ApiPracticeSetupRepository implements PracticeSetupRepository {
           'examId': examId,
           'mode': mode.name,
           if (topicIds.isNotEmpty) 'topicIds': topicIds.join(','),
+          if (nodeIds.isNotEmpty) 'nodeIds': nodeIds.join(','),
           'difficulty': difficulty.name,
           'language': language,
         },
@@ -57,6 +59,7 @@ class MockPracticeSetupRepository implements PracticeSetupRepository {
     required String examId,
     required PracticeMode mode,
     required List<String> topicIds,
+    List<String> nodeIds = const [],
     required Difficulty difficulty,
     required String language,
   }) async => available;

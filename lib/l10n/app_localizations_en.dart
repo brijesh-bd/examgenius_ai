@@ -2102,4 +2102,58 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get moreQuestionsPremium =>
       '20, 30 and 40 questions per set are available with Premium.';
+
+  @override
+  String get conceptSearchHint => 'Search chapters and concepts';
+
+  @override
+  String get clearSearch => 'Clear search';
+
+  @override
+  String get conceptNoMatch => 'No chapter or concept matches your search.';
+
+  @override
+  String get expand => 'Expand';
+
+  @override
+  String get collapse => 'Collapse';
+
+  @override
+  String get stepConcepts => 'Chapters & concepts';
+
+  @override
+  String conceptsSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count concepts',
+      one: '1 concept',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectConceptHint => 'Select at least one chapter or concept';
+
+  @override
+  String get notesExactConcept => 'Choose an exact concept';
+
+  @override
+  String get notesExactConceptBody =>
+      'Notes for one chapter, topic or concept of Railway Mathematics';
+
+  @override
+  String get notesConceptPickerTitle => 'Mathematics concepts';
+
+  @override
+  String get syllabusUnverifiedNote =>
+      'Syllabus built from exam-preparation sources; official verification pending.';
+
+  @override
+  String get summaryAll => 'all';
+
+  @override
+  String summaryMore(int count) {
+    return '+$count more';
+  }
 }

@@ -30,6 +30,7 @@ import '../../features/study_notes/presentation/screens/create_notes_screen.dart
 import '../../features/study_notes/presentation/screens/learning_path_screen.dart';
 import '../../features/study_notes/presentation/screens/note_view_screen.dart';
 import '../../features/study_notes/presentation/screens/notes_category_screen.dart';
+import '../../features/study_notes/presentation/screens/notes_concept_screen.dart';
 import '../../features/study_notes/presentation/screens/notes_topic_screen.dart';
 import '../../features/study_notes/presentation/screens/revision_screens.dart';
 import '../../features/study_notes/presentation/screens/outline_screen.dart';
@@ -169,6 +170,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootKey,
         builder: (_, s) =>
             NotesTopicScreen(examId: s.pathParameters['examId'] ?? ''),
+      ),
+      GoRoute(
+        path: AppRoutes.notesConcepts,
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => NotesConceptScreen(
+          examId: s.pathParameters['examId'] ?? '',
+          subjectId: s.pathParameters['subjectId'] ?? '',
+        ),
       ),
       GoRoute(
         path: AppRoutes.notesCreate,

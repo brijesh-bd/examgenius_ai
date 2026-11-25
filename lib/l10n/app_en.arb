@@ -1341,5 +1341,21 @@
     }
   },
   "showFewer": "Show fewer",
-  "moreQuestionsPremium": "20, 30 and 40 questions per set are available with Premium."
+  "moreQuestionsPremium": "20, 30 and 40 questions per set are available with Premium.",
+  "conceptSearchHint": "Search chapters and concepts",
+  "clearSearch": "Clear search",
+  "conceptNoMatch": "No chapter or concept matches your search.",
+  "expand": "Expand",
+  "collapse": "Collapse",
+  "stepConcepts": "Chapters & concepts",
+  "conceptsSelected": "{count, plural, =1{1 concept} other{{count} concepts}}",
+  "@conceptsSelected": {"placeholders":{"count":{"type":"int"}}},
+  "selectConceptHint": "Select at least one chapter or concept",
+  "notesExactConcept": "Choose an exact concept",
+  "notesExactConceptBody": "Notes for one chapter, topic or concept of Railway Mathematics",
+  "notesConceptPickerTitle": "Mathematics concepts",
+  "syllabusUnverifiedNote": "Syllabus built from exam-preparation sources; official verification pending.",
+  "summaryAll": "all",
+  "summaryMore": "+{count} more",
+  "@summaryMore": {"placeholders":{"count":{"type":"int"}}}
 }

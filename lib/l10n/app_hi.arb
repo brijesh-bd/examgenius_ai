@@ -609,5 +609,19 @@
   "clearTopics": "हटाएँ",
   "showAllTopics": "सभी देखें ({count})",
   "showFewer": "कम देखें",
-  "moreQuestionsPremium": "प्रति सेट 20, 30 और 40 प्रश्न Premium में उपलब्ध हैं।"
+  "moreQuestionsPremium": "प्रति सेट 20, 30 और 40 प्रश्न Premium में उपलब्ध हैं।",
+  "conceptSearchHint": "अध्याय और अवधारणाएँ खोजें",
+  "clearSearch": "खोज साफ़ करें",
+  "conceptNoMatch": "आपकी खोज से कोई अध्याय या अवधारणा नहीं मिली।",
+  "expand": "खोलें",
+  "collapse": "बंद करें",
+  "stepConcepts": "अध्याय और अवधारणाएँ",
+  "conceptsSelected": "{count} अवधारणाएँ",
+  "selectConceptHint": "कम से कम एक अध्याय या अवधारणा चुनें",
+  "notesExactConcept": "सटीक अवधारणा चुनें",
+  "notesExactConceptBody": "रेलवे गणित के किसी एक अध्याय, विषय या अवधारणा के नोट्स",
+  "notesConceptPickerTitle": "गणित की अवधारणाएँ",
+  "syllabusUnverifiedNote": "पाठ्यक्रम परीक्षा-तैयारी स्रोतों पर आधारित; आधिकारिक सत्यापन बाकी है।",
+  "summaryAll": "सभी",
+  "summaryMore": "+{count} और"
 }
