@@ -2150,4 +2150,142 @@ class AppLocalizationsHi extends AppLocalizations {
   String summaryMore(int count) {
     return '+$count और';
   }
+
+  @override
+  String get chapterIndexMissingTitle => 'इस विषय की अध्याय सूची अभी नहीं है';
+
+  @override
+  String get chapterIndexMissingBody =>
+      'AI इसे बना सकता है: विषय को आसान से कठिन भागों में बाँटकर। पढ़ाई शुरू करने से पहले एक समीक्षक इसकी जाँच करता है।';
+
+  @override
+  String get chapterIndexBuild => 'अध्याय सूची बनाएँ';
+
+  @override
+  String get chapterIndexPendingTitle => 'अध्याय सूची समीक्षा की प्रतीक्षा में';
+
+  @override
+  String get chapterIndexPendingBody =>
+      'समीक्षक की स्वीकृति मिलते ही यह यहाँ खुलेगी। कृपया बाद में देखें।';
+
+  @override
+  String get outlineAiReviewed => 'AI द्वारा बनी सूची · समीक्षित';
+
+  @override
+  String get outlineRevisionPlan => 'अंतिम पुनरावृत्ति योजना';
+
+  @override
+  String get notesStepCategory => 'परीक्षा श्रेणी';
+
+  @override
+  String get notesStepTopic => 'विषय';
+
+  @override
+  String get notesTopicHint => 'अध्याय, विषय, उपविषय या सूक्ष्म-विषय चुनें।';
+
+  @override
+  String get notesNoTreeHint => 'एक विषय चुनें।';
+
+  @override
+  String get notesLanguageLabel => 'नोट्स की भाषा';
+
+  @override
+  String get topicSummaryTitle => 'विषय का परिचय';
+
+  @override
+  String get topicSummaryCovers => 'इस विषय में क्या शामिल है';
+
+  @override
+  String get topicSummarySubtopics => 'शामिल उपविषय';
+
+  @override
+  String get topicSummaryConcepts => 'महत्वपूर्ण अवधारणाएँ';
+
+  @override
+  String get topicSummaryDefinitions => 'महत्वपूर्ण परिभाषाएँ';
+
+  @override
+  String get topicSummaryFormulas => 'सूत्र';
+
+  @override
+  String get topicSummaryPrinciples => 'सिद्धांत और नियम';
+
+  @override
+  String get topicSummaryExamFocus => 'परीक्षा की दृष्टि से महत्वपूर्ण';
+
+  @override
+  String get topicSummaryUnavailable =>
+      'परिचय लोड नहीं हो सका। आप फिर भी नोट्स बना सकते हैं।';
+
+  @override
+  String get generateCompleteNotes => 'पूरे नोट्स बनाएँ';
+
+  @override
+  String get notesSelectTopicFirst => 'नोट्स बनाने के लिए विषय चुनें';
+
+  @override
+  String genElapsed(String time) {
+    return '$time बीते';
+  }
+
+  @override
+  String get genLeaveHint =>
+      'आप यह स्क्रीन छोड़ सकते हैं। नोट्स तैयार होने पर आपकी लाइब्रेरी में सहेजे जाएँगे।';
+
+  @override
+  String get genFailedTitle => 'नोट्स नहीं बने';
+
+  @override
+  String get genNothingSaved =>
+      'कुछ भी सहेजा या गिना नहीं गया। आपका चयन बना हुआ है।';
+
+  @override
+  String get errorAiOverloaded =>
+      'AI मॉडल पर अभी बहुत भार है। कृपया एक मिनट बाद फिर कोशिश करें।';
+
+  @override
+  String get errorAiTimeout =>
+      'AI ने उत्तर देने में बहुत समय लिया। कृपया फिर कोशिश करें।';
+
+  @override
+  String get errorAiTruncated =>
+      'AI का उत्तर पूरा होने से पहले कट गया, इसलिए सहेजा नहीं गया। कृपया फिर कोशिश करें।';
+
+  @override
+  String get errorAiIncomplete =>
+      'AI नोट्स में पूरा विषय शामिल नहीं था, इसलिए सहेजे नहीं गए। कृपया फिर कोशिश करें।';
+
+  @override
+  String get errorAiNetwork =>
+      'सर्वर AI सेवा तक नहीं पहुँच सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get errorAiNotConfigured =>
+      'इस सर्वर पर AI स्टडी नोट्स अभी उपलब्ध नहीं हैं।';
+
+  @override
+  String get genStageChecking => 'आपके सहेजे नोट्स देखे जा रहे हैं…';
+
+  @override
+  String get genStageStarting =>
+      'शुरू हो रहा है… पहली पंक्तियाँ कुछ ही सेकंड में दिखेंगी।';
+
+  @override
+  String genStageWriting(int count) {
+    return 'नोट्स लिखे जा रहे हैं · अब तक $count भाग';
+  }
+
+  @override
+  String get genStageJoined =>
+      'यह विषय पहले से लिखा जा रहा है; जैसे-जैसे बनता है, दिखाया जा रहा है।';
+
+  @override
+  String get genStageSaving => 'आपकी लाइब्रेरी में सहेजा जा रहा है…';
+
+  @override
+  String get genPartialKept =>
+      'अब तक लिखे गए नोट्स दिखाए गए हैं। फिर से कोशिश करने पर काम वहीं से जारी रहेगा।';
+
+  @override
+  String get genLiveTitle => 'नोट्स लिखे जा रहे हैं';
 }

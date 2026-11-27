@@ -50,13 +50,25 @@ class NotesRequest {
     required this.language,
     required this.level,
     required this.sections,
+    this.complete = false,
   });
+
+  /// Complete topic coverage (redesigned AI Study Notes): no difficulty or
+  /// section choice; the server writes every section for the whole topic.
+  const NotesRequest.complete({
+    required this.examId,
+    required this.topicId,
+    required this.language,
+  }) : level = NoteLevel.examStandard,
+       sections = const {},
+       complete = true;
 
   final String examId;
   final String topicId;
   final String language;
   final NoteLevel level;
   final Set<NoteSection> sections;
+  final bool complete;
 
   Map<String, dynamic> toJson() => {
     'examId': examId,
@@ -64,11 +76,93 @@ class NotesRequest {
     if (isConceptNode(topicId)) 'nodeId': topicId else 'topicId': topicId,
     'language': language,
     'level': level.wire,
-    'sections': [
-      for (final s in NoteSection.values)
-        if (sections.contains(s)) s.wire,
-    ],
+    if (complete)
+      'coverage': 'complete'
+    else
+      'sections': [
+        for (final s in NoteSection.values)
+          if (sections.contains(s)) s.wire,
+      ],
   };
+}
+
+/// What the notes stream reports (no invented percentages: only real stages).
+enum NotesStage { checking, generating, saving }
+
+sealed class NotesStreamEvent {
+  const NotesStreamEvent();
+}
+
+class NotesStatus extends NotesStreamEvent {
+  const NotesStatus(this.stage, {this.joined = false});
+  final NotesStage stage;
+
+  /// Another student started the same topic: this request shares it.
+  final bool joined;
+}
+
+/// Everything readable so far (grows; never saved by itself).
+class NotesPartial extends NotesStreamEvent {
+  const NotesPartial(this.content);
+  final NoteContent content;
+}
+
+/// `source`: saved (already in the Library), cache (shared notes),
+/// ai (new), joined (shared generation).
+class NotesDone extends NotesStreamEvent {
+  const NotesDone(this.note, this.source);
+  final StudyNote note;
+  final String source;
+}
+
+/// Short overview of a selected topic, shown before generating full notes
+/// (`POST /notes/topic-summary`; shared and cached on the server).
+class TopicSummary {
+  const TopicSummary({
+    required this.covers,
+    this.keyConcepts = const [],
+    this.definitions = const [],
+    this.formulas = const [],
+    this.principles = const [],
+    this.examFocus = const [],
+  });
+
+  final String covers;
+  final List<String> keyConcepts;
+  final List<({String term, String definition})> definitions;
+  final List<({String name, String expression})> formulas;
+  final List<String> principles;
+  final List<String> examFocus;
+
+  factory TopicSummary.fromJson(Map<String, dynamic> j) {
+    final s = j['summary'] as Map<String, dynamic>? ?? j;
+    List<String> strs(Object? v) =>
+        (v as List<dynamic>? ?? const []).map((e) => '$e').toList();
+    return TopicSummary(
+      covers: s['covers'] as String? ?? '',
+      keyConcepts: strs(s['keyConcepts']),
+      definitions: [
+        for (final d
+            in (s['definitions'] as List<dynamic>? ?? const [])
+                .whereType<Map<String, dynamic>>())
+          (
+            term: d['term'] as String? ?? '',
+            definition: d['definition'] as String? ?? '',
+          ),
+      ],
+      formulas: [
+        for (final f
+            in (s['formulas'] as List<dynamic>? ?? const [])
+                .whereType<Map<String, dynamic>>())
+          (
+            name: f['name'] as String? ?? '',
+            expression: f['expression'] as String? ?? '',
+          ),
+      ],
+      principles: strs(s['principles']),
+      examFocus: strs(s['examFocus']),
+    );
+  }
 }
 
 // ── Content (contentVersion 1) ──────────────────────────────────────────────
@@ -498,6 +592,22 @@ abstract interface class StudyNotesRepository {
 
   /// Completes only after the server deleted the note.
   Future<void> delete(String id);
+
+  /// Complete notes as a live stream (`POST /notes/generate/stream`):
+  /// saved / cached notes arrive at once; otherwise the readable part of the
+  /// notes grows until [NotesDone]. Calling again with the same [request]
+  /// resumes: the server returns the saved note or rejoins the generation.
+  Stream<NotesStreamEvent> generateStream(
+    NotesRequest request, {
+    bool regenerate = false,
+  });
+
+  /// What a topic (syllabus node or flat topic id) covers, before notes.
+  Future<TopicSummary> topicSummary({
+    required String examId,
+    required String targetId,
+    required String language,
+  });
 
   /// Ordered topics/units of one subject with this student's progress.
   Future<LearningPath> learningPath(String examId, String subjectId);

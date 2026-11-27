@@ -29,6 +29,20 @@ class ApiOutlineRepository implements OutlineRepository {
     ),
   );
 
+  @override
+  Future<ChapterIndexStatus> requestChapterIndex(
+    String examId,
+    String unitId,
+  ) async {
+    final r = await _api.post(
+      '/notes/outlines/${_seg(examId)}/${_seg(unitId)}/index',
+      const <String, Object>{},
+    );
+    return r['status'] == 'approved'
+        ? ChapterIndexStatus.approved
+        : ChapterIndexStatus.pendingReview;
+  }
+
   Map<String, Object> _body(OutlineKey k, SectionRef s) => {
     'examId': k.examId,
     'unitId': k.unitId,

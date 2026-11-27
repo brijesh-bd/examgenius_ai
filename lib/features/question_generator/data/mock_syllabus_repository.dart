@@ -221,12 +221,32 @@ final _sscStandard = [
   _generalAwareness,
 ];
 final _sscBasic = [_reasoningGeneral, _generalAwareness, _quantBasic, _english];
-final _bankStandard = [
+// Banking GA has no History (not named by IBPS/SBI notifications).
+final _bankGeneralAwareness = _subject('general_awareness', 'General Awareness', {
+  'polity': 'Indian Polity & Constitution',
+  'geography': 'Geography',
+  'economy': 'Indian Economy',
+  'static_gk': 'Static GK',
+  'current_affairs': 'Current Affairs',
+  'sports': 'Sports',
+  'awards_honours': 'Awards & Honours',
+  'books_authors': 'Books & Authors',
+  'government_schemes': 'Government Schemes',
+  'science_technology': 'Science & Technology',
+});
+final _hindi = _subject('hindi', 'Hindi Language', {
+  'shabd_vichar': 'Word Classes (Shabd Vichar)',
+  'shabd_rachna': 'Word Formation',
+  'shabd_bhandar': 'Vocabulary',
+  'vakya': 'Sentence',
+  'gadyansh': 'Comprehension',
+});
+final _bankCore = [
   _reasoningBanking,
   _quantBanking,
   _english,
+  _bankGeneralAwareness,
   _bankingAwareness,
-  _computer,
 ];
 
 final Map<String, List<Map<String, dynamic>>> _examSubjects = {
@@ -301,11 +321,22 @@ final Map<String, List<Map<String, dynamic>>> _examSubjects = {
   ],
   'ssc_sp_hsc': [_reasoningGeneral, _generalAwareness, _quantSsc, _english],
   'ssc_sp_grad': [_reasoningGeneral, _generalAwareness, _quantSsc, _english],
-  'ibps_po': _bankStandard,
-  'ibps_clerk': _bankStandard,
-  'ibps_rrb_po': _bankStandard,
-  'ibps_rrb_clerk': _bankStandard,
-  'sbi_po': _bankStandard,
-  'sbi_clerk': _bankStandard,
+  // Mirrors the backend: subjects follow each notification's sections.
+  'ibps_po': [..._bankCore, _computer],
+  'ibps_clerk': _bankCore,
+  'ibps_rrb_po': [..._bankCore, _hindi, _computer],
+  'ibps_rrb_clerk': [..._bankCore, _hindi, _computer],
+  'sbi_po': [..._bankCore, _computer],
+  'sbi_clerk': [..._bankCore, _computer],
   'ibps_so_it': [_reasoningBanking, _english, _quantBanking, _professionalIt],
+  'ibps_rrb_so_it': [
+    _professionalIt,
+    _reasoningBanking,
+    _quantBanking,
+    _english,
+    _hindi,
+    _bankGeneralAwareness,
+    _bankingAwareness,
+    _computer,
+  ],
 };

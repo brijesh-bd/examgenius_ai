@@ -6,6 +6,7 @@ import 'package:examgenius_ai/core/routes/app_routes.dart';
 import 'package:examgenius_ai/core/services/preferences_service.dart';
 import 'package:examgenius_ai/features/study_notes/data/mock_study_notes_repository.dart';
 import 'package:examgenius_ai/features/study_notes/data/sample_outline_repository.dart';
+import 'package:examgenius_ai/features/study_notes/domain/note_outline.dart';
 import 'package:examgenius_ai/features/study_notes/presentation/providers/study_notes_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,7 +52,60 @@ Future<void> _pumpOutline(
   await tester.pumpAndSettle();
 }
 
+/// A topic without any chapter index; building one leaves it pending review.
+class _NoIndexRepository extends SampleOutlineRepository {
+  _NoIndexRepository() : super(latency: Duration.zero);
+
+  int requests = 0;
+
+  @override
+  Future<NoteOutline> outline(OutlineKey k) async => throw ApiException(
+    'No outline',
+    statusCode: 404,
+    code: requests == 0 ? 'NO_OUTLINE' : 'OUTLINE_PENDING_REVIEW',
+  );
+
+  @override
+  Future<ChapterIndexStatus> requestChapterIndex(
+    String examId,
+    String unitId,
+  ) async {
+    requests++;
+    return ChapterIndexStatus.pendingReview;
+  }
+}
+
 void main() {
+  test('outline JSON: AI-reviewed index and revision plan', () {
+    final o = NoteOutline.fromJson({
+      'examId': 'ibps_po',
+      'unitId': 'quant.percentage',
+      'source': 'ai_reviewed',
+      'revisionPlan': ['Revise fractions', 'Timed practice'],
+      'chapters': const [],
+    });
+    expect(o.fromAi, isTrue);
+    expect(o.revisionPlan, ['Revise fractions', 'Timed practice']);
+    expect(
+      NoteOutline.fromJson({'examId': 'x', 'unitId': 'y'}).fromAi,
+      isFalse,
+    );
+  });
+
+  testWidgets('chapter builder: no index → build → waiting for review', (
+    tester,
+  ) async {
+    final repo = _NoIndexRepository();
+    await _pumpOutline(tester, repo);
+    expect(find.text('No chapter index for this topic yet'), findsOneWidget);
+
+    await tester.tap(find.text('Build chapter index'));
+    await tester.pumpAndSettle();
+    expect(repo.requests, 1);
+    expect(find.text('Chapter index waiting for review'), findsOneWidget);
+    expect(find.text('Build chapter index'), findsNothing);
+  });
+
   testWidgets('outline: sample label, sections, read, complete, next', (
     tester,
   ) async {

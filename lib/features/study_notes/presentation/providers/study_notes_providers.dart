@@ -339,6 +339,32 @@ final outlineRepositoryProvider = Provider<OutlineRepository>((ref) {
   return ApiOutlineRepository(ref.watch(apiClientProvider));
 });
 
+/// Chapter Builder: request an AI chapter index for a topic without one.
+/// `AsyncData(null)` = not asked yet; data = what the server said.
+class ChapterIndexController extends Notifier<AsyncValue<ChapterIndexStatus?>> {
+  @override
+  AsyncValue<ChapterIndexStatus?> build() => const AsyncData(null);
+
+  Future<void> request(OutlineKey key) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref
+          .read(outlineRepositoryProvider)
+          .requestChapterIndex(key.examId, key.unitId),
+    );
+    // Approved already → show the outline; pending → the screen says so.
+    if (state.value == ChapterIndexStatus.approved) {
+      ref.invalidate(outlineProvider(key));
+    }
+  }
+}
+
+final chapterIndexProvider =
+    NotifierProvider.autoDispose<
+      ChapterIndexController,
+      AsyncValue<ChapterIndexStatus?>
+    >(ChapterIndexController.new);
+
 final outlineProvider = FutureProvider.autoDispose
     .family<NoteOutline, OutlineKey>(
       (ref, key) => ref.watch(outlineRepositoryProvider).outline(key),

@@ -6,9 +6,12 @@ import 'package:examgenius_ai/features/study_notes/data/mock_study_notes_reposit
 import 'package:examgenius_ai/features/study_notes/domain/learning_path.dart';
 import 'package:examgenius_ai/features/study_notes/domain/study_note.dart';
 import 'package:examgenius_ai/features/study_notes/presentation/providers/study_notes_providers.dart';
+import 'package:examgenius_ai/core/routes/app_routes.dart';
+import 'package:examgenius_ai/features/study_notes/presentation/screens/notes_studio_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 LearningItem _item(String id, int order, {String? topicId, String? unit}) =>
@@ -119,42 +122,46 @@ void main() {
       );
       await _pump(tester, repo);
 
-      // Home → AI Study Notes → Railway → RRB NTPC → Percentage → Create (Hindi, Advanced).
-      await tester.tap(find.text('AI Study Notes'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Railway'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('RRB NTPC'));
+      // A syllabus topic link (e.g. "study next") opens AI Study Notes with
+      // RRB NTPC › Mathematics › Percentage preselected; generate in Hindi.
+      GoRouter.of(tester.element(find.byType(Scaffold).first))
+          .push(AppRoutes.notesCreateFor('rrb_ntpc', 'quant.percentage'));
       await _settle(tester);
-      await tester.scrollUntilVisible(find.text('Percentage'), 200);
-      await tester.tap(find.text('Percentage'));
-      await _settle(tester);
+      expect(find.byType(NotesStudioScreen), findsOneWidget);
+      await tester.dragUntilVisible(
+        find.text('हिन्दी').hitTestable(),
+        find.descendant(
+          of: find.byType(NotesStudioScreen),
+          matching: find.byType(ListView),
+        ),
+        const Offset(0, -200),
+      );
       await tester.tap(find.text('हिन्दी'));
-      await tester.tap(find.text('Advanced'));
       await tester.pump();
-      await tester.tap(find.text('Generate Complete Notes'));
+      await tester.tap(find.text('Generate complete notes'));
+      await _settle(tester);
+      // The path panel loads after the mock syllabus delay.
       await _settle(tester);
 
       // Notes page: position in the path + progress.
       expect(find.textContaining('Topic 5 of'), findsOneWidget);
       expect(find.textContaining('0 of'), findsOneWidget);
 
-      // "What to Study Next" rows come from the syllabus and open Create Notes
-      // with exam, subject, topic, language and level filled in.
+      // "What to Study Next" rows come from the syllabus and open AI Study
+      // Notes with exam, subject, topic and language filled in.
       await _tapVisible(tester, find.text('Ratio & Proportion'));
-      expect(find.text('Create Notes'), findsOneWidget);
+      expect(find.byType(NotesStudioScreen), findsOneWidget);
       expect(
-        find.text('Mathematics'),
-        findsOneWidget,
+        tester
+            .widget<ChoiceChip>(find.byKey(const ValueKey('subject_quant')))
+            .selected,
+        isTrue,
       ); // subject, not re-picked
+      expect(find.text('Ratio & Proportion'), findsWidgets); // overview title
       final lang = tester.widget<SegmentedButton<String>>(
         find.byType(SegmentedButton<String>),
       );
       expect(lang.selected, {'hi'});
-      final level = tester.widget<SegmentedButton<NoteLevel>>(
-        find.byType(SegmentedButton<NoteLevel>),
-      );
-      expect(level.selected, {NoteLevel.advanced});
 
       // Android back → the same note.
       await tester.pageBack();
@@ -189,13 +196,13 @@ void main() {
       await tester.pageBack();
       await _settle(tester);
 
-      // Continue to Next Topic → Create Notes for the next syllabus topic.
+      // Continue to Next Topic → AI Study Notes for the next syllabus topic.
       await tester.ensureVisible(find.text('Continue to Next Topic'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Continue to Next Topic'));
       await _settle(tester);
-      expect(find.text('Create Notes'), findsOneWidget);
-      expect(find.text('Ratio & Proportion'), findsOneWidget);
+      expect(find.byType(NotesStudioScreen), findsOneWidget);
+      expect(find.text('Ratio & Proportion'), findsWidgets);
       expect(tester.takeException(), isNull);
     },
   );

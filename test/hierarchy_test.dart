@@ -13,6 +13,7 @@ import 'package:examgenius_ai/features/study_notes/presentation/providers/study_
 import 'package:examgenius_ai/features/study_notes/presentation/screens/note_view_screen.dart';
 import 'package:examgenius_ai/features/study_notes/presentation/screens/section_reader_screen.dart';
 import 'package:examgenius_ai/l10n/app_localizations.dart';
+import 'package:examgenius_ai/features/study_notes/presentation/screens/notes_studio_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -457,10 +458,10 @@ void recommendationTests() {
       );
       expect(find.textContaining('Study the notes'), findsOneWidget);
 
-      // Revise → opens that topic's notes (Create Notes for a topic without notes).
+      // Revise → opens AI Study Notes on that topic (no notes yet).
       await tester.tap(find.textContaining('25% accuracy'));
       await tester.pumpAndSettle();
-      expect(find.text('Create Notes'), findsOneWidget);
+      expect(find.byType(NotesStudioScreen), findsOneWidget);
       await _settle(tester);
     },
   );

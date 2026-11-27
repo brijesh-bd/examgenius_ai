@@ -5,6 +5,7 @@ import 'package:examgenius_ai/core/services/preferences_service.dart';
 import 'package:examgenius_ai/features/study_notes/data/mock_study_notes_repository.dart';
 import 'package:examgenius_ai/features/study_notes/domain/study_note.dart';
 import 'package:examgenius_ai/features/study_notes/presentation/providers/study_notes_providers.dart';
+import 'package:examgenius_ai/features/study_notes/presentation/screens/notes_studio_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,20 +43,55 @@ Future<void> _pumpApp(
   await tester.pumpAndSettle();
 }
 
-/// Home → AI Study Notes → Railway → RRB NTPC → Percentage → Create Notes.
+/// The notes screen's own list (Home stays mounted underneath).
+Finder get _studioList => find.descendant(
+  of: find.byType(NotesStudioScreen),
+  matching: find.byType(ListView),
+);
+
+/// Home → AI Study Notes (one screen): Railway → RRB NTPC (the student's
+/// target, preselected) → Mathematics → Percentage → topic overview.
 Future<void> _openCreateNotes(WidgetTester tester) async {
   await tester.tap(find.text('AI Study Notes'));
   await tester.pumpAndSettle();
-  expect(find.text('Choose a category'), findsOneWidget);
-  await tester.tap(find.text('Railway'));
+  // Category and exam chips, the student's exam preselected.
+  expect(find.text('Exam category'), findsOneWidget);
+  expect(
+    tester
+        .widget<ChoiceChip>(find.byKey(const ValueKey('cat_railway')))
+        .selected,
+    isTrue,
+  );
+  expect(
+    tester
+        .widget<ChoiceChip>(find.byKey(const ValueKey('exam_rrb_ntpc')))
+        .selected,
+    isTrue,
+  );
+  await tester.tap(find.byKey(const ValueKey('subject_quant')));
   await tester.pumpAndSettle();
-  await tester.tap(find.text('RRB NTPC'));
-  await tester.pumpAndSettle();
-  expect(find.text('Mathematics'), findsOneWidget); // existing syllabus
-  await tester.scrollUntilVisible(find.text('Percentage'), 200);
+  // Hierarchical syllabus right here: no Learning Path / concept screens.
+  await tester.dragUntilVisible(
+    find.text('Percentage').hitTestable(),
+    _studioList,
+    const Offset(0, -150),
+  );
   await tester.tap(find.text('Percentage'));
   await tester.pumpAndSettle();
-  expect(find.text('Create Notes'), findsOneWidget);
+  await tester.dragUntilVisible(
+    find.text('Topic overview').hitTestable(),
+    _studioList,
+    const Offset(0, -200),
+  );
+  await tester.pumpAndSettle();
+  expect(find.text('Topic overview'), findsOneWidget);
+  expect(
+    find.textContaining('Sample summary (development data)'),
+    findsOneWidget,
+  );
+  // No difficulty or section selectors any more.
+  expect(find.text('Exam Standard'), findsNothing);
+  expect(find.text('Graphs (where useful)'), findsNothing);
 }
 
 void main() {
@@ -136,16 +172,17 @@ void main() {
         findsNothing,
       ); // card replaced on Home
       await _openCreateNotes(tester);
+      expect(repo.summaryCalls, 1, reason: 'overview only; no notes yet');
+      expect(repo.saved, isEmpty);
 
-      expect(find.text('Exam Standard'), findsOneWidget);
-      // Turn on graphs (off by default).
-      await tester.tap(find.text('Graphs (where useful)'));
-      await tester.pump();
-
-      await tester.tap(find.text('Generate Complete Notes'));
+      await tester.tap(find.text('Generate complete notes'));
+      await tester.pump(const Duration(milliseconds: 10));
+      // Progress while generating; the selection stays readable.
+      expect(find.byKey(const Key('generationProgress')), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(repo.saved, hasLength(1));
+      expect(repo.saved.single.topicId, 'rm.percentage');
       expect(find.text('Contents'), findsOneWidget);
       expect(find.text('Saved to your Library'), findsOneWidget);
       for (final s in [
@@ -179,12 +216,18 @@ void main() {
     );
     await _pumpApp(tester, repo);
     await _openCreateNotes(tester);
-    await tester.tap(find.text('Generate Complete Notes'));
+    await tester.tap(find.text('Generate complete notes'));
     await tester.pumpAndSettle();
+    expect(find.byKey(const Key('generationError')), findsOneWidget);
+    expect(find.text('Notes were not generated'), findsOneWidget);
     expect(
-      find.text('Notes could not be generated. Nothing was saved.'),
+      find.text(
+        'Nothing was saved and nothing was counted. Your selection is kept.',
+      ),
       findsOneWidget,
     );
+    // Selection kept: retry is one tap.
+    expect(find.text('Generate complete notes'), findsOneWidget);
     expect(find.text('Saved to your Library'), findsNothing);
     expect(find.text('Contents'), findsNothing);
     expect(repo.saved, isEmpty);

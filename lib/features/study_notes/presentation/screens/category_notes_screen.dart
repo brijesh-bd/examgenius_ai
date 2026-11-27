@@ -20,7 +20,7 @@ import '../../domain/notes_library.dart';
 import '../../domain/study_note.dart';
 import '../providers/study_notes_providers.dart';
 import '../widgets/note_list_card.dart';
-import 'create_notes_screen.dart' show noteLevelLabel;
+import '../widgets/note_labels.dart' show noteLevelLabel;
 
 /// One category's study notes (e.g. SSC only): search, filters (exam,
 /// subject, topic, language, level, date), sort, and note cards.

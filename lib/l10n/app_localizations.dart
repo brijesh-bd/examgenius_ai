@@ -3841,6 +3841,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'+{count} more'**
   String summaryMore(int count);
+
+  /// No description provided for @chapterIndexMissingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No chapter index for this topic yet'**
+  String get chapterIndexMissingTitle;
+
+  /// No description provided for @chapterIndexMissingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'AI can build one: the topic split into parts, from basic to advanced. A reviewer checks it before you start learning.'**
+  String get chapterIndexMissingBody;
+
+  /// No description provided for @chapterIndexBuild.
+  ///
+  /// In en, this message translates to:
+  /// **'Build chapter index'**
+  String get chapterIndexBuild;
+
+  /// No description provided for @chapterIndexPendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter index waiting for review'**
+  String get chapterIndexPendingTitle;
+
+  /// No description provided for @chapterIndexPendingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It opens here as soon as a reviewer approves it. Please check back later.'**
+  String get chapterIndexPendingBody;
+
+  /// No description provided for @outlineAiReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-built index · reviewed'**
+  String get outlineAiReviewed;
+
+  /// No description provided for @outlineRevisionPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Final revision plan'**
+  String get outlineRevisionPlan;
+
+  /// No description provided for @notesStepCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam category'**
+  String get notesStepCategory;
+
+  /// No description provided for @notesStepTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic'**
+  String get notesStepTopic;
+
+  /// No description provided for @notesTopicHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a chapter, topic, subtopic or micro-topic.'**
+  String get notesTopicHint;
+
+  /// No description provided for @notesNoTreeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select one topic.'**
+  String get notesNoTreeHint;
+
+  /// No description provided for @notesLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes language'**
+  String get notesLanguageLabel;
+
+  /// No description provided for @topicSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic overview'**
+  String get topicSummaryTitle;
+
+  /// No description provided for @topicSummaryCovers.
+  ///
+  /// In en, this message translates to:
+  /// **'What this topic covers'**
+  String get topicSummaryCovers;
+
+  /// No description provided for @topicSummarySubtopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtopics included'**
+  String get topicSummarySubtopics;
+
+  /// No description provided for @topicSummaryConcepts.
+  ///
+  /// In en, this message translates to:
+  /// **'Important concepts'**
+  String get topicSummaryConcepts;
+
+  /// No description provided for @topicSummaryDefinitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Important definitions'**
+  String get topicSummaryDefinitions;
+
+  /// No description provided for @topicSummaryFormulas.
+  ///
+  /// In en, this message translates to:
+  /// **'Formulas'**
+  String get topicSummaryFormulas;
+
+  /// No description provided for @topicSummaryPrinciples.
+  ///
+  /// In en, this message translates to:
+  /// **'Principles and laws'**
+  String get topicSummaryPrinciples;
+
+  /// No description provided for @topicSummaryExamFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam-oriented areas'**
+  String get topicSummaryExamFocus;
+
+  /// No description provided for @topicSummaryUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The overview could not be loaded. You can still generate the notes.'**
+  String get topicSummaryUnavailable;
+
+  /// No description provided for @generateCompleteNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate complete notes'**
+  String get generateCompleteNotes;
+
+  /// No description provided for @notesSelectTopicFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a topic to generate notes'**
+  String get notesSelectTopicFirst;
+
+  /// No description provided for @genElapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} elapsed'**
+  String genElapsed(String time);
+
+  /// No description provided for @genLeaveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can leave this screen. When the notes are ready they are saved in your Library.'**
+  String get genLeaveHint;
+
+  /// No description provided for @genFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes were not generated'**
+  String get genFailedTitle;
+
+  /// No description provided for @genNothingSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was saved and nothing was counted. Your selection is kept.'**
+  String get genNothingSaved;
+
+  /// No description provided for @errorAiOverloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI model is overloaded right now (high demand). Please try again in a minute.'**
+  String get errorAiOverloaded;
+
+  /// No description provided for @errorAiTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI took too long to answer. Please try again.'**
+  String get errorAiTimeout;
+
+  /// No description provided for @errorAiTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI answer was cut off before it finished, so it was not saved. Please try again.'**
+  String get errorAiTruncated;
+
+  /// No description provided for @errorAiIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI notes did not cover the whole topic, so they were not saved. Please try again.'**
+  String get errorAiIncomplete;
+
+  /// No description provided for @errorAiNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'The server could not reach the AI service. Please try again.'**
+  String get errorAiNetwork;
+
+  /// No description provided for @errorAiNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Study Notes are not available on this server yet.'**
+  String get errorAiNotConfigured;
+
+  /// No description provided for @genStageChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking your saved notes…'**
+  String get genStageChecking;
+
+  /// No description provided for @genStageStarting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting… the first lines appear in a few seconds.'**
+  String get genStageStarting;
+
+  /// No description provided for @genStageWriting.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing your notes · {count} parts so far'**
+  String genStageWriting(int count);
+
+  /// No description provided for @genStageJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'This topic is already being written; showing it as it arrives.'**
+  String get genStageJoined;
+
+  /// No description provided for @genStageSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving to your Library…'**
+  String get genStageSaving;
+
+  /// No description provided for @genPartialKept.
+  ///
+  /// In en, this message translates to:
+  /// **'The notes written so far are shown. Retry continues without starting again.'**
+  String get genPartialKept;
+
+  /// No description provided for @genLiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing notes'**
+  String get genLiveTitle;
 }
 
 class _AppLocalizationsDelegate

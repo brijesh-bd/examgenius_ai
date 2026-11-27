@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +30,14 @@ class ApiException implements Exception {
 
   @override
   String toString() => message;
+}
+
+/// One Server-Sent Event: its name and JSON data.
+class SseEvent {
+  const SseEvent(this.name, this.data);
+
+  final String name;
+  final Map<String, dynamic> data;
 }
 
 /// Thin wrapper over Dio: base URL, bearer token, JSON, error mapping.
@@ -69,6 +79,95 @@ class ApiClient {
       _send('PUT', path, body: body);
 
   Future<void> delete(String path) => _send('DELETE', path);
+
+  /// POSTs and reads a Server-Sent Events response: one [SseEvent] per
+  /// `event:`/`data:` block, as it arrives. A non-stream reply (e.g. a 400
+  /// JSON error before streaming starts) becomes an [ApiException]; a
+  /// dropped connection ends the stream with a network [ApiException].
+  Stream<SseEvent> postSse(
+    String path,
+    Object? body, {
+    Duration idleTimeout = const Duration(seconds: 60),
+  }) async* {
+    final token = _tokens.token;
+    final Response<ResponseBody> res;
+    try {
+      res = await _dio.post<ResponseBody>(
+        path,
+        data: body,
+        options: Options(
+          responseType: ResponseType.stream,
+          // The server pings every 15 s; silence for longer = a dead link.
+          receiveTimeout: idleTimeout,
+          headers: {
+            'accept': 'text/event-stream',
+            if (token != null) 'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+    } on DioException catch (e) {
+      throw await _streamError(e, token);
+    }
+    final lines = res.data!.stream
+        .cast<List<int>>()
+        .transform(utf8.decoder)
+        .transform(const LineSplitter());
+    String? event;
+    final data = StringBuffer();
+    try {
+      await for (final line in lines) {
+        if (line.isEmpty) {
+          if (event != null) {
+            final text = data.toString();
+            yield SseEvent(
+              event,
+              text.isEmpty ? const {} : jsonDecode(text) as Map<String, dynamic>,
+            );
+          }
+          event = null;
+          data.clear();
+        } else if (line.startsWith('event:')) {
+          event = line.substring(6).trim();
+        } else if (line.startsWith('data:')) {
+          data.write(line.substring(5).trim());
+        } // ':' comments are keep-alive pings
+      }
+    } on DioException catch (e) {
+      throw await _streamError(e, token);
+    } on Object catch (e) {
+      if (e is ApiException) rethrow;
+      throw const ApiException(
+        'Connection to the server was lost',
+        isNetwork: true,
+      );
+    }
+  }
+
+  /// A streamed request's error: the JSON body when the server sent one.
+  Future<ApiException> _streamError(DioException e, String? token) async {
+    final status = e.response?.statusCode;
+    if (status == 401 && token != null) onUnauthorized?.call();
+    Map<String, dynamic>? json;
+    final raw = e.response?.data;
+    if (raw is ResponseBody) {
+      try {
+        final text = await utf8.decodeStream(raw.stream.cast<List<int>>());
+        final decoded = jsonDecode(text);
+        if (decoded is Map<String, dynamic>) json = decoded;
+      } on Object {
+        json = null;
+      }
+    }
+    return ApiException(
+      json?['error'] as String? ??
+          (e.response == null
+              ? 'Cannot reach the ExamGenius server'
+              : 'Request failed'),
+      statusCode: status,
+      isNetwork: e.response == null,
+      code: json?['code'] as String?,
+    );
+  }
 
   Future<Map<String, dynamic>> _send(
     String method,

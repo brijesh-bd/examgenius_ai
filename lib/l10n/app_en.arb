@@ -1349,7 +1349,13 @@
   "collapse": "Collapse",
   "stepConcepts": "Chapters & concepts",
   "conceptsSelected": "{count, plural, =1{1 concept} other{{count} concepts}}",
-  "@conceptsSelected": {"placeholders":{"count":{"type":"int"}}},
+  "@conceptsSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "selectConceptHint": "Select at least one chapter or concept",
   "notesExactConcept": "Choose an exact concept",
   "notesExactConceptBody": "Notes for one chapter, topic or concept of Railway Mathematics",
@@ -1357,5 +1363,65 @@
   "syllabusUnverifiedNote": "Syllabus built from exam-preparation sources; official verification pending.",
   "summaryAll": "all",
   "summaryMore": "+{count} more",
-  "@summaryMore": {"placeholders":{"count":{"type":"int"}}}
+  "@summaryMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chapterIndexMissingTitle": "No chapter index for this topic yet",
+  "chapterIndexMissingBody": "AI can build one: the topic split into parts, from basic to advanced. A reviewer checks it before you start learning.",
+  "chapterIndexBuild": "Build chapter index",
+  "chapterIndexPendingTitle": "Chapter index waiting for review",
+  "chapterIndexPendingBody": "It opens here as soon as a reviewer approves it. Please check back later.",
+  "outlineAiReviewed": "AI-built index · reviewed",
+  "outlineRevisionPlan": "Final revision plan",
+  "notesStepCategory": "Exam category",
+  "notesStepTopic": "Topic",
+  "notesTopicHint": "Select a chapter, topic, subtopic or micro-topic.",
+  "notesNoTreeHint": "Select one topic.",
+  "notesLanguageLabel": "Notes language",
+  "topicSummaryTitle": "Topic overview",
+  "topicSummaryCovers": "What this topic covers",
+  "topicSummarySubtopics": "Subtopics included",
+  "topicSummaryConcepts": "Important concepts",
+  "topicSummaryDefinitions": "Important definitions",
+  "topicSummaryFormulas": "Formulas",
+  "topicSummaryPrinciples": "Principles and laws",
+  "topicSummaryExamFocus": "Exam-oriented areas",
+  "topicSummaryUnavailable": "The overview could not be loaded. You can still generate the notes.",
+  "generateCompleteNotes": "Generate complete notes",
+  "notesSelectTopicFirst": "Select a topic to generate notes",
+  "genElapsed": "{time} elapsed",
+  "genLeaveHint": "You can leave this screen. When the notes are ready they are saved in your Library.",
+  "genFailedTitle": "Notes were not generated",
+  "genNothingSaved": "Nothing was saved and nothing was counted. Your selection is kept.",
+  "errorAiOverloaded": "The AI model is overloaded right now (high demand). Please try again in a minute.",
+  "errorAiTimeout": "The AI took too long to answer. Please try again.",
+  "errorAiTruncated": "The AI answer was cut off before it finished, so it was not saved. Please try again.",
+  "errorAiIncomplete": "The AI notes did not cover the whole topic, so they were not saved. Please try again.",
+  "errorAiNetwork": "The server could not reach the AI service. Please try again.",
+  "errorAiNotConfigured": "AI Study Notes are not available on this server yet.",
+  "@genElapsed": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "genStageChecking": "Checking your saved notes…",
+  "genStageStarting": "Starting… the first lines appear in a few seconds.",
+  "genStageWriting": "Writing your notes · {count} parts so far",
+  "genStageJoined": "This topic is already being written; showing it as it arrives.",
+  "genStageSaving": "Saving to your Library…",
+  "genPartialKept": "The notes written so far are shown. Retry continues without starting again.",
+  "genLiveTitle": "Writing notes",
+  "@genStageWriting": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

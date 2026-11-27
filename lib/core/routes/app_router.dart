@@ -26,12 +26,12 @@ import '../../features/splash/splash_screen.dart';
 import '../../features/study_notes/domain/study_note.dart';
 import '../../features/study_notes/presentation/providers/study_notes_providers.dart';
 import '../../features/study_notes/presentation/screens/category_notes_screen.dart';
-import '../../features/study_notes/presentation/screens/create_notes_screen.dart';
 import '../../features/study_notes/presentation/screens/learning_path_screen.dart';
 import '../../features/study_notes/presentation/screens/note_view_screen.dart';
-import '../../features/study_notes/presentation/screens/notes_category_screen.dart';
-import '../../features/study_notes/presentation/screens/notes_concept_screen.dart';
-import '../../features/study_notes/presentation/screens/notes_topic_screen.dart';
+import '../../features/study_notes/presentation/screens/notes_studio_screen.dart';
+import '../../features/study_notes/presentation/providers/notes_studio_providers.dart';
+import '../../features/question_generator/domain/concept_hierarchy.dart'
+    show conceptSubjectOf;
 import '../../features/study_notes/presentation/screens/revision_screens.dart';
 import '../../features/study_notes/presentation/screens/outline_screen.dart';
 import '../../features/study_notes/presentation/screens/section_reader_screen.dart';
@@ -151,42 +151,53 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           result: s.extra is PracticeResult ? s.extra as PracticeResult : null,
         ),
       ),
-      // AI Study Notes: Category → Exam → Topic → Create → View.
+      // AI Study Notes: one progressive screen (category → exam → subject →
+      // syllabus → overview → generate). Older paths open it preselected.
       GoRoute(
         path: AppRoutes.notes,
         parentNavigatorKey: _rootKey,
-        builder: (_, _) => const NotesCategoryScreen(),
+        builder: (_, _) => const NotesStudioScreen(),
       ),
       GoRoute(
         path: AppRoutes.notesExams,
         parentNavigatorKey: _rootKey,
-        builder: (_, s) => ExamSelectionScreen(
-          categoryId: s.pathParameters['categoryId'] ?? '',
-          forNotes: true,
+        builder: (_, s) => NotesStudioScreen(
+          args: _studio(category: s.pathParameters['categoryId']),
         ),
       ),
       GoRoute(
         path: AppRoutes.notesTopics,
         parentNavigatorKey: _rootKey,
         builder: (_, s) =>
-            NotesTopicScreen(examId: s.pathParameters['examId'] ?? ''),
+            NotesStudioScreen(args: _studio(exam: s.pathParameters['examId'])),
       ),
       GoRoute(
         path: AppRoutes.notesConcepts,
         parentNavigatorKey: _rootKey,
-        builder: (_, s) => NotesConceptScreen(
-          examId: s.pathParameters['examId'] ?? '',
-          subjectId: s.pathParameters['subjectId'] ?? '',
+        builder: (_, s) => NotesStudioScreen(
+          args: _studio(
+            exam: s.pathParameters['examId'],
+            subject: s.pathParameters['subjectId'],
+          ),
         ),
       ),
       GoRoute(
         path: AppRoutes.notesCreate,
         parentNavigatorKey: _rootKey,
-        builder: (_, s) => CreateNotesScreen(
-          examId: s.pathParameters['examId'] ?? '',
-          topicId: s.pathParameters['topicId'] ?? '',
-          prefill: s.extra is NotesPrefill ? s.extra as NotesPrefill : null,
-        ),
+        builder: (_, s) {
+          final topic = s.pathParameters['topicId'] ?? '';
+          return NotesStudioScreen(
+            args: _studio(
+              exam: s.pathParameters['examId'],
+              // "Study next" links carry a topic or node id: its subject.
+              subject: conceptSubjectOf(topic) ?? topic.split('.').first,
+              target: topic,
+              language: s.extra is NotesPrefill
+                  ? (s.extra as NotesPrefill).language
+                  : null,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.noteView,
@@ -314,3 +325,18 @@ extension ComingSoonNav on BuildContext {
     ).toString(),
   );
 }
+
+/// Preselection for the AI Study Notes screen from an older notes path.
+NotesStudioArgs _studio({
+  String? category,
+  String? exam,
+  String? subject,
+  String? target,
+  String? language,
+}) => (
+  categoryId: category,
+  examId: exam,
+  subjectId: subject,
+  targetId: target,
+  language: language,
+);

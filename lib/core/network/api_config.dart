@@ -22,6 +22,11 @@ String get kApiBaseUrl => _definedBaseUrl.isNotEmpty
 const Duration kApiTimeout = Duration(seconds: 30);
 const Duration kGenerateTimeout = Duration(minutes: 3);
 
+/// Complete AI Study Notes can take several minutes when a model is busy.
+/// A retry after a timeout joins the server's running generation (same
+/// request key), so nothing is generated or saved twice.
+const Duration kNotesTimeout = Duration(minutes: 6);
+
 /// true → in-app mock repositories (no server). Used automatically by
 /// `flutter test`, or on demand with `--dart-define=USE_MOCK_BACKEND=true`.
 final useMockBackendProvider = Provider<bool>((ref) {

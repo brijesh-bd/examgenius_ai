@@ -136,6 +136,8 @@ class NoteOutline {
     required this.chapters,
     this.continueAt,
     this.isSample = false,
+    this.fromAi = false,
+    this.revisionPlan = const [],
   });
 
   final String examId;
@@ -154,6 +156,12 @@ class NoteOutline {
 
   /// Development fixture (USE_MOCK_BACKEND) — never real study material.
   final bool isSample;
+
+  /// AI-built chapter index, approved by a reviewer (Chapter Builder).
+  final bool fromAi;
+
+  /// Final revision steps (Chapter Builder indexes).
+  final List<String> revisionPlan;
 
   bool get isDraft => status != 'approved';
 
@@ -202,9 +210,18 @@ class NoteOutline {
               sectionId: next['sectionId'] as String,
             )
           : null,
+      fromAi: j['source'] == 'ai_reviewed',
+      revisionPlan: [
+        for (final s in j['revisionPlan'] as List<dynamic>? ?? const [])
+          s as String,
+      ],
     );
   }
 }
+
+/// Result of asking for a chapter index: `approved` (open it now) or
+/// `pending_review` (built by AI, waiting for a reviewer).
+enum ChapterIndexStatus { approved, pendingReview }
 
 /// Which outline view: one exam unit in one language and learning mode.
 typedef OutlineKey = ({
@@ -263,4 +280,8 @@ abstract interface class OutlineRepository {
     SectionRef section, {
     required bool completed,
   });
+
+  /// Asks the server to build a chapter index for a topic without one. It is
+  /// reviewed before students can open it.
+  Future<ChapterIndexStatus> requestChapterIndex(String examId, String unitId);
 }

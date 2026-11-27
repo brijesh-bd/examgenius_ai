@@ -5,7 +5,7 @@ import 'package:examgenius_ai/features/question_generator/domain/syllabus.dart';
 import 'package:examgenius_ai/features/question_generator/presentation/providers/question_generator_providers.dart';
 import 'package:examgenius_ai/features/question_generator/presentation/widgets/concept_tree.dart';
 import 'package:examgenius_ai/features/study_notes/domain/study_note.dart';
-import 'package:examgenius_ai/features/study_notes/presentation/screens/notes_concept_screen.dart';
+import 'package:examgenius_ai/features/study_notes/presentation/screens/notes_studio_screen.dart';
 import 'package:examgenius_ai/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -279,7 +279,7 @@ void main() {
     });
   });
 
-  group('Notes concept picker', () {
+  group('AI Study Notes syllabus tree', () {
     Future<void> pump(
       WidgetTester tester,
       ConceptHierarchyRepository repo,
@@ -295,9 +295,14 @@ void main() {
           child: MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const NotesConceptScreen(
-              examId: 'rrb_je',
-              subjectId: 'quant',
+            home: const NotesStudioScreen(
+              args: (
+                categoryId: null,
+                examId: 'rrb_je',
+                subjectId: 'quant',
+                targetId: null,
+                language: null,
+              ),
             ),
           ),
         ),
@@ -319,6 +324,8 @@ void main() {
       expect(find.byType(ConceptTree), findsNothing);
       expect(find.text('Retry'), findsOneWidget);
       repo.fail = false;
+      await tester.scrollUntilVisible(find.text('Retry'), 200);
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Retry'));
       await tester.pumpAndSettle();
       expect(find.byType(ConceptTree), findsOneWidget);

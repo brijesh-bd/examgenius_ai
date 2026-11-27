@@ -29,6 +29,13 @@ const kConceptPrefixes = {
   'jc': 'je_civil',
   'jl': 'je_electrical',
   'jm': 'je_mechanical',
+  // Banking (IBPS / SBI notifications; GATE CS for Professional Knowledge).
+  'bq': 'quant',
+  'br': 'reasoning',
+  'hl': 'hindi',
+  'ba': 'banking_awareness',
+  'bc': 'computer',
+  'pk': 'professional_it',
 };
 
 String? conceptSubjectOf(String id) {

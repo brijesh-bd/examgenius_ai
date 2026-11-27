@@ -7,7 +7,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/l10n_ext.dart';
 import '../../../dashboard/presentation/widgets/dashboard_card.dart';
 import '../../domain/study_note.dart';
-import '../screens/create_notes_screen.dart' show noteLevelLabel;
+import 'note_labels.dart' show noteLevelLabel;
 
 /// One saved note in My Study Notes: topic (title), exam · subject,
 /// language, level and creation date. Tapping opens the full note.

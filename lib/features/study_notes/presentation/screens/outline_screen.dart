@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_error_text.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -104,12 +105,7 @@ class _OutlineScreenState extends ConsumerState<OutlineScreen> {
             ],
           ),
         ),
-        error: (e, _) => StateMessage(
-          icon: Icons.error_outline_rounded,
-          title: apiErrorText(l10n, e),
-          actionLabel: l10n.retry,
-          onAction: () => ref.invalidate(outlineProvider(key)),
-        ),
+        error: (e, _) => _OutlineError(error: e, outlineKey: key),
         data: (o) => RefreshIndicator(
           onRefresh: () => ref.refresh(outlineProvider(key).future),
           child: ListView(
@@ -119,6 +115,20 @@ class _OutlineScreenState extends ConsumerState<OutlineScreen> {
                 const SampleContentBanner(),
                 const SizedBox(height: AppSpacing.sm),
               ],
+              if (o.fromAi)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.auto_awesome_outlined, size: 18),
+                      const SizedBox(width: AppSpacing.xxs),
+                      Text(
+                        l10n.outlineAiReviewed,
+                        style: theme.textTheme.labelMedium,
+                      ),
+                    ],
+                  ),
+                ),
               if (o.isDraft)
                 Padding(
                   padding: const EdgeInsets.only(bottom: AppSpacing.xs),
@@ -185,6 +195,27 @@ class _OutlineScreenState extends ConsumerState<OutlineScreen> {
                   label: Text(l10n.outlineContinue),
                 ),
               ],
+              // LEARNING_COMPLETED: no new parts; point to final revision.
+              if (o.coverageComplete && o.revisionPlan.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.sm),
+                Card(
+                  margin: EdgeInsets.zero,
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.sm),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SectionHeader(title: l10n.outlineRevisionPlan),
+                        for (final (i, step) in o.revisionPlan.indexed)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text('${i + 1}. $step'),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: AppSpacing.md),
               for (final c in o.chapters)
                 _ChapterCard(chapter: c, onOpen: (s) => _open(key, s)),
@@ -192,6 +223,53 @@ class _OutlineScreenState extends ConsumerState<OutlineScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Outline could not be shown. A topic without an index offers the Chapter
+/// Builder; one waiting for review says so; anything else can be retried.
+class _OutlineError extends ConsumerWidget {
+  const _OutlineError({required this.error, required this.outlineKey});
+
+  final Object error;
+  final OutlineKey outlineKey;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final code = error is ApiException ? (error as ApiException).code : null;
+    final request = ref.watch(chapterIndexProvider);
+    final pending =
+        code == 'OUTLINE_PENDING_REVIEW' ||
+        request.value == ChapterIndexStatus.pendingReview;
+    if (pending) {
+      return StateMessage(
+        icon: Icons.hourglass_top_rounded,
+        title: l10n.chapterIndexPendingTitle,
+        body: l10n.chapterIndexPendingBody,
+      );
+    }
+    if (code == 'NO_OUTLINE' && request.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (code == 'NO_OUTLINE') {
+      return StateMessage(
+        icon: Icons.auto_awesome_outlined,
+        title: request.hasError
+            ? apiErrorText(l10n, request.error)
+            : l10n.chapterIndexMissingTitle,
+        body: l10n.chapterIndexMissingBody,
+        actionLabel: l10n.chapterIndexBuild,
+        onAction: () =>
+            ref.read(chapterIndexProvider.notifier).request(outlineKey),
+      );
+    }
+    return StateMessage(
+      icon: Icons.error_outline_rounded,
+      title: apiErrorText(l10n, error),
+      actionLabel: l10n.retry,
+      onAction: () => ref.invalidate(outlineProvider(outlineKey)),
     );
   }
 }

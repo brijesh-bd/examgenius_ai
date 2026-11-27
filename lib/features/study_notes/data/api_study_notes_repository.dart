@@ -3,6 +3,8 @@ import 'dart:math';
 import '../../../core/network/api_client.dart';
 import '../../../core/network/api_config.dart';
 import '../../library/domain/library_models.dart' show LibraryFacets;
+import '../../question_generator/domain/concept_hierarchy.dart'
+    show isConceptNode;
 import '../domain/learning_path.dart';
 import '../domain/notes_library.dart';
 import '../domain/study_note.dart';
@@ -29,8 +31,66 @@ class ApiStudyNotesRepository implements StudyNotesRepository {
     final body = await _api.post('/notes/generate', {
       ...request.toJson(),
       'requestKey': key,
-    }, kGenerateTimeout);
+    }, kNotesTimeout);
     return StudyNote.fromJson(body);
+  }
+
+  @override
+  Future<TopicSummary> topicSummary({
+    required String examId,
+    required String targetId,
+    required String language,
+  }) async => TopicSummary.fromJson(
+    await _api.post('/notes/topic-summary', {
+      'examId': examId,
+      if (isConceptNode(targetId)) 'nodeId': targetId else 'topicId': targetId,
+      'language': language,
+    }),
+  );
+
+  @override
+  Stream<NotesStreamEvent> generateStream(
+    NotesRequest request, {
+    bool regenerate = false,
+  }) async* {
+    // Same key on every retry: the server returns the saved note or rejoins.
+    final key = _requestKeys[request] ??= _newKey();
+    final events = _api.postSse('/notes/generate/stream', {
+      ...request.toJson(),
+      'requestKey': key,
+      if (regenerate) 'regenerate': true,
+    });
+    await for (final e in events) {
+      switch (e.name) {
+        case 'status':
+          yield NotesStatus(switch (e.data['stage']) {
+            'generating' => NotesStage.generating,
+            'saving' => NotesStage.saving,
+            _ => NotesStage.checking,
+          }, joined: e.data['joined'] == true);
+        case 'partial':
+          yield NotesPartial(
+            NoteContent.fromJson(e.data['content'] as Map<String, dynamic>),
+          );
+        case 'done':
+          yield NotesDone(
+            StudyNote.fromJson(e.data['note'] as Map<String, dynamic>),
+            e.data['source'] as String? ?? 'ai',
+          );
+          return;
+        case 'error':
+          throw ApiException(
+            e.data['error'] as String? ?? 'Notes were not generated',
+            statusCode: 502,
+            code: e.data['code'] as String?,
+          );
+      }
+    }
+    // Stream ended without a result: the connection dropped.
+    throw const ApiException(
+      'Connection to the server was lost',
+      isNetwork: true,
+    );
   }
 
   static String _path(String p, Map<String, String> q) =>

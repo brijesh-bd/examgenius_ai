@@ -48,6 +48,15 @@ class SampleOutlineRepository implements OutlineRepository {
       '${k.examId}|${k.unitId}|${s.chapterId}.${s.sectionId}';
 
   @override
+  Future<ChapterIndexStatus> requestChapterIndex(
+    String examId,
+    String unitId,
+  ) async {
+    await Future<void>.delayed(latency);
+    return ChapterIndexStatus.pendingReview;
+  }
+
+  @override
   Future<NoteOutline> outline(OutlineKey k) async {
     await Future<void>.delayed(latency);
     return _build(k);

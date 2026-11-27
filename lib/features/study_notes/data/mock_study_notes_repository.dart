@@ -110,7 +110,8 @@ class MockStudyNotesRepository implements StudyNotesRepository {
         statusCode: 502,
       );
     }
-    final on = request.sections;
+    // Complete coverage = every section (like the server).
+    final on = request.complete ? NoteSection.values.toSet() : request.sections;
     final path = await _path(request.examId, request.topicId.split('.').first);
     final item = path?.item(request.topicId);
     final next = path == null
@@ -218,6 +219,74 @@ class MockStudyNotesRepository implements StudyNotesRepository {
     return _notes[id] = n.copyWith(
       bookmarked: bookmarked,
       personalNote: personalNote,
+    );
+  }
+
+  /// Notes saved per request (resume after a dropped connection).
+  final Map<NotesRequest, String> _byRequest = {};
+
+  /// Drops the next stream after its first partial (tests: resume).
+  bool dropNextStream = false;
+  int streamCalls = 0;
+
+  @override
+  Stream<NotesStreamEvent> generateStream(
+    NotesRequest request, {
+    bool regenerate = false,
+  }) async* {
+    streamCalls++;
+    yield const NotesStatus(NotesStage.checking);
+    final savedId = _byRequest[request];
+    if (savedId != null && _notes[savedId] != null) {
+      yield NotesDone(_notes[savedId]!, 'saved');
+      return;
+    }
+    // Like the server: the note is written (and saved) even if the app
+    // disconnects mid-stream.
+    final pending = generate(request)
+      // Awaited below; a failure before that is not "unhandled".
+      ..ignore();
+    yield const NotesStatus(NotesStage.generating);
+    final note = await pending;
+    _byRequest[request] = note.id;
+    final c = note.content!;
+    yield NotesPartial(NoteContent(overview: c.overview));
+    if (dropNextStream) {
+      dropNextStream = false;
+      throw const ApiException('Connection lost', isNetwork: true);
+    }
+    yield NotesPartial(
+      NoteContent(
+        overview: c.overview,
+        explanation: c.explanation.take(1).toList(),
+      ),
+    );
+    yield const NotesStatus(NotesStage.saving);
+    yield NotesDone(note, 'ai');
+  }
+
+  /// Fails the next [topicSummary] (tests).
+  Object? failNextSummary;
+  int summaryCalls = 0;
+
+  @override
+  Future<TopicSummary> topicSummary({
+    required String examId,
+    required String targetId,
+    required String language,
+  }) async {
+    await Future<void>.delayed(latency);
+    summaryCalls++;
+    if (failNextSummary case final e?) {
+      failNextSummary = null;
+      throw e;
+    }
+    // Development fixture, never real study material.
+    return const TopicSummary(
+      covers: 'Sample summary (development data): what this topic covers.',
+      keyConcepts: ['Sample concept A', 'Sample concept B'],
+      definitions: [(term: 'Sample term', definition: 'Sample definition')],
+      examFocus: ['Sample exam focus'],
     );
   }
 

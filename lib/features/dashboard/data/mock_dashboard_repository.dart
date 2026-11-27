@@ -82,6 +82,11 @@ const kExamCatalogJson = <Map<String, dynamic>>[
         'name': 'IBPS SO IT Officer',
         'categoryId': 'banking',
       },
+      {
+        'id': 'ibps_rrb_so_it',
+        'name': 'IBPS RRB Officer Scale-II (IT)',
+        'categoryId': 'banking',
+      },
       {'id': 'sbi_po', 'name': 'SBI PO', 'categoryId': 'banking'},
       {'id': 'sbi_clerk', 'name': 'SBI Clerk', 'categoryId': 'banking'},
     ],

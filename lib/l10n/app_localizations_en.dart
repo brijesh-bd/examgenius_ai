@@ -2156,4 +2156,143 @@ class AppLocalizationsEn extends AppLocalizations {
   String summaryMore(int count) {
     return '+$count more';
   }
+
+  @override
+  String get chapterIndexMissingTitle => 'No chapter index for this topic yet';
+
+  @override
+  String get chapterIndexMissingBody =>
+      'AI can build one: the topic split into parts, from basic to advanced. A reviewer checks it before you start learning.';
+
+  @override
+  String get chapterIndexBuild => 'Build chapter index';
+
+  @override
+  String get chapterIndexPendingTitle => 'Chapter index waiting for review';
+
+  @override
+  String get chapterIndexPendingBody =>
+      'It opens here as soon as a reviewer approves it. Please check back later.';
+
+  @override
+  String get outlineAiReviewed => 'AI-built index · reviewed';
+
+  @override
+  String get outlineRevisionPlan => 'Final revision plan';
+
+  @override
+  String get notesStepCategory => 'Exam category';
+
+  @override
+  String get notesStepTopic => 'Topic';
+
+  @override
+  String get notesTopicHint =>
+      'Select a chapter, topic, subtopic or micro-topic.';
+
+  @override
+  String get notesNoTreeHint => 'Select one topic.';
+
+  @override
+  String get notesLanguageLabel => 'Notes language';
+
+  @override
+  String get topicSummaryTitle => 'Topic overview';
+
+  @override
+  String get topicSummaryCovers => 'What this topic covers';
+
+  @override
+  String get topicSummarySubtopics => 'Subtopics included';
+
+  @override
+  String get topicSummaryConcepts => 'Important concepts';
+
+  @override
+  String get topicSummaryDefinitions => 'Important definitions';
+
+  @override
+  String get topicSummaryFormulas => 'Formulas';
+
+  @override
+  String get topicSummaryPrinciples => 'Principles and laws';
+
+  @override
+  String get topicSummaryExamFocus => 'Exam-oriented areas';
+
+  @override
+  String get topicSummaryUnavailable =>
+      'The overview could not be loaded. You can still generate the notes.';
+
+  @override
+  String get generateCompleteNotes => 'Generate complete notes';
+
+  @override
+  String get notesSelectTopicFirst => 'Select a topic to generate notes';
+
+  @override
+  String genElapsed(String time) {
+    return '$time elapsed';
+  }
+
+  @override
+  String get genLeaveHint =>
+      'You can leave this screen. When the notes are ready they are saved in your Library.';
+
+  @override
+  String get genFailedTitle => 'Notes were not generated';
+
+  @override
+  String get genNothingSaved =>
+      'Nothing was saved and nothing was counted. Your selection is kept.';
+
+  @override
+  String get errorAiOverloaded =>
+      'The AI model is overloaded right now (high demand). Please try again in a minute.';
+
+  @override
+  String get errorAiTimeout =>
+      'The AI took too long to answer. Please try again.';
+
+  @override
+  String get errorAiTruncated =>
+      'The AI answer was cut off before it finished, so it was not saved. Please try again.';
+
+  @override
+  String get errorAiIncomplete =>
+      'The AI notes did not cover the whole topic, so they were not saved. Please try again.';
+
+  @override
+  String get errorAiNetwork =>
+      'The server could not reach the AI service. Please try again.';
+
+  @override
+  String get errorAiNotConfigured =>
+      'AI Study Notes are not available on this server yet.';
+
+  @override
+  String get genStageChecking => 'Checking your saved notes…';
+
+  @override
+  String get genStageStarting =>
+      'Starting… the first lines appear in a few seconds.';
+
+  @override
+  String genStageWriting(int count) {
+    return 'Writing your notes · $count parts so far';
+  }
+
+  @override
+  String get genStageJoined =>
+      'This topic is already being written; showing it as it arrives.';
+
+  @override
+  String get genStageSaving => 'Saving to your Library…';
+
+  @override
+  String get genPartialKept =>
+      'The notes written so far are shown. Retry continues without starting again.';
+
+  @override
+  String get genLiveTitle => 'Writing notes';
 }

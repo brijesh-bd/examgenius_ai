@@ -18,6 +18,7 @@ class ConceptTree extends StatefulWidget {
     this.selection = const {},
     this.onToggle,
     this.onPick,
+    this.picked,
     this.enabled = true,
   }) : assert(onToggle != null || onPick != null);
 
@@ -26,6 +27,9 @@ class ConceptTree extends StatefulWidget {
   final Set<String> selection;
   final ValueChanged<String>? onToggle;
   final ValueChanged<String>? onPick;
+
+  /// Single-pick: the selected node, highlighted with a check mark.
+  final String? picked;
   final bool enabled;
 
   @override
@@ -127,6 +131,7 @@ class _ConceptTreeState extends State<ConceptTree> {
     final state = widget.tree.stateOf(n.id, widget.selection);
     final title = n.title(widget.languageCode);
     final concepts = n.isLeaf ? 0 : widget.tree.leavesOf(n.id).length;
+    final isPicked = !multi && n.id == widget.picked;
     final style = switch (n.type) {
       ConceptNodeType.chapter => AppTextStyles.label,
       _ => AppTextStyles.body,
@@ -140,63 +145,83 @@ class _ConceptTreeState extends State<ConceptTree> {
       key: ValueKey('node_${n.id}'),
       container: true,
       label: title,
-      child: InkWell(
-        onTap: !widget.enabled
-            ? null
-            : multi
-            ? () => widget.onToggle!(n.id)
-            : () => widget.onPick!(n.id),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 48),
-          child: Padding(
-            padding: EdgeInsetsDirectional.only(start: depth * 16.0),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 40,
-                  child: n.isLeaf
-                      ? null
-                      : IconButton(
-                          key: ValueKey('expand_${n.id}'),
-                          tooltip: open ? l10n.collapse : l10n.expand,
-                          icon: Icon(
-                            open
-                                ? Icons.expand_more_rounded
-                                : Icons.chevron_right_rounded,
+      selected: isPicked,
+      child: Material(
+        color: isPicked ? scheme.primaryContainer : Colors.transparent,
+        borderRadius: BorderRadius.circular(AppSpacing.xs),
+        child: InkWell(
+          onTap: !widget.enabled
+              ? null
+              : multi
+              ? () => widget.onToggle!(n.id)
+              : () => widget.onPick!(n.id),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 48),
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(start: depth * 16.0),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 40,
+                    child: n.isLeaf
+                        ? null
+                        : IconButton(
+                            key: ValueKey('expand_${n.id}'),
+                            tooltip: open ? l10n.collapse : l10n.expand,
+                            icon: Icon(
+                              open
+                                  ? Icons.expand_more_rounded
+                                  : Icons.chevron_right_rounded,
+                            ),
+                            onPressed: _query.isEmpty ? toggleOpen : null,
                           ),
-                          onPressed: _query.isEmpty ? toggleOpen : null,
-                        ),
-                ),
-                if (multi)
-                  Checkbox(
-                    key: ValueKey('check_${n.id}'),
-                    tristate: true,
-                    value: switch (state) {
-                      SelectionState.all => true,
-                      SelectionState.partial => null,
-                      SelectionState.none => false,
-                    },
-                    onChanged: widget.enabled
-                        ? (_) => widget.onToggle!(n.id)
-                        : null,
                   ),
-                Expanded(child: Text(title, style: style)),
-                if (concepts > 0)
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 8),
+                  if (multi)
+                    Checkbox(
+                      key: ValueKey('check_${n.id}'),
+                      tristate: true,
+                      value: switch (state) {
+                        SelectionState.all => true,
+                        SelectionState.partial => null,
+                        SelectionState.none => false,
+                      },
+                      onChanged: widget.enabled
+                          ? (_) => widget.onToggle!(n.id)
+                          : null,
+                    ),
+                  Expanded(
                     child: Text(
-                      '$concepts',
-                      style: AppTextStyles.tiny.copyWith(
-                        color: scheme.onSurfaceVariant,
-                      ),
+                      title,
+                      style: isPicked
+                          ? style.copyWith(
+                              color: scheme.onPrimaryContainer,
+                              fontWeight: FontWeight.w600,
+                            )
+                          : style,
                     ),
                   ),
-                if (!multi)
-                  const Padding(
-                    padding: EdgeInsetsDirectional.only(start: 4),
-                    child: Icon(Icons.chevron_right_rounded),
-                  ),
-              ],
+                  if (concepts > 0)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 8),
+                      child: Text(
+                        '$concepts',
+                        style: AppTextStyles.tiny.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  if (!multi)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 4),
+                      child: isPicked
+                          ? Icon(
+                              Icons.check_circle_rounded,
+                              color: scheme.primary,
+                            )
+                          : const Icon(Icons.chevron_right_rounded),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

@@ -13,7 +13,7 @@ import '../../domain/study_note.dart';
 import '../providers/study_notes_providers.dart';
 import '../widgets/learning_path_widgets.dart';
 import '../widgets/note_blocks.dart';
-import 'create_notes_screen.dart';
+import '../widgets/note_labels.dart';
 
 /// Generated / saved notes: header, table of contents, collapsible sections.
 /// [initial] (passed right after generation) avoids a second fetch.
@@ -72,7 +72,8 @@ class NoteViewScreen extends ConsumerWidget {
   }
 }
 
-typedef _Sec = ({
+/// One rendered part of a note (also used for streamed, partial notes).
+typedef NoteSec = ({
   String id,
   String title,
   IconData icon,
@@ -80,9 +81,15 @@ typedef _Sec = ({
   List<Widget> body,
 });
 
-List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
-  final c = note.content ?? const NoteContent(overview: '');
-  final out = <_Sec>[];
+/// Sections of a note, built from its content. [note] is null for a note
+/// still being written (streaming): parts that need the saved note
+/// ("What to Study Next" links) are left out until it is saved.
+List<NoteSec> noteSections(
+  AppLocalizations l10n,
+  NoteContent c, {
+  StudyNote? note,
+}) {
+  final out = <NoteSec>[];
   void add(
     String id,
     String title,
@@ -235,7 +242,7 @@ List<_Sec> _sections(AppLocalizations l10n, StudyNote note) {
   ]);
   add('next', l10n.nNext, Icons.arrow_forward_rounded, AppColors.primary, [
     // Syllabus topics: each row opens Create Notes for it (prefilled).
-    if (c.nextTopics.isNotEmpty)
+    if (note != null && c.nextTopics.isNotEmpty)
       NextTopicsList(note: note, topics: c.nextTopics),
   ]);
   return out;
@@ -380,7 +387,11 @@ class _NoteViewState extends ConsumerState<_NoteView> {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final note = _note;
-    final sections = _sections(l10n, note);
+    final sections = noteSections(
+      l10n,
+      note.content ?? const NoteContent(overview: ''),
+      note: note,
+    );
     final allCollapsed = sections.every((s) => _collapsed.contains(s.id));
 
     return Scaffold(
@@ -573,7 +584,7 @@ class _NoteViewState extends ConsumerState<_NoteView> {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 for (final s in sections)
-                  _SectionCard(
+                  NoteSectionCard(
                     key: _keys.putIfAbsent(s.id, GlobalKey.new),
                     section: s,
                     expanded: !_collapsed.contains(s.id),
@@ -592,15 +603,15 @@ class _NoteViewState extends ConsumerState<_NoteView> {
   }
 }
 
-class _SectionCard extends StatelessWidget {
-  const _SectionCard({
+class NoteSectionCard extends StatelessWidget {
+  const NoteSectionCard({
     super.key,
     required this.section,
     required this.expanded,
     required this.onToggle,
   });
 
-  final _Sec section;
+  final NoteSec section;
   final bool expanded;
   final VoidCallback onToggle;
 
